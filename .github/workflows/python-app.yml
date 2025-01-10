@@ -18,7 +18,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.10
 
       - name: Install requirements
         run: |
@@ -139,7 +139,7 @@ jobs:
             游戏所需的字体包（用于绘制AA地图） - font.zip
             口上事件编辑器（字面意思上的无需写代码即可写口上） - erArkEditor.zip
             源代码 - Source code
-          
+            
             ${{ env.COMMIT_LOGS }}
           draft: false
           prerelease: false
