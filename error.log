@@ -1,0 +1,54 @@
+
+版本信息：2025.1.10
+最近输入指令：['55', '55', '55', '55', '55', '55', '0', '55', '55', '104', '0', '144', '0', '收藏地点', '→训练\\健身区', '0', '收藏地点', '→中枢\\博士房间', '29', '31', '确定\n\n']
+当前游戏内时间：时间:2019年夏月11日8点0分
+Traceback (most recent call last):
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Core\game_init.py", line 59, in init
+    run_main_flow()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Core\game_init.py", line 49, in run_main_flow
+    main_flow()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\start_flow.py", line 16, in start_frame
+    constant.panel_data[cache.now_panel_id]()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\handle_panel.py", line 18, in return_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\UI\Flow\normal_flow.py", line 46, in in_scene_flow
+    now_panel.draw()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\UI\Panel\in_scene_panel.py", line 378, in draw
+    flow_handle.askfor_all(ask_list)
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Core\flow_handle.py", line 275, in askfor_all
+    _cmd_deal(order)
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Core\flow_handle.py", line 194, in _cmd_deal
+    cmd_map[order_number]()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Core\flow_handle.py", line 121, in run_func
+    cmd_func(*arg, **kw)
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\UI\Panel\in_scene_panel.py", line 651, in handle_instruct
+    handle_instruct.handle_instruct(instruct_id)
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\handle_instruct.py", line 47, in handle_instruct
+    constant.handle_instruct_data[instruct]()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\handle_instruct.py", line 63, in return_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\handle_instruct.py", line 1103, in handle_sleep
+    now_draw.draw()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\UI\Panel\sleep_panel.py", line 187, in draw
+    update.game_update_flow(self.sleep_time_min)
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\update.py", line 15, in game_update_flow
+    character_behavior.init_character_behavior()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\character_behavior.py", line 79, in init_character_behavior
+    update_new_day()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\character_behavior.py", line 576, in update_new_day
+    basement.update_base_resouce_newday() # ���»�����Դ
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\basement.py", line 258, in update_base_resouce_newday
+    settle_income()
+  File "C:\Users\LIGHT\Documents\frostylight\erArk\Script\Design\basement.py", line 510, in settle_income
+    cache.rhodes_island.patient_now = random.randint(cache.rhodes_island.patient_max / 2, cache.rhodes_island.patient_max)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LIGHT\AppData\Local\Programs\Python\Python312\Lib\random.py", line 336, in randint
+    return self.randrange(a, b+1)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LIGHT\AppData\Local\Programs\Python\Python312\Lib\random.py", line 301, in randrange
+    istart = _index(start)
+             ^^^^^^^^^^^^^
+TypeError: 'float' object cannot be interpreted as an integer

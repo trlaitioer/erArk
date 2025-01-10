@@ -9,6 +9,7 @@ font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
 
+
 class ItemPremiseList(QWidget):
     """前提表单主体"""
 
@@ -182,4 +183,3 @@ class ItemPremiseList(QWidget):
             now_file.write(f"{new_cid},{'&'.join(premise_list)}\n")
         # 更新前提列表
         self.update()
-

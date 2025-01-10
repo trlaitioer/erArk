@@ -3,7 +3,7 @@ from typing import Tuple, List
 from types import FunctionType
 from uuid import UUID
 from Script.Core import cache_control, game_type, get_text, flow_handle, text_handle, constant, py_cmd
-from Script.Design import basement,attr_text,attr_calculation
+from Script.Design import basement, attr_text, attr_calculation
 from Script.UI.Moudle import draw, panel
 from Script.Config import game_config, normal_config
 
@@ -17,6 +17,7 @@ line_feed.text = "\n"
 line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
+
 
 class Building_Panel:
     """
@@ -71,14 +72,13 @@ class Building_Panel:
 
             resouce_draw = draw.NormalDraw()
             resouce_text = _("\n当前资源情况：")
-            power_use,power_max = str(cache.rhodes_island.power_use),str(cache.rhodes_island.power_max)
+            power_use, power_max = str(cache.rhodes_island.power_use), str(cache.rhodes_island.power_max)
             resouce_text += _("\n  当前使用电力/当前总供电：{0}/{1}").format(power_use, power_max)
             money = str(cache.rhodes_island.materials_resouce[1])
             resouce_text += _("\n  当前龙门币数量    ：{0}\n").format(money)
             # 碳素建材的编号是15
             # building_materials = str(cache.base_resouce.materials_resouce[15])
             # resouce_text += f"\n  当前碳素建材数量  ：{building_materials}\n"
-
 
             resouce_draw.text = resouce_text
             resouce_draw.width = self.width
@@ -100,8 +100,7 @@ class Building_Panel:
             for all_cid in game_config.config_facility:
                 facility_data = game_config.config_facility[all_cid]
                 # 总览显示大区块，其他则显示在特殊房间中
-                if( (self.now_panel == _("区块总览") and facility_data.type == -1)
-                    or (self.now_panel == _("特殊房间") and facility_data.type != -1)):
+                if (self.now_panel == _("区块总览") and facility_data.type == -1) or (self.now_panel == _("特殊房间") and facility_data.type != -1):
 
                     # 获取该区块的一系列信息
                     facility_name = facility_data.name
@@ -127,13 +126,12 @@ class Building_Panel:
                         self.width,
                         cmd_func=self.level_up_info,
                         args=(facility_cid,),
-                        )
+                    )
                     return_list.append(button_building_draw.return_text)
                     now_draw.draw_list.append(button_building_draw)
                     now_draw.width += len(button_building_draw.text)
                     now_draw.draw_list.append(line_feed)
                     now_draw.width += 1
-
 
             self.draw_list: List[draw.NormalDraw] = []
             """ 绘制的文本列表 """
@@ -181,7 +179,7 @@ class Building_Panel:
             info_draw = draw.NormalDraw()
             facility_data_now = game_config.config_facility_effect[facility_cid]
             if facility_data_now.level != 5:
-                facility_data_next = game_config.config_facility_effect[facility_cid+1]
+                facility_data_next = game_config.config_facility_effect[facility_cid + 1]
                 info_draw.text = f"\n{facility_data_now.name}："
                 info_draw.text += _("\n  当前等级：{0}，当前耗电量:{1}，当前效果：{2}").format(facility_data_now.level, facility_data_now.power_use, facility_data_now.info)
                 info_draw.text += _("\n  下一等级：{0}，下一等级耗电量:{1}，下一等级效果：{2}").format(facility_data_next.level, facility_data_next.power_use, facility_data_next.info)
@@ -193,7 +191,7 @@ class Building_Panel:
                 # 最后展示资源情况
                 resouce_draw = draw.NormalDraw()
                 resouce_text = _("\n当前资源情况：")
-                power_use,power_max = str(cache.rhodes_island.power_use),str(cache.rhodes_island.power_max)
+                power_use, power_max = str(cache.rhodes_island.power_use), str(cache.rhodes_island.power_max)
                 resouce_text += _("\n  当前使用电力/当前总供电：{0}/{1}").format(power_use, power_max)
                 money = str(cache.rhodes_island.materials_resouce[1])
                 resouce_text += _("\n  当前龙门币数量    ：{0}\n").format(money)
@@ -301,7 +299,6 @@ class Building_Panel:
             if yrn in return_list and yrn != button_draw.return_text:
                 break
 
-
     def level_up(self, facility_cid: int):
         """
         显示建筑升级的详细信息
@@ -310,7 +307,7 @@ class Building_Panel:
         """
         for all_cid in game_config.config_facility:
             facility_data = game_config.config_facility[all_cid]
-            facility_data_next = game_config.config_facility_effect[facility_cid+1]
+            facility_data_next = game_config.config_facility_effect[facility_cid + 1]
             facility_data_now = game_config.config_facility_effect[facility_cid]
 
             # 寻找和当前设施名一样的
@@ -328,7 +325,6 @@ class Building_Panel:
                 info_draw.draw()
                 break
 
-
     def build_trade_sub_panel(self, facility_cid: int):
         """
         显示建筑升级的详细信息
@@ -341,7 +337,7 @@ class Building_Panel:
             line.draw()
 
             draw_count = 0
-            for facility_open_cid in range(150,170):
+            for facility_open_cid in range(150, 170):
                 if facility_open_cid in game_config.config_facility_open:
                     open_data = game_config.config_facility_open[facility_open_cid]
                     # 跳过已经开放的设施
@@ -376,7 +372,6 @@ class Building_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text or yrn in return_list:
                 break
-
 
     def sure_build_trade(self, facility_open_cid: int):
         """
@@ -415,7 +410,6 @@ class Building_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text or yrn in return_list:
                 break
-
 
     def build_trade(self, facility_open_cid: int):
         """

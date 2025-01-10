@@ -40,12 +40,13 @@ def creator_character_panel():
             cache.rhodes_island = basement.get_base_zero()
             first_bonus_and_setting_updata()
             character_handle.first_NPC_work()
-            io_init.init_style() # 刷新NPC的文本字体颜色
+            io_init.init_style()  # 刷新NPC的文本字体颜色
             if confirm_character_attr_panel():
                 game_start()
                 break
         cache.character_data[0] = game_type.Character()
     cache.now_panel_id = constant.Panel.IN_SCENE
+
 
 def first_bonus_and_setting_updata():
     """刷新初始奖励和设定"""
@@ -60,6 +61,7 @@ def first_bonus_and_setting_updata():
     # 体检设置
     cache.rhodes_island.physical_examination_setting = attr_calculation.get_physical_exam_setting_zero()
 
+
 def game_start():
     """初始化游戏数据"""
     from Script.Design import cooking
@@ -73,14 +75,17 @@ def game_start():
     cache.system_setting = attr_calculation.get_system_setting_zero()
     cache.country = attr_calculation.get_country_reset(cache.country)
     basement.get_base_updata()
-    character_handle.init_character_entertainment() # 需要设施开放的属性，所以放在设施后面
+    character_handle.init_character_entertainment()  # 需要设施开放的属性，所以放在设施后面
     # print(f"debug 2facility_open = {cache.base_resouce.facility_open}")
+
 
 def confirm_game_info_panel():
     """确认游戏说明面板"""
     now_line = draw.LineDraw("-", width)
     now_line.draw()
-    info_text = _("\n\n  免责声明：1.本游戏仅为开发者自娱自乐及代码练习所用，开发它是因为开发者趣味低下，思想低俗所致，无任何经济收益和利益驱动。\n\n\n            2.本游戏含有大量的R18色情内容，内容中可能会出现的有：多P、调教、轻度SM、非合意性行为、近亲相奸等，不会出现的有：NTR、重度SM、血腥、R18G等。\n\n\n            3.本游戏在设计理念和游戏内容上缝合了大量era与其他各类作品，仅适合era系列玩家或文字黄油爱好者进行游玩，不适合普通玩家游玩，特别是严格禁止未成年人游玩。\n\n\n            4.本游戏所使用的素材资源包括开发者自制、互联网收集与协力者提供，开发者与协力者来自于不同的国家和民族，彼此之间也不存在经济关系。\n\n\n            5.本游戏目前没有官方的公开发布地址，且因为游戏本身的性质，禁止在任何未成年人可以接触到的场合展示或传播本游戏，更禁止任何人通过任何方式使用本游戏进行盈利。\n\n\n            6.本游戏完全开源，在明确注明或保留游戏来源、不涉及任何商业目的和经济收益、并同样遵守本免责声明的情况下，允许他人与社区基于本游戏进行修改或二次开发。该授权将直接赋予本游戏的所有玩家，不需要专门征求开发者的明确同意。\n\n\n            7.本声明的解释权归开发者所有，且在版本更新中声明内容可能有所变更，请以最新版本为准。\n\n\n            8.基于以上叠了这么多层buff，建议有大胆想法的人请现在关掉窗口并立刻删除该游戏，只要不删就默认你已经理解并遵守该声明，在不遵守的情况下出现的任何事故和法律责任都和开发者没有任何关系。\n\n\n")
+    info_text = _(
+        "\n\n  免责声明：1.本游戏仅为开发者自娱自乐及代码练习所用，开发它是因为开发者趣味低下，思想低俗所致，无任何经济收益和利益驱动。\n\n\n            2.本游戏含有大量的R18色情内容，内容中可能会出现的有：多P、调教、轻度SM、非合意性行为、近亲相奸等，不会出现的有：NTR、重度SM、血腥、R18G等。\n\n\n            3.本游戏在设计理念和游戏内容上缝合了大量era与其他各类作品，仅适合era系列玩家或文字黄油爱好者进行游玩，不适合普通玩家游玩，特别是严格禁止未成年人游玩。\n\n\n            4.本游戏所使用的素材资源包括开发者自制、互联网收集与协力者提供，开发者与协力者来自于不同的国家和民族，彼此之间也不存在经济关系。\n\n\n            5.本游戏目前没有官方的公开发布地址，且因为游戏本身的性质，禁止在任何未成年人可以接触到的场合展示或传播本游戏，更禁止任何人通过任何方式使用本游戏进行盈利。\n\n\n            6.本游戏完全开源，在明确注明或保留游戏来源、不涉及任何商业目的和经济收益、并同样遵守本免责声明的情况下，允许他人与社区基于本游戏进行修改或二次开发。该授权将直接赋予本游戏的所有玩家，不需要专门征求开发者的明确同意。\n\n\n            7.本声明的解释权归开发者所有，且在版本更新中声明内容可能有所变更，请以最新版本为准。\n\n\n            8.基于以上叠了这么多层buff，建议有大胆想法的人请现在关掉窗口并立刻删除该游戏，只要不删就默认你已经理解并遵守该声明，在不遵守的情况下出现的任何事故和法律责任都和开发者没有任何关系。\n\n\n"
+    )
     askfor_list = [_("我读完并理解了以上8条，我对自己负责，我不删，我要玩")]
     askfor_panel = panel.OneMessageAndSingleColumnButton()
     askfor_panel.set(askfor_list, info_text, 0)
@@ -93,6 +98,7 @@ def confirm_game_info_panel():
         py_cmd.clr_cmd()
         if yrn in askfor_panel_return_list:
             break
+
 
 def confirm_character_attr_panel():
     """确认角色属性面板"""
@@ -186,7 +192,6 @@ class Character_creat_Handle:
                 self.return_list.extend(label.return_list)
 
 
-
 class Character_Sex:
     """
     角色性别面板
@@ -213,11 +218,7 @@ class Character_Sex:
         now_draw.width += len(sex_draw.text)
 
         button_text = _("    [改变性别]")
-        sex_button_draw = draw.LeftButton(
-            _(button_text),
-            _('改变性别'),
-            self.width /10,
-            cmd_func=self.change)
+        sex_button_draw = draw.LeftButton(_(button_text), _("改变性别"), self.width / 10, cmd_func=self.change)
         self.return_list.append(sex_button_draw.return_text)
 
         now_draw.draw_list.append(sex_button_draw)
@@ -273,11 +274,7 @@ class Character_JJ:
         now_draw.width += len(jj_draw.text)
 
         button_text = _("    [改变大小]")
-        jj_button_draw = draw.LeftButton(
-            _(button_text),
-            _('改变大小'),
-            self.width / 10,
-            cmd_func=self.change)
+        jj_button_draw = draw.LeftButton(_(button_text), _("改变大小"), self.width / 10, cmd_func=self.change)
         self.return_list.append(jj_button_draw.return_text)
 
         now_draw.draw_list.append(jj_button_draw)
@@ -307,7 +304,6 @@ class Character_JJ:
             character_data.pl_ability.jj_size += 1
 
 
-
 class Character_Debug:
     """
     Debug面板
@@ -332,11 +328,7 @@ class Character_Debug:
                 button_text = _("【关闭debug模式】")
             else:
                 button_text = _("【开启debug模式】")
-            button_draw = draw.CenterButton(
-                _(button_text),
-                _('debug'),
-                self.width / 5,
-                cmd_func=self.change)
+            button_draw = draw.CenterButton(_(button_text), _("debug"), self.width / 5, cmd_func=self.change)
             self.return_list.append(button_draw.return_text)
 
             now_draw.draw_list.append(button_draw)
@@ -434,22 +426,16 @@ class Character_FirstNPC:
         button_text = _("[选择初期干员]")
         button_select_draw = draw.CenterButton(
             _(button_text),
-            _('选择初期干员'),
-            self.width/8,
+            _("选择初期干员"),
+            self.width / 8,
             cmd_func=self.select_npc,
-            )
+        )
         self.return_list.append(button_select_draw.return_text)
         now_draw.draw_list.append(button_select_draw)
         now_draw.width += len(button_select_draw.text)
 
         button_text = _("[指派干员工作]")
-        button_select_draw = draw.CenterButton(
-            _(button_text),
-            _('指派干员工作'),
-            self.width/8,
-            cmd_func=manage_basement_panel.change_npc_work_out,
-            args=self.width
-            )
+        button_select_draw = draw.CenterButton(_(button_text), _("指派干员工作"), self.width / 8, cmd_func=manage_basement_panel.change_npc_work_out, args=self.width)
         self.return_list.append(button_select_draw.return_text)
         now_draw.draw_list.append(button_select_draw)
         now_draw.width += len(button_select_draw.text)
@@ -470,7 +456,7 @@ class Character_FirstNPC:
         else:
             info_last_draw.text = _(" 已选择全部初始干员")
 
-        work_people_now,people_max = cache.rhodes_island.work_people_now,len(cache.npc_id_got)
+        work_people_now, people_max = cache.rhodes_island.work_people_now, len(cache.npc_id_got)
         info_last_draw.text += _("， 当前工作中干员/总干员：{0}/{1}").format(work_people_now, people_max)
 
         now_draw.draw_list.append(info_last_draw)
@@ -539,50 +525,50 @@ class Character_FirstNPC:
             # 绘制各按钮
             if cache.debug_mode:
                 button_text = _(" [一键全选] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.select_all)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.select_all)
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
             button_text = _(" [随机选择] ")
-            random_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.random_select)
+            random_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.random_select)
             random_draw.draw()
             return_list.append(random_draw.return_text)
             if len(self.talk_character_list) <= 0:
                 button_text = _(" [口上筛选] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.talk_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.talk_filter)
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
             if self.name_filter_flag:
                 button_text = _(" [姓名筛选中] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, normal_style="gold_enrod", cmd_func=self.name_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, normal_style="gold_enrod", cmd_func=self.name_filter)
             else:
                 button_text = _(" [姓名筛选] ")
-                button_draw = draw.CenterButton(button_text, _("请输入要筛选的名字："), len(button_text)*2, cmd_func=self.name_filter)
+                button_draw = draw.CenterButton(button_text, _("请输入要筛选的名字："), len(button_text) * 2, cmd_func=self.name_filter)
             button_draw.draw()
             return_list.append(button_draw.return_text)
             if self.chest_filter_flag:
                 button_text = _(" [胸围筛选中-{0}] ").format(chest_filter_list[self.chest_filter_flag])
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, normal_style="gold_enrod", cmd_func=self.chest_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, normal_style="gold_enrod", cmd_func=self.chest_filter)
             else:
                 button_text = _(" [胸围筛选] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.chest_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.chest_filter)
             button_draw.draw()
             return_list.append(button_draw.return_text)
             if self.age_filter_flag:
                 button_text = _(" [外表年龄筛选中-{0}] ").format(age_filter_list[self.age_filter_flag])
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, normal_style="gold_enrod", cmd_func=self.age_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, normal_style="gold_enrod", cmd_func=self.age_filter)
             else:
                 button_text = _(" [外表年龄筛选] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.age_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.age_filter)
             if self.race_filter_flag:
                 button_text = _(" [种族筛选中-{0}] ").format(race_filter_list[self.race_filter_flag - 1])
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, normal_style="gold_enrod", cmd_func=self.race_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, normal_style="gold_enrod", cmd_func=self.race_filter)
             else:
                 button_text = _(" [种族筛选] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.race_filter)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.race_filter)
             button_draw.draw()
             return_list.append(button_draw.return_text)
             button_text = _(" [重置选择] ")
-            button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.reset_select)
+            button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.reset_select)
             button_draw.draw()
             return_list.append(button_draw.return_text)
             line_feed_draw.draw()
@@ -607,7 +593,7 @@ class Character_FirstNPC:
                 self.normal_handle_panel.draw()
                 return_list.extend(self.normal_handle_panel.return_list)
                 line_feed_draw.draw()
-            
+
             # 口上面板
             if len(self.talk_character_list) > 0:
                 if self.show_talk_chara_handle_panel:
@@ -681,7 +667,7 @@ class Character_FirstNPC:
         """随机选择"""
         self.reset_select()
         # 获取当前未选择的NPC
-        not_got_npc = [i+1 for i in range(len(cache.npc_tem_data)) if i+1 not in cache.npc_id_got]
+        not_got_npc = [i + 1 for i in range(len(cache.npc_tem_data)) if i + 1 not in cache.npc_id_got]
         # 随机选择三个，然后加到列表中
         random_npc = random.sample(not_got_npc, 3)
         for npc_id in random_npc:
@@ -796,9 +782,7 @@ class SelectFirstNPCButton:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.NPC_id: int = NPC_id
@@ -839,9 +823,9 @@ class SelectFirstNPCButton:
                 name_draw.style = now_style
             else:
                 button_text += _("(自选)")
-                name_draw = draw.LeftButton(button_text, self.button_return, self.width,normal_style = now_style, cmd_func=self.button_0)
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, normal_style=now_style, cmd_func=self.button_0)
         else:
-            name_draw = draw.LeftButton(button_text, self.button_return, self.width,normal_style = now_style, cmd_func=self.button_0)
+            name_draw = draw.LeftButton(button_text, self.button_return, self.width, normal_style=now_style, cmd_func=self.button_0)
 
         # 按钮绘制
         # self.button_return = NPC_id
@@ -928,13 +912,7 @@ class Character_Bonus:
             # 文本3
             button_text += f"{first_bonus_data.introduce}"
             # 绘制按钮
-            button_draw = draw.LeftButton(
-                _(button_text),
-                _(first_bonus_data.name),
-                self.width,
-                normal_style = draw_style,
-                cmd_func=self.get_first_bonus,
-                args=cid)
+            button_draw = draw.LeftButton(_(button_text), _(first_bonus_data.name), self.width, normal_style=draw_style, cmd_func=self.get_first_bonus, args=cid)
             self.return_list.append(button_draw.return_text)
             now_draw.draw_list.append(button_draw)
             now_draw.width += len(button_text)
@@ -966,8 +944,7 @@ class Character_Bonus:
             else:
                 label.draw()
 
-
-    def get_first_bonus(self,first_bonus_id:int):
+    def get_first_bonus(self, first_bonus_id: int):
         """获得初期奖励"""
         from Script.UI.Panel import assistant_panel, normal_panel
 
@@ -1037,7 +1014,7 @@ class Character_Bonus:
                     target_data.trust = 0
                     pl_character_data.assistant_character_id = 0
                     cache.first_bonus[first_bonus_id] = False
-                
+
                 # 这里直接沿用的助理页面的代码
                 elif self.bonus_now >= 5:
                     assistant_panel.chose_assistant()
@@ -1103,19 +1080,12 @@ class World_Setting:
             # 文本
             button_text += f"{world_setting_data.name}：{world_setting_data.introduce}"
             # 绘制按钮
-            button_draw = draw.LeftButton(
-                _(button_text),
-                _(world_setting_data.name),
-                self.width,
-                normal_style = draw_style,
-                cmd_func=self.select_setting,
-                args=cid)
+            button_draw = draw.LeftButton(_(button_text), _(world_setting_data.name), self.width, normal_style=draw_style, cmd_func=self.select_setting, args=cid)
             self.return_list.append(button_draw.return_text)
             now_draw.draw_list.append(button_draw)
             now_draw.width += len(button_text)
             now_draw.draw_list.append(line_feed_draw)
             now_draw.width += 1
-
 
         self.draw_list: List[draw.NormalDraw] = []
         """ 绘制的文本列表 """
@@ -1131,6 +1101,6 @@ class World_Setting:
             else:
                 label.draw()
 
-    def select_setting(self,setting_cid : int):
+    def select_setting(self, setting_cid: int):
         """选择该设定"""
         cache.world_setting[setting_cid] = not cache.world_setting[setting_cid]

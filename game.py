@@ -6,14 +6,13 @@ from types import FunctionType
 
 if __name__ == "__main__":
 
-
     import auto_build_config
     from Script.Config import normal_config
     from Script.Core import game_type, cache_control
 
-    #log输出等级
+    # log输出等级
     # logging.basicConfig(format='等级：%(levelname)s，函数名：%(funcName)s，信息为：%(message)s', level = logging.DEBUG)
-    logging.basicConfig(format='等级：%(levelname)s，函数名：%(funcName)s，信息为：%(message)s', level = logging.INFO)
+    logging.basicConfig(format="等级：%(levelname)s，函数名：%(funcName)s，信息为：%(message)s", level=logging.INFO)
 
     # 初始化游戏缓存数据
     cache_control.cache = game_type.Cache()
@@ -35,6 +34,7 @@ if __name__ == "__main__":
 
     # 载入地图数据
     from Script.Config import map_config
+
     map_config.init_map_data()
 
     from Script.Design import start_flow, character_handle, game_time

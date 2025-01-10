@@ -32,6 +32,7 @@ def settle_aromatherapy_sessions():
     elif level <= 3:
         cache.rhodes_island.remaining_aromatherapy_sessions_today = 1
 
+
 class Aromatherapy_Panel:
     """
     用于香薰疗愈的面板对象
@@ -88,7 +89,7 @@ class Aromatherapy_Panel:
             now_text = ""
             now_text += _("\n  当前调香资源        ：")
             for recipes_id in cache.rhodes_island.materials_resouce:
-                recipes_data  = game_config.config_resouce[recipes_id]
+                recipes_data = game_config.config_resouce[recipes_id]
                 if recipes_data.name == _("香料") or recipes_data.type == _("香水"):
                     now_text += f"  {recipes_data.name}：{cache.rhodes_island.materials_resouce[recipes_id]}"
             all_info_draw.text = now_text
@@ -110,7 +111,7 @@ class Aromatherapy_Panel:
                 _("1"),
                 len(button_text) * 2,
                 cmd_func=self.select_recipe,
-                )
+            )
             return_list.append(button_draw.return_text)
             button_draw.draw()
 
@@ -119,11 +120,7 @@ class Aromatherapy_Panel:
             yes_draw = draw.CenterButton(_("[确定]"), _("确定"), window_width / 2)
             # 判断是否可以进行调香，需要已选择配方，有剩余调香次数，对方今日未调香
             yes_show_flag = False
-            if (
-                self.now_choice_recipe_id != 0 and
-                cache.rhodes_island.remaining_aromatherapy_sessions_today > 0 and
-                target_character_data.sp_flag.aromatherapy == 0
-                ):
+            if self.now_choice_recipe_id != 0 and cache.rhodes_island.remaining_aromatherapy_sessions_today > 0 and target_character_data.sp_flag.aromatherapy == 0:
                 yes_show_flag = True
             if yes_show_flag:
                 yes_draw.draw()
@@ -168,11 +165,7 @@ class Aromatherapy_Panel:
                 if flag_open:
                     line_feed.draw()
                     button_draw = draw.LeftButton(
-                        f"[{str(recipes_id).rjust(3,'0')}]{recipes_data.name}：{recipes_data.info}",
-                        f"\n{recipes_id}",
-                        window_width ,
-                        cmd_func=self.change_now_choice_recipe_id,
-                        args=(recipes_id)
+                        f"[{str(recipes_id).rjust(3,'0')}]{recipes_data.name}：{recipes_data.info}", f"\n{recipes_id}", window_width, cmd_func=self.change_now_choice_recipe_id, args=(recipes_id)
                     )
                     button_draw.draw()
                     return_list.append(button_draw.return_text)
@@ -184,10 +177,10 @@ class Aromatherapy_Panel:
                         need_list = []
                         need_list.append(formula_text)
                     else:
-                        need_list = formula_text.split('&')
+                        need_list = formula_text.split("&")
                     for need_text in need_list:
-                        need_type = int(need_text.split('|')[0])
-                        need_value = int(need_text.split('|')[1])
+                        need_type = int(need_text.split("|")[0])
+                        need_value = int(need_text.split("|")[1])
                         now_text += f"  {game_config.config_resouce[need_type].name}：{need_value}"
 
                     all_info_draw.text = now_text
@@ -217,19 +210,19 @@ class Aromatherapy_Panel:
             need_list = []
             need_list.append(formula_text)
         else:
-            need_list = formula_text.split('&')
+            need_list = formula_text.split("&")
         flag = True
         for need_text in need_list:
-            need_type = int(need_text.split('|')[0])
-            need_value = int(need_text.split('|')[1])
+            need_type = int(need_text.split("|")[0])
+            need_value = int(need_text.split("|")[1])
             if cache.rhodes_island.materials_resouce[need_type] < need_value:
                 flag = False
                 break
         if flag:
             # 消耗资源
             for need_text in need_list:
-                need_type = int(need_text.split('|')[0])
-                need_value = int(need_text.split('|')[1])
+                need_type = int(need_text.split("|")[0])
+                need_value = int(need_text.split("|")[1])
                 cache.rhodes_island.materials_resouce[need_type] -= need_value
             # 减少调香次数
             cache.rhodes_island.remaining_aromatherapy_sessions_today -= 1

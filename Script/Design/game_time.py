@@ -160,8 +160,8 @@ def sub_time_now(minute=0, hour=0, day=0, month=0, year=0) -> datetime.datetime:
 
     # 切月时对全角色的行为开始时间进行重置
     if new_date.month != cache.game_time.month:
-        tem_date = new_date.replace(day = 1)
-        new_date = new_date.replace(day = 1, hour = 0, minute = 0)
+        tem_date = new_date.replace(day=1)
+        new_date = new_date.replace(day=1, hour=0, minute=0)
         # 不再重置全角色的行为开始时间
         # for character_id in cache.npc_id_got:
         #     character.init_character_behavior_start_time(character_id, new_date)
@@ -170,12 +170,12 @@ def sub_time_now(minute=0, hour=0, day=0, month=0, year=0) -> datetime.datetime:
 
 
 def get_sub_date(
-        minute=0,
-        hour=0,
-        day=0,
-        month=0,
-        year=0,
-        old_date: datetime.datetime = None,
+    minute=0,
+    hour=0,
+    day=0,
+    month=0,
+    year=0,
+    old_date: datetime.datetime = None,
 ) -> datetime.datetime:
     """
     获取旧日期增加指定时间后得到的新日期
@@ -189,18 +189,16 @@ def get_sub_date(
     """
     if old_date is None:
         old_date = cache.game_time
-    new_date = old_date + relativedelta.relativedelta(
-        years=year, months=month, days=day, hours=hour, minutes=minute
-    )
+    new_date = old_date + relativedelta.relativedelta(years=year, months=month, days=day, hours=hour, minutes=minute)
     # 进行月份调整，保留四个月为春夏秋冬四月，其他月份自动跳转为以上月份
-    if new_date.month in {1,2}:
-        new_date = new_date.replace(month = 3)
-    elif new_date.month in {4,5}:
-        new_date = new_date.replace(month = 6)
-    elif new_date.month in {7,8}:
-        new_date = new_date.replace(month = 9)
-    elif new_date.month in {10,11}:
-        new_date = new_date.replace(month = 12)
+    if new_date.month in {1, 2}:
+        new_date = new_date.replace(month=3)
+    elif new_date.month in {4, 5}:
+        new_date = new_date.replace(month=6)
+    elif new_date.month in {7, 8}:
+        new_date = new_date.replace(month=9)
+    elif new_date.month in {10, 11}:
+        new_date = new_date.replace(month=12)
     return new_date
 
 
@@ -243,8 +241,8 @@ def get_rand_day_for_date(start_date: datetime.datetime, end_date: datetime.date
 
 
 def count_day_for_datetime(
-        start_date: datetime.datetime,
-        end_date: datetime.datetime,
+    start_date: datetime.datetime,
+    end_date: datetime.datetime,
 ) -> int:
     """
     计算两个时间之间经过的天数

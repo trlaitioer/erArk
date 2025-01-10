@@ -38,7 +38,7 @@ line_feed.text = "\n"
 line_feed.width = 1
 
 
-def judge_character_tired_sleep(character_id : int):
+def judge_character_tired_sleep(character_id: int):
     """
     校验角色是否疲劳或困倦
     Keyword arguments:
@@ -47,7 +47,7 @@ def judge_character_tired_sleep(character_id : int):
     from Script.Design import handle_instruct
 
     character_data: game_type.Character = cache.character_data[character_id]
-    #交互对象结算
+    # 交互对象结算
     if character_id:
         # 疲劳判定
         if character_data.hit_point <= 1 and not character_data.sp_flag.tired:
@@ -95,12 +95,7 @@ def judge_character_tired_sleep(character_id : int):
                         handle_instruct.handle_group_sex_end()
 
                 # H时，有意识H则正常检测，无意识H则不检测疲劳，只检测HP
-                elif (
-                    character_data.sp_flag.is_h and
-                    (
-                        not character_data.sp_flag.unconscious_h or
-                        (character_data.sp_flag.unconscious_h and character_data.hit_point <= 1))
-                    ):
+                elif character_data.sp_flag.is_h and (not character_data.sp_flag.unconscious_h or (character_data.sp_flag.unconscious_h and character_data.hit_point <= 1)):
                     character_data.sp_flag.is_h = False
                     pl_character_data.behavior.behavior_id = constant.Behavior.T_H_HP_0
                     pl_character_data.state = constant.CharacterStatus.STATUS_T_H_HP_0
@@ -149,12 +144,12 @@ def judge_character_follow(character_id: int) -> int:
 
     # 正常状态下的助理跟随，未智能跟随则变成智能跟随
     if (
-        handle_premise.handle_not_follow(character_id) and
-        handle_premise.handle_is_assistant(character_id) and
-        handle_premise.handle_assistant_follow_1(character_id) and
-        handle_premise.handle_action_not_sleep(character_id) and
-        handle_premise.handle_normal_1(character_id)
-        ):
+        handle_premise.handle_not_follow(character_id)
+        and handle_premise.handle_is_assistant(character_id)
+        and handle_premise.handle_assistant_follow_1(character_id)
+        and handle_premise.handle_action_not_sleep(character_id)
+        and handle_premise.handle_normal_1(character_id)
+    ):
         character_data.sp_flag.is_follow = 1
 
     # 智能跟随
@@ -209,14 +204,10 @@ def judge_character_h_obscenity_unconscious(character_id: int) -> int:
         if len(cache.pl_pre_status_instruce) and cache.pl_pre_status_instruce[-1] in special_end_list and character_data.behavior.behavior_id not in special_end_list:
             default.handle_both_h_state_reset(0, 1, change_data=game_type.CharacterStatusChange, now_time=datetime.datetime)
         # 如果在时停中搬运角色，则直接移动到玩家同一地点
-        if (
-            handle_premise.handle_time_stop_on(character_id) and 
-            handle_premise.handle_carry_somebody_in_time_stop(character_id)
-            ):
+        if handle_premise.handle_time_stop_on(character_id) and handle_premise.handle_carry_somebody_in_time_stop(character_id):
             now_carry_chara_id = pl_character_data.pl_ability.carry_chara_id_in_time_stop
             now_carry_character_data = cache.character_data[now_carry_chara_id]
             map_handle.character_move_scene(now_carry_character_data.position, pl_character_data.position, now_carry_chara_id)
-
 
     # 玩家部分终止，以下为NPC部分
     if character_id == 0:
@@ -235,12 +226,7 @@ def judge_character_h_obscenity_unconscious(character_id: int) -> int:
         if character_data.state == constant.CharacterStatus.STATUS_SLEEP:
             return 1
         # 群交时，仅自慰类型和部位类型由群交AI判断处理
-        if (
-            handle_premise.handle_group_sex_mode_on(character_id) and
-            (
-                handle_premise.handle_npc_ai_type_1_in_group_sex(character_id) or handle_premise.handle_npc_ai_type_2_in_group_sex(character_id)
-             )
-            ):
+        if handle_premise.handle_group_sex_mode_on(character_id) and (handle_premise.handle_npc_ai_type_1_in_group_sex(character_id) or handle_premise.handle_npc_ai_type_2_in_group_sex(character_id)):
             npc_ai_in_group_sex(character_id)
             return 1
         character_data.behavior.behavior_id = constant.Behavior.WAIT
@@ -295,7 +281,7 @@ def judge_character_cant_move(character_id: int) -> int:
     # 临盆和产后
     if character_data.talent[22] == 1 or character_data.talent[23] == 1:
         cant_move_flag = True
-        character_data.desire_point = 0 # 欲望锁0
+        character_data.desire_point = 0  # 欲望锁0
         # character.init_character_behavior_start_time(character_id, cache.game_time)
         # character_data.behavior.behavior_id = constant.Behavior.WAIT
         # character_data.state = constant.CharacterStatus.STATUS_WAIT
@@ -454,10 +440,10 @@ def find_character_target(character_id: int, now_time: datetime.datetime):
         #     print(f"debug {character_data.name}的target = {target},weight = {weight},now_time = {now_time}")
         target_config = game_config.config_target[target]
         state_machine_id = target_config.state_machine_id
-        #如果上个AI行动是普通交互指令，则将等待flag设为1
+        # 如果上个AI行动是普通交互指令，则将等待flag设为1
         # if state_machine_id >= 100:
         #     character_data.sp_flag.wait_flag = 1
-            # print(f"debug 前一个状态机id = ",state_machine_id,",flag变为1,character_name =",character_data.name)
+        # print(f"debug 前一个状态机id = ",state_machine_id,",flag变为1,character_name =",character_data.name)
         constant.handle_state_machine_data[state_machine_id](character_id)
         # if character_data.name == "阿米娅":
         #     print(f"debug 中：{character_data.name}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}")
@@ -584,21 +570,17 @@ def judge_interrupt_character_behavior(character_id: int) -> int:
     # 休息中的相关判断
     if handle_premise.handle_action_rest(character_id):
         # 疲劳归零，且HP、MP满值时，则立刻结束休息
-        if (
-            handle_premise.handle_tired_le_0(character_id) and
-            handle_premise.handle_hp_max(character_id) and
-            handle_premise.handle_mp_max(character_id)
-        ):
-            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now = 2)
+        if handle_premise.handle_tired_le_0(character_id) and handle_premise.handle_hp_max(character_id) and handle_premise.handle_mp_max(character_id):
+            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now=2)
             return 1
 
     # 睡觉中的相关判断，需要没有被安眠药
     elif handle_premise.handle_action_sleep(character_id) and handle_premise.handle_self_not_sleep_pills(character_id):
         # ①睡觉中，早安问候服务开启中，今日未问候，角色行动结束时间晚于游戏时间，则将行动结束时间设为问候时间
         if (
-            handle_premise.handle_assistant_morning_salutation_on(character_id) and
-            handle_premise.handle_morning_salutation_flag_0(character_id) and
-            handle_premise.handle_chara_behavior_end_time_lateer_than_game_time(character_id)
+            handle_premise.handle_assistant_morning_salutation_on(character_id)
+            and handle_premise.handle_morning_salutation_flag_0(character_id)
+            and handle_premise.handle_chara_behavior_end_time_lateer_than_game_time(character_id)
         ):
             # 角色醒来时间
             start_time = character_data.behavior.start_time
@@ -618,13 +600,13 @@ def judge_interrupt_character_behavior(character_id: int) -> int:
 
         # ②睡觉中，疲劳归零，且HP、MP满值时，当前非睡觉时间，角色行动结束时间晚于游戏时间，则立刻结束睡觉
         if (
-            handle_premise.handle_tired_le_0(character_id) and
-            handle_premise.handle_hp_max(character_id) and
-            handle_premise.handle_mp_max(character_id) and
-            not handle_premise.handle_game_time_is_sleep_time(character_id) and
-            handle_premise.handle_chara_behavior_end_time_lateer_than_game_time(character_id)
+            handle_premise.handle_tired_le_0(character_id)
+            and handle_premise.handle_hp_max(character_id)
+            and handle_premise.handle_mp_max(character_id)
+            and not handle_premise.handle_game_time_is_sleep_time(character_id)
+            and handle_premise.handle_chara_behavior_end_time_lateer_than_game_time(character_id)
         ):
-            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now = 2)
+            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now=2)
             # print(f"debug {character_data.name}疲劳归零，结束睡觉，当前时间={cache.game_time}")
             return 1
 
@@ -632,12 +614,12 @@ def judge_interrupt_character_behavior(character_id: int) -> int:
     elif handle_premise.handle_action_work_or_entertainment(character_id):
         # 今日未洗澡，到了淋浴时间，距离行动结束时间还有至少30分钟，正常状态下，则立刻结束工作或娱乐
         if (
-            handle_premise.handle_shower_flag_0(character_id) and
-            handle_premise.handle_shower_time(character_id) and
-            handle_premise.handle_still_30_minutes_before_end(character_id) and
-            handle_premise.handle_normal_all(character_id)
+            handle_premise.handle_shower_flag_0(character_id)
+            and handle_premise.handle_shower_time(character_id)
+            and handle_premise.handle_still_30_minutes_before_end(character_id)
+            and handle_premise.handle_normal_all(character_id)
         ):
-            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now = 2)
+            character_behavior.judge_character_status_time_over(character_id, cache.game_time, end_now=2)
             # print(f"debug {character_data.name}立刻结束工作或娱乐，当前时间={cache.game_time}")
             return 1
 
@@ -658,7 +640,7 @@ def judge_weak_up_in_sleep_h(character_id: int):
     if target_data.sleep_point <= game_config.config_sleep_level[0].sleep_point:
         weak_rate += game_config.config_sleep_level[0].sleep_point - target_data.sleep_point
     # 判定是否吵醒，吵醒则先结算当前行动然后进入重度性骚扰失败状态
-    if weak_rate >= random.randint(1,100):
+    if weak_rate >= random.randint(1, 100):
         target_data.tired_point = 0
         target_data.sleep_point = 0
         # 输出提示信息
@@ -667,7 +649,7 @@ def judge_weak_up_in_sleep_h(character_id: int):
         now_draw.text = _("\n因为{0}的动作，{1}从梦中惊醒过来\n").format(now_character_data.name, target_data.name)
         now_draw.draw()
         # 终止对方的睡眠
-        character_behavior.judge_character_status_time_over(now_character_data.target_character_id, cache.game_time, end_now = 2)
+        character_behavior.judge_character_status_time_over(now_character_data.target_character_id, cache.game_time, end_now=2)
         # 停止对方的无意识状态与H状态
         target_data.sp_flag.unconscious_h = 0
         target_data.sp_flag.is_h = False
@@ -728,10 +710,7 @@ def judge_same_position_npc_follow():
         if character_data.position != pl_character_data.position:
             continue
         # 智能跟随、异常状态267正常
-        if (
-            character_data.sp_flag.is_follow == 1 and
-            handle_premise.handle_normal_267(character_id)
-            ):
+        if character_data.sp_flag.is_follow == 1 and handle_premise.handle_normal_267(character_id):
 
             # 变成移动状态，目标为玩家位置
             tem_1, tem_2, move_path, move_time = character_move.character_move(character_id, pl_character_data.behavior.move_final_target)
@@ -767,7 +746,7 @@ def get_chara_entertainment(character_id: int):
         character_data.sp_flag.swim = 0
 
         # 如果当天有派对的话，则全员当天娱乐为该娱乐
-        if hasattr(cache.rhodes_island, 'party_day_of_week') and cache.rhodes_island.party_day_of_week[week_day]:
+        if hasattr(cache.rhodes_island, "party_day_of_week") and cache.rhodes_island.party_day_of_week[week_day]:
             for i in range(3):
                 character_data.entertainment.entertainment_type[i] = cache.rhodes_island.party_day_of_week[week_day]
 
@@ -806,7 +785,7 @@ def get_chara_entertainment(character_id: int):
                         if "&" not in need_data_all:
                             need_data_list = [need_data_all]
                         else:
-                            need_data_list = need_data_all.split('&')
+                            need_data_list = need_data_all.split("&")
                         judge, reason = attr_calculation.judge_require(need_data_list, character_id)
                         # 如果满足条件则选择该娱乐活动，否则去掉该id后重新随机
                         if judge:
@@ -817,7 +796,7 @@ def get_chara_entertainment(character_id: int):
 
                 # 跳出循环后，将该娱乐活动赋值给角色
                 character_data.entertainment.entertainment_type[i] = choice_entertainment_id
-                entertainment_list.remove(choice_entertainment_id) # 从列表中去掉该娱乐活动，防止重复
+                entertainment_list.remove(choice_entertainment_id)  # 从列表中去掉该娱乐活动，防止重复
 
 
 def evaluate_npc_body_part_prefs(character_id: int) -> int:
@@ -841,21 +820,18 @@ def evaluate_npc_body_part_prefs(character_id: int) -> int:
     # 部位经验权重为1
     for experience_id in game_config.config_experience:
         # 去掉非部位的经验
-        if (
-            20 <= experience_id <= 60 or
-            experience_id >= 78
-        ):
+        if 20 <= experience_id <= 60 or experience_id >= 78:
             continue
 
         # 取除以10的余数
         part_id = experience_id % 10
-        if experience_id in {61,65}:
+        if experience_id in {61, 65}:
             part_id = 4
-        elif experience_id in {62,66}:
+        elif experience_id in {62, 66}:
             part_id = 5
-        elif experience_id in {63,67}:
+        elif experience_id in {63, 67}:
             part_id = 6
-        elif experience_id in {64,68}:
+        elif experience_id in {64, 68}:
             part_id = 7
         now_exp = character_data.experience[experience_id]
         part_weight[part_id] += now_exp
@@ -887,6 +863,7 @@ def evaluate_npc_body_part_prefs(character_id: int) -> int:
     # 返回选择的部位
     return part_id
 
+
 def npc_active_h():
     """
     判断NPC的逆推ai\n
@@ -914,13 +891,7 @@ def npc_active_h():
         status_data = game_config.config_status[status_id]
         status_tag_list = status_data.tag.split("|")
         # 跳过其中非性爱类，道具类、药物类、SM类、非逆推类
-        if(
-            _("性爱") not in status_tag_list or
-            _("道具") in status_tag_list or
-            _("药物") in status_tag_list or
-            _("SM") in status_tag_list or
-            _("非逆推") in status_tag_list
-        ):
+        if _("性爱") not in status_tag_list or _("道具") in status_tag_list or _("药物") in status_tag_list or _("SM") in status_tag_list or _("非逆推") in status_tag_list:
             continue
         # 如果NPC为处，则跳过破处类
         if part_id == 0 and target_character_data.talent[4] and _("破处") in status_tag_list:
@@ -1040,6 +1011,7 @@ def npc_ai_in_group_sex(character_id: int):
         character_data.state == constant.CharacterStatus.STATUS_ARDER
         # print(f"debug {character_data.name}进入了要自慰状态")
 
+
 def npc_ai_in_group_sex_type_3():
     """
     NPC在群交中的抢占AI\n
@@ -1103,7 +1075,7 @@ def npc_ai_in_group_sex_type_3():
         if len(new_chara_id_list) <= 0:
             break
         # 二分之一的几率不结算该部位
-        if random.randint(0,1):
+        if random.randint(0, 1):
             continue
         # 从新角色列表中选择一个随机角色
         character_id = random.choice(new_chara_id_list)

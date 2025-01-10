@@ -1,5 +1,5 @@
 class Ability:
-    """ 能力对应类型和文字描述 """
+    """能力对应类型和文字描述"""
 
     cid: int
     """ 能力id """
@@ -10,7 +10,7 @@ class Ability:
 
 
 class AbilityType:
-    """ 角色能力类型 """
+    """角色能力类型"""
 
     cid: int
     """ 类型id """
@@ -19,7 +19,7 @@ class AbilityType:
 
 
 class AbilityUp:
-    """ 能力对应类型和文字描述 """
+    """能力对应类型和文字描述"""
 
     cid: int
     """ 编号id """
@@ -32,7 +32,7 @@ class AbilityUp:
 
 
 class Ai_Chat_Setting:
-    """ 角色设置 """
+    """角色设置"""
 
     cid: int
     """ 选项id """
@@ -45,7 +45,7 @@ class Ai_Chat_Setting:
 
 
 class Aromatherapy_Recipes:
-    """ 香薰疗愈配方 """
+    """香薰疗愈配方"""
 
     cid: int
     """ 编号id """
@@ -60,7 +60,7 @@ class Aromatherapy_Recipes:
 
 
 class AssistantServices:
-    """ 助理服务 """
+    """助理服务"""
 
     cid: int
     """ 服务id """
@@ -73,7 +73,7 @@ class AssistantServices:
 
 
 class BarConfig:
-    """ 比例条名字对应的状态图片和绘制宽度 """
+    """比例条名字对应的状态图片和绘制宽度"""
 
     cid: int
     """ 比例条id """
@@ -88,7 +88,7 @@ class BarConfig:
 
 
 class BehaviorEffect:
-    """ 行为结算器配置 """
+    """行为结算器配置"""
 
     cid: int
     """ 表id """
@@ -99,7 +99,7 @@ class BehaviorEffect:
 
 
 class Birthplace:
-    """ 出生地列表 """
+    """出生地列表"""
 
     cid: int
     """ 出生地id """
@@ -112,7 +112,7 @@ class Birthplace:
 
 
 class Board_Game:
-    """ 桌游类型表 """
+    """桌游类型表"""
 
     cid: int
     """ 桌游cid """
@@ -121,7 +121,7 @@ class Board_Game:
 
 
 class BodyPart:
-    """ 身体部位表 """
+    """身体部位表"""
 
     cid: int
     """ 配表id """
@@ -138,7 +138,7 @@ class BodyPart:
 
 
 class Body_Manage_Requirement:
-    """ 身体管理需要满足的条件 """
+    """身体管理需要满足的条件"""
 
     cid: int
     """ 序号 """
@@ -157,7 +157,7 @@ class Body_Manage_Requirement:
 
 
 class Book:
-    """ 书籍配置表 """
+    """书籍配置表"""
 
     cid: int
     """ 书本id """
@@ -172,7 +172,7 @@ class Book:
 
 
 class BookType:
-    """ 书籍类型表 """
+    """书籍类型表"""
 
     cid: int
     """ 书本类型id """
@@ -183,7 +183,7 @@ class BookType:
 
 
 class CharacterState:
-    """ 角色状态属性表 """
+    """角色状态属性表"""
 
     cid: int
     """ 配表id """
@@ -194,7 +194,7 @@ class CharacterState:
 
 
 class CharacterStateType:
-    """ 角色状态类型 """
+    """角色状态类型"""
 
     cid: int
     """ 类型id """
@@ -203,7 +203,7 @@ class CharacterStateType:
 
 
 class Character_State_Level:
-    """ 状态等级 """
+    """状态等级"""
 
     cid: int
     """ 状态等级cid """
@@ -214,7 +214,7 @@ class Character_State_Level:
 
 
 class CharaSetting:
-    """ 角色设置 """
+    """角色设置"""
 
     cid: int
     """ 选项id """
@@ -229,7 +229,7 @@ class CharaSetting:
 
 
 class City:
-    """ 势力列表 """
+    """势力列表"""
 
     cid: int
     """ 城市id """
@@ -240,7 +240,7 @@ class City:
 
 
 class ClothingTem:
-    """ 服装模板 """
+    """服装模板"""
 
     cid: int
     """ 模板id """
@@ -257,7 +257,7 @@ class ClothingTem:
 
 
 class ClothingType:
-    """ 衣服种类配置 """
+    """衣服种类配置"""
 
     cid: int
     """ 配表id """
@@ -274,7 +274,7 @@ class ClothingType:
 
 
 class ClothingUseType:
-    """ 服装用途配置 """
+    """服装用途配置"""
 
     cid: int
     """ 用途id """
@@ -283,7 +283,7 @@ class ClothingUseType:
 
 
 class Collection_bouns:
-    """ 收藏物的奖励解锁 """
+    """收藏物的奖励解锁"""
 
     cid: int
     """ 奖励id """
@@ -302,7 +302,7 @@ class Collection_bouns:
 
 
 class Commission:
-    """ 委托任务表 """
+    """委托任务表"""
 
     cid: int
     """ 委托id """
@@ -331,7 +331,7 @@ class Commission:
 
 
 class Diplomatic_Policy:
-    """ 外交政策 """
+    """外交政策"""
 
     cid: int
     """ 编号id """
@@ -346,7 +346,7 @@ class Diplomatic_Policy:
 
 
 class Entertainment:
-    """ 娱乐模板 """
+    """娱乐模板"""
 
     cid: int
     """ 模板id """
@@ -365,7 +365,7 @@ class Entertainment:
 
 
 class Experience:
-    """ 经验名字 """
+    """经验名字"""
 
     cid: int
     """ 经验id """
@@ -374,7 +374,7 @@ class Experience:
 
 
 class Facility:
-    """ 基建系统内全设施一览 """
+    """基建系统内全设施一览"""
 
     cid: int
     """ 效果id """
@@ -387,7 +387,7 @@ class Facility:
 
 
 class Facility_effect:
-    """ 设施在不同等级下的效果 """
+    """设施在不同等级下的效果"""
 
     cid: int
     """ 效果id """
@@ -408,7 +408,7 @@ class Facility_effect:
 
 
 class Facility_open:
-    """ 待开放的设施一览 """
+    """待开放的设施一览"""
 
     cid: int
     """ 设施id """
@@ -423,7 +423,7 @@ class Facility_open:
 
 
 class Favorability_Level:
-    """ 好感等级 """
+    """好感等级"""
 
     cid: int
     """ 好感等级cid """
@@ -434,7 +434,7 @@ class Favorability_Level:
 
 
 class First_Bouns:
-    """ 初期奖励 """
+    """初期奖励"""
 
     cid: int
     """ 奖励id """
@@ -447,7 +447,7 @@ class First_Bouns:
 
 
 class FontConfig:
-    """ 字体样式配置数据(富文本用) """
+    """字体样式配置数据(富文本用)"""
 
     cid: int
     """ 样式id """
@@ -474,7 +474,7 @@ class FontConfig:
 
 
 class Food_Quality:
-    """ 质量等级 """
+    """质量等级"""
 
     cid: int
     """ 食物质量cid """
@@ -485,7 +485,7 @@ class Food_Quality:
 
 
 class Hypnosis_Talent_Of_Npc:
-    """ 干员获得被催眠素质 """
+    """干员获得被催眠素质"""
 
     cid: int
     """ cid """
@@ -500,7 +500,7 @@ class Hypnosis_Talent_Of_Npc:
 
 
 class Hypnosis_Talent_Of_Pl:
-    """ 玩家升级催眠素质 """
+    """玩家升级催眠素质"""
 
     cid: int
     """ cid """
@@ -519,7 +519,7 @@ class Hypnosis_Talent_Of_Pl:
 
 
 class Hypnosis_Type:
-    """ 催眠类型 """
+    """催眠类型"""
 
     cid: int
     """ 催眠类型id """
@@ -534,7 +534,7 @@ class Hypnosis_Type:
 
 
 class InstructJudge:
-    """ 每个指令的实行值判定数据 """
+    """每个指令的实行值判定数据"""
 
     cid: int
     """ 编号id """
@@ -547,7 +547,7 @@ class InstructJudge:
 
 
 class InstructType:
-    """ 指令类型配置 """
+    """指令类型配置"""
 
     cid: int
     """ 指令类型id """
@@ -558,7 +558,7 @@ class InstructType:
 
 
 class Instruct_Sex_Type:
-    """ 指令类型配置 """
+    """指令类型配置"""
 
     cid: int
     """ 指令类型id """
@@ -569,7 +569,7 @@ class Instruct_Sex_Type:
 
 
 class Item:
-    """ 道具配置数据 """
+    """道具配置数据"""
 
     cid: int
     """ 道具id """
@@ -590,7 +590,7 @@ class Item:
 
 
 class JJ:
-    """ 阴茎类型 """
+    """阴茎类型"""
 
     cid: int
     """ 阴茎id """
@@ -599,7 +599,7 @@ class JJ:
 
 
 class Juel:
-    """ 珠名字 """
+    """珠名字"""
 
     cid: int
     """ 珠id """
@@ -608,7 +608,7 @@ class Juel:
 
 
 class Moon:
-    """ 月相配置(明日更满为正反之为负) """
+    """月相配置(明日更满为正反之为负)"""
 
     cid: int
     """ 月相id """
@@ -623,7 +623,7 @@ class Moon:
 
 
 class MoveMenuType:
-    """ 移动菜单类型 """
+    """移动菜单类型"""
 
     cid: int
     """ 移动类型id """
@@ -632,7 +632,7 @@ class MoveMenuType:
 
 
 class Nation:
-    """ 势力列表 """
+    """势力列表"""
 
     cid: int
     """ 势力id """
@@ -647,7 +647,7 @@ class Nation:
 
 
 class New_Round_Inherit:
-    """ 新周目继承时的各类数据计算 """
+    """新周目继承时的各类数据计算"""
 
     cid: int
     """ 继承cid """
@@ -662,7 +662,7 @@ class New_Round_Inherit:
 
 
 class Organ:
-    """ 器官对应性别限定和文字描述 """
+    """器官对应性别限定和文字描述"""
 
     cid: int
     """ 器官id """
@@ -673,7 +673,7 @@ class Organ:
 
 
 class Physical_Exam_Setting:
-    """ 体检日程设置 """
+    """体检日程设置"""
 
     cid: int
     """ 选项id """
@@ -686,7 +686,7 @@ class Physical_Exam_Setting:
 
 
 class ProductFormula:
-    """ 产品配方 """
+    """产品配方"""
 
     cid: int
     """ 编号id """
@@ -699,7 +699,7 @@ class ProductFormula:
 
 
 class Profession:
-    """ 职业类型名称 """
+    """职业类型名称"""
 
     cid: int
     """ 职业id """
@@ -708,7 +708,7 @@ class Profession:
 
 
 class Prts:
-    """ 教程的问题及回答 """
+    """教程的问题及回答"""
 
     cid: int
     """ 编号id """
@@ -723,7 +723,7 @@ class Prts:
 
 
 class Race:
-    """ 种族类型名称 """
+    """种族类型名称"""
 
     cid: int
     """ 种族id """
@@ -732,7 +732,7 @@ class Race:
 
 
 class Recipes:
-    """ 菜谱配置 """
+    """菜谱配置"""
 
     cid: int
     """ 菜谱id """
@@ -753,7 +753,7 @@ class Recipes:
 
 
 class Recruitment_Strategy:
-    """ 招聘策略配置 """
+    """招聘策略配置"""
 
     cid: int
     """ 招聘策略id """
@@ -764,7 +764,7 @@ class Recruitment_Strategy:
 
 
 class Reproduction_period:
-    """ 生理期周期 """
+    """生理期周期"""
 
     cid: int
     """ 模板id """
@@ -775,7 +775,7 @@ class Reproduction_period:
 
 
 class Reputation_Level:
-    """ 声望等级 """
+    """声望等级"""
 
     cid: int
     """ 声望等级cid """
@@ -786,7 +786,7 @@ class Reputation_Level:
 
 
 class Resouce:
-    """ 各类基地使用资源一览 """
+    """各类基地使用资源一览"""
 
     cid: int
     """ 资源id """
@@ -805,7 +805,7 @@ class Resouce:
 
 
 class Restaurant:
-    """ 餐馆名字 """
+    """餐馆名字"""
 
     cid: int
     """ 餐馆id """
@@ -816,7 +816,7 @@ class Restaurant:
 
 
 class Roleplay:
-    """ 角色扮演列表 """
+    """角色扮演列表"""
 
     cid: int
     """ 角色扮演id """
@@ -827,7 +827,7 @@ class Roleplay:
 
 
 class Season:
-    """ 季节配置 """
+    """季节配置"""
 
     cid: int
     """ 季节id """
@@ -836,7 +836,7 @@ class Season:
 
 
 class Seasoning:
-    """ 特殊调味表 """
+    """特殊调味表"""
 
     cid: int
     """ 配表id """
@@ -845,7 +845,7 @@ class Seasoning:
 
 
 class SecondEffect:
-    """ 行为结算器配置 """
+    """行为结算器配置"""
 
     cid: int
     """ 表id """
@@ -856,7 +856,7 @@ class SecondEffect:
 
 
 class SexTem:
-    """ 性别对应描述和性别器官模板 """
+    """性别对应描述和性别器官模板"""
 
     cid: int
     """ 性别id """
@@ -871,7 +871,7 @@ class SexTem:
 
 
 class Sleep_Level:
-    """ 睡眠等级 """
+    """睡眠等级"""
 
     cid: int
     """ 睡眠等级cid """
@@ -882,7 +882,7 @@ class Sleep_Level:
 
 
 class SolarPeriod:
-    """ 节气配置 """
+    """节气配置"""
 
     cid: int
     """ 节气id """
@@ -893,7 +893,7 @@ class SolarPeriod:
 
 
 class Status:
-    """ 状态描述配置 """
+    """状态描述配置"""
 
     cid: int
     """ 状态id """
@@ -908,7 +908,7 @@ class Status:
 
 
 class SunTime:
-    """ 太阳时间配置 """
+    """太阳时间配置"""
 
     cid: int
     """ 太阳时间id """
@@ -917,7 +917,7 @@ class SunTime:
 
 
 class System_Setting:
-    """ 角色设置 """
+    """角色设置"""
 
     cid: int
     """ 选项id """
@@ -930,7 +930,7 @@ class System_Setting:
 
 
 class Talent:
-    """ 素质对应类型和文字描述 """
+    """素质对应类型和文字描述"""
 
     cid: int
     """ 素质id """
@@ -945,7 +945,7 @@ class Talent:
 
 
 class TalentGain:
-    """ 素质的获得 """
+    """素质的获得"""
 
     cid: int
     """ 编号id """
@@ -962,7 +962,7 @@ class TalentGain:
 
 
 class TalentType:
-    """ 角色能力类型 """
+    """角色能力类型"""
 
     cid: int
     """ 类型id """
@@ -971,7 +971,7 @@ class TalentType:
 
 
 class Talent_Of_Arts:
-    """ 源石技艺素质 """
+    """源石技艺素质"""
 
     cid: int
     """ 序号 """
@@ -990,7 +990,7 @@ class Talent_Of_Arts:
 
 
 class Target_Type:
-    """ AI行动目标的类型表 """
+    """AI行动目标的类型表"""
 
     cid: int
     """ 类型id """
@@ -1001,7 +1001,7 @@ class Target_Type:
 
 
 class Tip:
-    """ 提示信息 """
+    """提示信息"""
 
     cid: int
     """ 提示id """
@@ -1014,7 +1014,7 @@ class Tip:
 
 
 class Tip_Chara:
-    """ 角色提示信息 """
+    """角色提示信息"""
 
     cid: int
     """ 提示id """
@@ -1027,7 +1027,7 @@ class Tip_Chara:
 
 
 class Trust_Level:
-    """ 信赖等级 """
+    """信赖等级"""
 
     cid: int
     """ 信赖等级cid """
@@ -1038,7 +1038,7 @@ class Trust_Level:
 
 
 class Vehicle:
-    """ 载具表 """
+    """载具表"""
 
     cid: int
     """ 载具id """
@@ -1059,7 +1059,7 @@ class Vehicle:
 
 
 class Visitor_Stay_Attitude:
-    """ 访客停留态度 """
+    """访客停留态度"""
 
     cid: int
     """ 态度id """
@@ -1070,7 +1070,7 @@ class Visitor_Stay_Attitude:
 
 
 class WeekDay:
-    """ 星期描述配置 """
+    """星期描述配置"""
 
     cid: int
     """ 周id """
@@ -1079,7 +1079,7 @@ class WeekDay:
 
 
 class WorkType:
-    """ 工作模板 """
+    """工作模板"""
 
     cid: int
     """ 模板id """
@@ -1098,7 +1098,7 @@ class WorkType:
 
 
 class World_Setting:
-    """ 世界设定 """
+    """世界设定"""
 
     cid: int
     """ 设定id """
@@ -1109,7 +1109,7 @@ class World_Setting:
 
 
 class Talk:
-    """ 口上配置数据 """
+    """口上配置数据"""
 
     cid: str
     """ 口上id """
@@ -1124,7 +1124,7 @@ class Talk:
 
 
 class TargetEffect:
-    """ 执行目标所能达成的效果id """
+    """执行目标所能达成的效果id"""
 
     cid: str
     """ 配表id """
@@ -1135,7 +1135,7 @@ class TargetEffect:
 
 
 class Target:
-    """ ai的目标 """
+    """ai的目标"""
 
     cid: str
     """ 目标id """

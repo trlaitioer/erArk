@@ -16,6 +16,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 class Prts_Panel:
     """
     用于显示教程界面面板对象
@@ -66,13 +67,7 @@ class Prts_Panel:
 
             # 循环输出以上各个问题
             for i in range(len(draw_text_list)):
-                button_draw = draw.LeftButton(
-                    draw_text_list[i],
-                    f"\n{i}",
-                    self.width ,
-                    cmd_func=self.select_question,
-                    args=i
-                )
+                button_draw = draw.LeftButton(draw_text_list[i], f"\n{i}", self.width, cmd_func=self.select_question, args=i)
                 now_draw.draw_list.append(button_draw)
                 now_draw.width += len(button_draw.text)
                 now_draw.draw_list.append(line_feed)
@@ -131,10 +126,10 @@ class Prts_Panel:
                 button_draw = draw.LeftButton(
                     _(now_text),
                     _(now_text),
-                     self.width,
+                    self.width,
                     cmd_func=self.show_answer,
                     args=(son_type,),
-                    )
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
                 line_feed.draw()
@@ -157,9 +152,7 @@ class Prts_Panel:
         干员口上信息
         """
 
-        self.handle_panel_normal = panel.PageHandlePanel(
-            [], ShowCharaNameDraw, 15, 1, window_width, 1, 0, 0
-        )
+        self.handle_panel_normal = panel.PageHandlePanel([], ShowCharaNameDraw, 15, 1, window_width, 1, 0, 0)
 
         while 1:
             line = draw.LineDraw("-", self.width)
@@ -208,7 +201,7 @@ class Prts_Panel:
             line.draw()
 
             A_data = game_config.config_prts_data[self.fater_type][key_index][1]
-            answer_text_list = A_data.text.split('\\n')
+            answer_text_list = A_data.text.split("\\n")
             answer_text = ""
             for sub_text in answer_text_list:
                 answer_text += f" {sub_text}\n"
@@ -233,9 +226,7 @@ class ShowCharaNameDraw:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, cid: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, cid: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
         self.cid: int = cid
         """ 角色信息id """
@@ -273,7 +264,7 @@ class ShowCharaNameDraw:
             normal_style=self.text_color,
             cmd_func=self.show_chara_info,
             args=(now_text, tip_chara_data.text),
-            )
+        )
         self.button_return = button_draw.return_text
 
         self.now_draw = button_draw

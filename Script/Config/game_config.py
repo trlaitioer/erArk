@@ -4,7 +4,6 @@ from Script.Config import config_def
 from Script.Core import json_handle, get_text, game_type
 
 
-
 data_path = os.path.join("data", "data.json")
 """ 原始json数据文件路径 """
 character_path = os.path.join("data", "Character.json")
@@ -139,7 +138,7 @@ config_ability_type_data: Dict[int, Set] = {}
 类型对应能力列表配置数据
 类型 0:感觉,1:扩张,2:刻印,3:基础
 """
-config_ability: Dict[int,config_def.Ability] = {}
+config_ability: Dict[int, config_def.Ability] = {}
 """ 能力类型表 """
 config_experience: Dict[int, config_def.Experience] = {}
 """ 经验配置 """
@@ -170,7 +169,7 @@ config_talent_type_data: Dict[int, Set] = {}
 类型对应素质列表配置数据
 类型 0:性素质,1:身体素质,2:精神素质,3:技术素质,4:其他素质
 """
-config_talent: Dict[int,config_def.Talent] = {}
+config_talent: Dict[int, config_def.Talent] = {}
 """ 素质类型表 """
 # config_ability_up_type: Dict[int, config_def.AbilityUpType] = {}
 # """ 根据能力id和等级来判断升级的前提编号 """
@@ -335,18 +334,21 @@ config_vehicle: Dict[int, config_def.Vehicle] = {}
 config_reputation_level: Dict[int, config_def.Reputation_Level] = {}
 """ 声望等级数据 """
 
+
 def load_data_json():
     """载入data.json、character.json与ui_text.json内配置数据"""
-    global config_data,character_data,ui_text_data
+    global config_data, character_data, ui_text_data
     config_data = json_handle.load_json(data_path)
     character_data = json_handle.load_json(character_path)
     ui_text_data = json_handle.load_json(ui_text_path)
+
 
 def reload_talk_data():
     """重新载入口上配置数据"""
     global config_data, config_talk, config_talk_data, config_talk_data_by_chara_adv, config_talk_premise_data
     config_data = json_handle.load_json(data_path)
     load_talk()
+
 
 def translate_data(data: dict):
     """
@@ -416,7 +418,7 @@ def load_ability_up_data():
         if "&" not in now_tem.up_need:
             config_ability_up_data[now_tem.ability_id][now_tem.now_level].add(now_tem.up_need)
         else:
-            up_need_list = now_tem.up_need.split('&')
+            up_need_list = now_tem.up_need.split("&")
             for up_need in up_need_list:
                 config_ability_up_data[now_tem.ability_id][now_tem.now_level].add(up_need)
 
@@ -426,6 +428,7 @@ def load_ability_up_data():
         # print("config_ability_up_data[now_tem.ability_id] :",config_ability_up_data[now_tem.ability_id])
         # print("config_ability_up_data[now_tem.ability_id][now_tem.now_level] :",config_ability_up_data[now_tem.ability_id][now_tem.now_level])
         # print()
+
 
 def load_talent_gain_data():
     """载入获得素质数据"""
@@ -467,6 +470,7 @@ def load_juel():
         now_tem = config_def.Juel()
         now_tem.__dict__ = tem_data
         config_juel[now_tem.cid] = now_tem
+
 
 def load_profession():
     """载入职业数据"""
@@ -601,7 +605,7 @@ def load_behavior_effect_data():
         if "|" not in now_tem.effect_id:
             config_behavior_effect_data[now_tem.behavior_id].add(int(now_tem.effect_id))
         else:
-            effect_list = now_tem.effect_id.split('|')
+            effect_list = now_tem.effect_id.split("|")
             for effect in effect_list:
                 config_behavior_effect_data[now_tem.behavior_id].add(int(effect))
 
@@ -620,7 +624,7 @@ def load_second_behavior_effect_data():
         if "|" not in now_tem.effect_id:
             config_second_behavior_effect_data[now_tem.behavior_id].add(int(now_tem.effect_id))
         else:
-            effect_list = now_tem.effect_id.split('|')
+            effect_list = now_tem.effect_id.split("|")
             for effect in effect_list:
                 config_second_behavior_effect_data[now_tem.behavior_id].add(int(effect))
 
@@ -726,6 +730,7 @@ def load_clothing_type():
         volume_list = now_type.volume_table.split("-")
         volume_list = [int(volume) for volume in volume_list]
         config_clothing_type_volume[now_type.cid] = volume_list
+
         # 流通表
         def update_config_flow(flow_str, config_dict, cid):
             if flow_str == "无":
@@ -735,6 +740,7 @@ def load_clothing_type():
                 config_dict[cid] = flow_list
             else:
                 config_dict[cid] = [flow_str]
+
         update_config_flow(now_type.normal_flow_table, config_cloth_part_normal_flow, now_type.cid)
         update_config_flow(now_type.full_flow_table, config_cloth_part_full_flow, now_type.cid)
         update_config_flow(now_type.extra_flow_table, config_cloth_part_extra_flow, now_type.cid)
@@ -793,6 +799,7 @@ def load_body_part():
         volume_list = now_type.volume_table.split("-")
         volume_list = [int(volume) for volume in volume_list]
         config_body_part_volume[now_type.cid] = volume_list
+
         # 流通表
         def update_config_flow(flow_str, config_dict, cid):
             if flow_str == "无":
@@ -802,6 +809,7 @@ def load_body_part():
                 config_dict[cid] = flow_list
             else:
                 config_dict[cid] = [flow_str]
+
         update_config_flow(now_type.normal_flow_table, config_body_part_normal_flow, now_type.cid)
         update_config_flow(now_type.full_flow_table, config_body_part_full_flow, now_type.cid)
         update_config_flow(now_type.extra_flow_table, config_body_part_extra_flow, now_type.cid)
@@ -1074,7 +1082,7 @@ def load_talk():
         if "&" not in now_tem.premise:
             config_talk_premise_data[now_tem.cid].add(now_tem.premise)
         else:
-            premise_list = now_tem.premise.split('&')
+            premise_list = now_tem.premise.split("&")
             for premise in premise_list:
                 config_talk_premise_data[now_tem.cid].add(premise)
 
@@ -1106,7 +1114,7 @@ def load_target():
             if "|" not in now_tem.premise_id:
                 config_target_premise_data[now_tem.cid].add(now_tem.premise_id)
             else:
-                premise_list = now_tem.premise_id.split('|')
+                premise_list = now_tem.premise_id.split("|")
                 for premise_id in premise_list:
                     config_target_premise_data[now_tem.cid].add(premise_id)
 
@@ -1332,10 +1340,10 @@ def load_product_formula():
             need_list = []
             need_list.append(formula_text)
         else:
-            need_list = formula_text.split('&')
+            need_list = formula_text.split("&")
         for need_text in need_list:
-            need_type = int(need_text.split('|')[0])
-            need_value = int(need_text.split('|')[1])
+            need_type = int(need_text.split("|")[0])
+            need_value = int(need_text.split("|")[1])
             config_productformula_data.setdefault(now_tem.cid, {})
             config_productformula_data[now_tem.cid][need_type] = need_value
 
@@ -1355,10 +1363,10 @@ def load_aromatherapy_recipes():
             need_list = []
             need_list.append(formula_text)
         else:
-            need_list = formula_text.split('&')
+            need_list = formula_text.split("&")
         for need_text in need_list:
-            need_type = int(need_text.split('|')[0])
-            need_value = int(need_text.split('|')[1])
+            need_type = int(need_text.split("|")[0])
+            need_value = int(need_text.split("|")[1])
             config_aromatherapy_recipes_data.setdefault(now_tem.cid, {})
             config_aromatherapy_recipes_data[now_tem.cid][need_type] = need_value
 
@@ -1378,7 +1386,7 @@ def load_chara_setting():
             config_chara_setting_option[now_tem.cid] = []
             config_chara_setting_option[now_tem.cid].append(option_text)
         else:
-            config_chara_setting_option[now_tem.cid] = option_text.split('|')
+            config_chara_setting_option[now_tem.cid] = option_text.split("|")
 
 
 def load_system_setting():
@@ -1396,7 +1404,7 @@ def load_system_setting():
             config_system_setting_option[now_tem.cid] = []
             config_system_setting_option[now_tem.cid].append(option_text)
         else:
-            config_system_setting_option[now_tem.cid] = option_text.split('|')
+            config_system_setting_option[now_tem.cid] = option_text.split("|")
 
 
 def load_ai_chat_setting():
@@ -1414,7 +1422,7 @@ def load_ai_chat_setting():
             config_ai_chat_setting_option[now_tem.cid] = []
             config_ai_chat_setting_option[now_tem.cid].append(option_text)
         else:
-            config_ai_chat_setting_option[now_tem.cid] = option_text.split('|')
+            config_ai_chat_setting_option[now_tem.cid] = option_text.split("|")
 
 
 def load_physical_exam_setting():
@@ -1432,7 +1440,7 @@ def load_physical_exam_setting():
             config_physical_exam_setting_option[now_tem.cid] = []
             config_physical_exam_setting_option[now_tem.cid].append(option_text)
         else:
-            config_physical_exam_setting_option[now_tem.cid] = option_text.split('|')
+            config_physical_exam_setting_option[now_tem.cid] = option_text.split("|")
 
 
 def load_assistant_services():
@@ -1451,12 +1459,12 @@ def load_assistant_services():
         if "|" not in option_text:
             config_assistant_services_option[now_tem.cid][0] = [option_text]
         else:
-            config_assistant_services_option[now_tem.cid][0] = option_text.split('|')
+            config_assistant_services_option[now_tem.cid][0] = option_text.split("|")
         # 以#为分割判定是否有多个需求
         if "#" not in require_text:
             config_assistant_services_option[now_tem.cid][1] = [require_text]
         else:
-            config_assistant_services_option[now_tem.cid][1] = require_text.split('#')
+            config_assistant_services_option[now_tem.cid][1] = require_text.split("#")
 
 
 def load_body_manage_requirement():
@@ -1487,7 +1495,7 @@ def load_prts():
 
 
 def load_new_round_inherit():
-    """ 新周目继承 """
+    """新周目继承"""
     now_data = config_data["New_Round_Inherit"]
     translate_data(now_data)
     for tem_data in now_data["data"]:
@@ -1530,7 +1538,6 @@ def load_reputation_level():
         now_tem = config_def.Reputation_Level()
         now_tem.__dict__ = tem_data
         config_reputation_level[now_tem.cid] = now_tem
-
 
     """
     draw_text_list = []

@@ -45,6 +45,7 @@ def get_empty_guest_room_id():
     # 如果没有空闲客房，则返回False
     return False
 
+
 def update_invite_visitor():
     """刷新邀请访客栏位"""
 
@@ -56,9 +57,10 @@ def update_invite_visitor():
     if cache.rhodes_island.invite_visitor[1] >= 100:
 
         # 成功邀请时
-        if settle_visitor_arrivals(visitor_id = cache.rhodes_island.invite_visitor[0]):
+        if settle_visitor_arrivals(visitor_id=cache.rhodes_island.invite_visitor[0]):
             cache.rhodes_island.invite_visitor[0] = 0
             cache.rhodes_island.invite_visitor[1] = 0
+
 
 def visitor_to_operator(character_id: int):
     """
@@ -83,7 +85,8 @@ def visitor_to_operator(character_id: int):
     # 重新分配角色宿舍
     character_handle.new_character_get_dormitory(character_id)
 
-def settle_visitor_arrivals(visitor_id = 0):
+
+def settle_visitor_arrivals(visitor_id=0):
     """
     结算访客抵达
     visitor_id = 0 时，随机抽取一名访客
@@ -91,6 +94,7 @@ def settle_visitor_arrivals(visitor_id = 0):
     return 1 时，有访客抵达
     """
     from Script.UI.Panel import recruit_panel
+
     now_draw = draw.WaitDraw()
     now_draw.width = window_width
     now_draw.style = "gold_enrod"
@@ -125,6 +129,7 @@ def settle_visitor_arrivals(visitor_id = 0):
         now_draw.draw()
         return 1
 
+
 def visitor_leave(character_id: int):
     """
     访客离开
@@ -148,6 +153,7 @@ def visitor_leave(character_id: int):
     if character_id in cache.scene_data[scene_path_str].character_list:
         cache.scene_data[scene_path_str].character_list.remove(character_id)
     character_data.position = ["0", "0"]
+
 
 def settle_visitor_arrivals_and_departures():
     """
@@ -203,6 +209,7 @@ def settle_visitor_arrivals_and_departures():
                 now_draw.text += _("\n ●【{0}】打包好行李，离开了罗德岛\n").format(character_data.name)
                 now_draw.draw()
 
+
 def get_today_departing_visitors():
     """
     检查今天是否有要离开的访客
@@ -222,6 +229,7 @@ def get_today_departing_visitors():
             if stay_posibility < 0.5:
                 departing_visitors.append(visitor_id)
     return departing_visitors
+
 
 class Invite_Visitor_Panel:
     """
@@ -260,7 +268,7 @@ class Invite_Visitor_Panel:
                     character_data: game_type.Character = cache.character_data[chara_id]
                     live_room = character_data.dormitory.split("\\")[-1]
                     leav_time = game_time.get_date_until_day(cache.rhodes_island.visitor_info[chara_id])
-                    now_text += _(" [{0}]{1}，居住房间：{2}，离开{3}\n").format(str(character_data.adv).rjust(4,'0'), character_data.name, live_room, leav_time)
+                    now_text += _(" [{0}]{1}，居住房间：{2}，离开{3}\n").format(str(character_data.adv).rjust(4, "0"), character_data.name, live_room, leav_time)
                 now_text += f"\n"
 
             all_info_draw.text = now_text
@@ -305,13 +313,7 @@ class Invite_Visitor_Panel:
 
             line_feed.draw()
             button_text = _("[001]人员增减")
-            button_draw = draw.LeftButton(
-                _(button_text),
-                _(button_text),
-                self.width,
-                cmd_func=manage_basement_panel.change_npc_work_out,
-                args=self.width
-                )
+            button_draw = draw.LeftButton(_(button_text), _(button_text), self.width, cmd_func=manage_basement_panel.change_npc_work_out, args=self.width)
             return_list.append(button_draw.return_text)
             button_draw.draw()
             line_feed.draw()
@@ -322,7 +324,7 @@ class Invite_Visitor_Panel:
                     _(button_text),
                     self.width,
                     cmd_func=self.select_target,
-                    )
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
 
@@ -336,7 +338,6 @@ class Invite_Visitor_Panel:
             if yrn == back_draw.return_text:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
-
 
     def select_target(self):
         """选择邀请目标"""
@@ -372,9 +373,9 @@ class Invite_Visitor_Panel:
                 now_text += _(" 可邀请范围：{0}\n\n").format(now_invitation_range)
             elif now_level == 3:
                 # 临近地点
-                map_path_str = map_handle.get_map_system_path_str_for_list(['泰拉'])
+                map_path_str = map_handle.get_map_system_path_str_for_list(["泰拉"])
                 map_data: game_type.Map = cache.map_data[map_path_str]
-                path_edge = map_data.path_edge  
+                path_edge = map_data.path_edge
                 near_scene_path = path_edge[now_country_name].copy()
                 # 仅需要keys
                 now_invitation_range = list(near_scene_path.keys())
@@ -428,13 +429,7 @@ class Invite_Visitor_Panel:
                     character_data: game_type.Character = cache.character_data[chara_id]
                     # 均绘制为可选按钮
                     button_text = f" [{str(character_data.adv).rjust(4,'0')}]{character_data.name}"
-                    button_draw = draw.LeftButton(
-                        button_text,
-                        button_text,
-                        int(len(button_text)*2),
-                        cmd_func=self.change_invite_target,
-                        args=chara_id
-                        )
+                    button_draw = draw.LeftButton(button_text, button_text, int(len(button_text) * 2), cmd_func=self.change_invite_target, args=chara_id)
                     button_draw.draw()
                     return_list.append(button_draw.return_text)
                     # 每行5个

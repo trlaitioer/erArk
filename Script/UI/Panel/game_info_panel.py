@@ -56,7 +56,7 @@ class GameTimeInfoPanel:
         sun_time_config = game_config.config_sun_time[sun_time]
         sun_time_draw = draw.NormalDraw()
         sun_time_draw.text = f"{sun_time_config.name}"
-        judge = handle_premise.handle_eat_time(0) # 饭点判断
+        judge = handle_premise.handle_eat_time(0)  # 饭点判断
         if judge:
             sun_time_draw.text += _("(饭点)")
         sun_time_draw.text += " "

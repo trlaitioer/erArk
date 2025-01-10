@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QMenuBar, QMenu, QWidgetAction, QDialog, QTextEdit, QVBoxLayout, QSizePolicy
 from PySide6.QtGui import QFont, QAction, QFontMetrics
-import function,cache_control
+import function, cache_control
 
 font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
+
 
 class MenuBar(QMenuBar):
     """顶部菜单栏"""

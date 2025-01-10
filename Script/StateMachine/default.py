@@ -25,6 +25,7 @@ def general_movement_module(character_id: int, target_scene: list):
     target_scene -- 寻路目标场景(在地图系统下的绝对坐标)
     """
     from Script.Config import normal_config
+
     character_data: game_type.Character = cache.character_data[character_id]
     character_data.target_character_id = character_id
     if normal_config.config_normal.language != "zh_CN":
@@ -34,7 +35,7 @@ def general_movement_module(character_id: int, target_scene: list):
                 if target_scene[i] == _("中枢") or target_scene[i] == _("控制中枢"):
                     target_scene[i] = "中枢"
                 else:
-                    target_scene[i] = _(target_scene[i], revert_translation = True)
+                    target_scene[i] = _(target_scene[i], revert_translation=True)
     tem_1, tem_2, move_path, move_time = character_move.character_move(character_id, target_scene)
     # 寻路正常时
     if move_time > 0:
@@ -104,6 +105,7 @@ def character_move_to_dormitory(character_id: int):
     character_id -- 角色id
     """
     from Script.Design import character_handle
+
     character_data: game_type.Character = cache.character_data[character_id]
     # 增加一个对宿舍是否为无的判定
     if character_data.dormitory == _("无"):
@@ -136,6 +138,7 @@ def character_sleep(character_id: int):
 #     """
 #     character_data: game_type.Character = cache.character_data[character_id]
 #     character_data.talent[400] = 1
+
 
 @handle_state_machine.add_state_machine(constant.StateMachine.REST)
 def character_rest(character_id: int):
@@ -173,9 +176,7 @@ def character_move_to_dr_office(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_dr_office = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Dr_Office"])
-    )
+    to_dr_office = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Dr_Office"]))
     general_movement_module(character_id, to_dr_office)
 
 
@@ -193,9 +194,7 @@ def character_move_to_toilet(character_id: int):
     now_position = character_data.position[0]
     find_flag = False
     if character_data.sex == 0:
-        to_toilet = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Toilet_Male"])
-    )
+        to_toilet = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Toilet_Male"]))
     elif character_data.sex == 1:
         for place in constant.place_data["Toilet_Female"]:
             if place.split("\\")[0] == now_position:
@@ -203,9 +202,7 @@ def character_move_to_toilet(character_id: int):
                 find_flag = True
                 break
         if not find_flag:
-            to_toilet = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Toilet_Female"])
-    )
+            to_toilet = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Toilet_Female"]))
     # print(f"debug constant.place_data[\"Toilet_Female\"] = ",constant.place_data["Toilet_Female"])
     general_movement_module(character_id, to_toilet)
 
@@ -223,9 +220,7 @@ def character_move_to_kitchen(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_kitchen = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Kitchen"])
-    )
+    to_kitchen = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Kitchen"]))
     general_movement_module(character_id, to_kitchen)
 
 
@@ -239,15 +234,11 @@ def character_move_to_foodshop(character_id: int):
     character_data: game_type.Character = cache.character_data[character_id]
     # 没有指定餐厅id的就去食堂，有指定餐厅id的就去指定的餐厅
     if character_data.action_info.eat_food_restaurant == -1:
-        to_foodshop = map_handle.get_map_system_path_for_str(
-            random.choice(constant.place_data["Take_Food_Area"])
-        )
+        to_foodshop = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Take_Food_Area"]))
     else:
         restaurant_id = character_data.action_info.eat_food_restaurant
         place_tag = game_config.config_restaurant[restaurant_id].tag_name
-        to_foodshop = map_handle.get_map_system_path_for_str(
-            random.choice(constant.place_data[place_tag])
-        )
+        to_foodshop = map_handle.get_map_system_path_for_str(random.choice(constant.place_data[place_tag]))
     general_movement_module(character_id, to_foodshop)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -264,9 +255,7 @@ def character_move_to_dining_hall(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_dining_hall = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Dining_hall"])
-    )
+    to_dining_hall = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Dining_hall"]))
     general_movement_module(character_id, to_dining_hall)
 
 
@@ -285,9 +274,7 @@ def character_move_to_clinic(character_id: int):
             to_clinic = map_handle.get_map_system_path_for_str(Clinic_place)
             break
     if not empty_flag:
-        to_clinic = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Clinic"])
-    )
+        to_clinic = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Clinic"]))
     general_movement_module(character_id, to_clinic)
 
 
@@ -298,9 +285,7 @@ def character_move_to_physical_examination(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_physical_examination = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Physical_Examination"])
-    )
+    to_physical_examination = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Physical_Examination"]))
     general_movement_module(character_id, to_physical_examination)
     # print(f"debug {cache.character_data[character_id].name} 前往体检科 {to_physical_examination}")
 
@@ -312,9 +297,7 @@ def character_move_to_hr_office(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_hr_office = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["HR_Office"])
-    )
+    to_hr_office = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["HR_Office"]))
     general_movement_module(character_id, to_hr_office)
 
 
@@ -325,9 +308,7 @@ def character_move_to_library_office(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_library_office = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Library_Office"])
-    )
+    to_library_office = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Library_Office"]))
     general_movement_module(character_id, to_library_office)
 
 
@@ -338,9 +319,7 @@ def character_move_to_library(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_library = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Library"])
-    )
+    to_library = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Library"]))
     general_movement_module(character_id, to_library)
 
 
@@ -351,9 +330,7 @@ def character_move_to_class_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_class_room = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Class_Room"])
-    )
+    to_class_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Class_Room"]))
 
     general_movement_module(character_id, to_class_room)
 
@@ -365,9 +342,7 @@ def character_move_to_teacher_office(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Teacher_Office"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Teacher_Office"]))
     general_movement_module(character_id, to_target)
 
 
@@ -378,9 +353,7 @@ def character_move_to_golden_game_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Golden_Game_Room"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Golden_Game_Room"]))
     general_movement_module(character_id, to_target)
 
 
@@ -391,9 +364,7 @@ def character_move_to_classic_music_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Classic_Musicroom"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Classic_Musicroom"]))
     general_movement_module(character_id, to_target)
 
 
@@ -404,9 +375,7 @@ def character_move_to_moden_music_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Modern_Musicroom"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Modern_Musicroom"]))
     general_movement_module(character_id, to_target)
 
 
@@ -417,9 +386,7 @@ def character_move_to_multimedia_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Multimedia_Room"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Multimedia_Room"]))
     general_movement_module(character_id, to_target)
 
 
@@ -430,9 +397,7 @@ def character_move_to_photography_studio(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Photography_Studio"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Photography_Studio"]))
     general_movement_module(character_id, to_target)
 
 
@@ -443,9 +408,7 @@ def character_move_to_aquapit_experientorium(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Aquapit_Experientorium"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Aquapit_Experientorium"]))
     general_movement_module(character_id, to_target)
 
 
@@ -456,9 +419,7 @@ def character_move_to_board_games_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Board_Games_Room"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Board_Games_Room"]))
     general_movement_module(character_id, to_target)
 
 
@@ -469,9 +430,7 @@ def character_move_to_fairy_banquet(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Fairy_Banquet"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Fairy_Banquet"]))
     general_movement_module(character_id, to_target)
 
 
@@ -482,9 +441,7 @@ def character_move_to_bar(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Bar"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Bar"]))
     general_movement_module(character_id, to_target)
 
 
@@ -495,9 +452,7 @@ def character_move_to_avant_garde_arcade(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Avant_Garde_Arcade"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Avant_Garde_Arcade"]))
     general_movement_module(character_id, to_target)
 
 
@@ -508,9 +463,7 @@ def character_move_to_walyria_cake_shop(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Walyria_Cake_Shop"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Walyria_Cake_Shop"]))
     general_movement_module(character_id, to_target)
 
 
@@ -521,9 +474,7 @@ def character_move_to_styling_studio(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Styling_Studio"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Styling_Studio"]))
     general_movement_module(character_id, to_target)
 
 
@@ -534,9 +485,7 @@ def character_move_to_hair_salon(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Hair_Salon"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Hair_Salon"]))
     general_movement_module(character_id, to_target)
 
 
@@ -547,9 +496,7 @@ def character_move_to_teahouse(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Teahouse"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Teahouse"]))
     general_movement_module(character_id, to_target)
 
 
@@ -560,9 +507,7 @@ def character_move_to_café(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Café"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Café"]))
     general_movement_module(character_id, to_target)
 
 
@@ -573,9 +518,7 @@ def character_move_to_light_store(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Light_Store"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Light_Store"]))
     general_movement_module(character_id, to_target)
 
 
@@ -586,10 +529,9 @@ def character_move_to_pizzeria(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Pizzeria"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Pizzeria"]))
     general_movement_module(character_id, to_target)
+
 
 @handle_state_machine.add_state_machine(constant.StateMachine.MOVE_TO_SEVEN_CITIES_RESTAURANT)
 def character_move_to_seven_cities_restaurant(character_id: int):
@@ -598,9 +540,7 @@ def character_move_to_seven_cities_restaurant(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Seven_Cities_Restaurant"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Seven_Cities_Restaurant"]))
     general_movement_module(character_id, to_target)
 
 
@@ -611,9 +551,7 @@ def character_move_to_burger_joint(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Burger"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Burger"]))
     general_movement_module(character_id, to_target)
 
 
@@ -624,9 +562,7 @@ def character_move_to_healthy_diner(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Healthy_Diner"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Healthy_Diner"]))
     general_movement_module(character_id, to_target)
 
 
@@ -637,9 +573,7 @@ def character_move_to_lungmen_eatery(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_target = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Lungmen_Eatery"])
-    )
+    to_target = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Lungmen_Eatery"]))
     general_movement_module(character_id, to_target)
 
 
@@ -650,9 +584,7 @@ def character_move_to_swimming_pool(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_swimming_pool = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Swimming_Pool"])
-    )
+    to_swimming_pool = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Swimming_Pool"]))
     general_movement_module(character_id, to_swimming_pool)
 
 
@@ -663,9 +595,7 @@ def character_move_to_gym_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_gym_room = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Gym"])
-    )
+    to_gym_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Gym"]))
     general_movement_module(character_id, to_gym_room)
 
 
@@ -676,9 +606,7 @@ def character_move_to_foot_bath(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_foot_bath = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Foot_Bath"])
-    )
+    to_foot_bath = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Foot_Bath"]))
     general_movement_module(character_id, to_foot_bath)
 
 
@@ -689,9 +617,7 @@ def character_move_to_sauna(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_sauna = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Sauna"])
-    )
+    to_sauna = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Sauna"]))
     general_movement_module(character_id, to_sauna)
 
 
@@ -702,9 +628,7 @@ def character_move_to_spa_room(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_spa_room = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Spa_Room"])
-    )
+    to_spa_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Spa_Room"]))
     general_movement_module(character_id, to_spa_room)
 
 
@@ -715,9 +639,7 @@ def character_move_to_onsen(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    to_onsen = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Onsen"])
-    )
+    to_onsen = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Onsen"]))
     general_movement_module(character_id, to_onsen)
 
 
@@ -729,9 +651,7 @@ def character_move_to_maintenance_department(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_maintenance_department = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Maintenance_Department"])
-    )
+    to_maintenance_department = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Maintenance_Department"]))
     general_movement_module(character_id, to_maintenance_department)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -749,9 +669,7 @@ def character_move_to_blacksmith_shop(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_blacksmith_shop = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Blacksmith_Shop"])
-    )
+    to_blacksmith_shop = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Blacksmith_Shop"]))
     general_movement_module(character_id, to_blacksmith_shop)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -769,9 +687,7 @@ def character_move_to_diplomatic_office(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_diplomatic_office = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Diplomatic_Office"])
-    )
+    to_diplomatic_office = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Diplomatic_Office"]))
     general_movement_module(character_id, to_diplomatic_office)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -789,9 +705,7 @@ def character_move_to_herb_garden(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_herb_garden = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Herb_Garden"])
-    )
+    to_herb_garden = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Herb_Garden"]))
     general_movement_module(character_id, to_herb_garden)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -809,9 +723,7 @@ def character_move_to_greenhouse(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_greenhouse = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Greenhouse"])
-    )
+    to_greenhouse = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Greenhouse"]))
     general_movement_module(character_id, to_greenhouse)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -829,9 +741,7 @@ def character_move_to_humiliation_room(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    to_humiliation_room = map_handle.get_map_system_path_for_str(
-        random.choice(constant.place_data["Humiliation_Room"])
-    )
+    to_humiliation_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Humiliation_Room"]))
     general_movement_module(character_id, to_humiliation_room)
 
     # 如果和玩家位于同一地点，则输出提示信息
@@ -862,24 +772,20 @@ def character_move_to_rest_room(character_id: int):
         special_rest_room_list.extend(constant.place_data[birthplace_rest_room_tag])
     # 如果有专属休息室的话，有一半几率使用该休息室
     if len(special_rest_room_list) and random.randint(1, 2) == 1:
-        to_rest_room = map_handle.get_map_system_path_for_str(
-            random.choice(special_rest_room_list)
-        )
+        to_rest_room = map_handle.get_map_system_path_for_str(random.choice(special_rest_room_list))
         find_flag = True
     # 不使用专属休息室的话，检索当前角色所在的大场景里有没有休息室
     if find_flag == False:
         now_position = character_data.position[0]
         for place in constant.place_data["Rest_Room"]:
             if place.split("\\")[0] == now_position:
-                if map_handle.judge_scene_accessible(place,character_id) == "open":
+                if map_handle.judge_scene_accessible(place, character_id) == "open":
                     to_rest_room = map_handle.get_map_system_path_for_str(place)
                     find_flag = True
                     break
     # 没有的话再随机选择其他区块
     if find_flag == False:
-        to_rest_room = map_handle.get_map_system_path_for_str(
-    random.choice(constant.place_data["Rest_Room"])
-    )
+        to_rest_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Rest_Room"]))
 
     general_movement_module(character_id, to_rest_room)
 
@@ -908,9 +814,7 @@ def character_move_to_restaurant(character_id: int):
             find_flag = True
             break
     if not find_flag:
-        to_rest_room = map_handle.get_map_system_path_for_str(
-    random.choice(constant.place_data["Restaurant"])
-    )
+        to_rest_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Restaurant"]))
 
     general_movement_module(character_id, to_rest_room)
 
@@ -954,14 +858,14 @@ def character_move_to_production_workshop(character_id: int):
     if need_allocated_flag:
         empty_flag = False
         for target_scene_str in constant.place_data["Production_Workshop"]:
-            close_type = map_handle.judge_scene_accessible(target_scene_str,character_id)
+            close_type = map_handle.judge_scene_accessible(target_scene_str, character_id)
             if list(cache.scene_data[target_scene_str].character_list) == [] and close_type == "open":
                 empty_flag = True
                 break
         if not empty_flag:
             while 1:
                 target_scene_str = random.choice(constant.place_data["Production_Workshop"])
-                close_type = map_handle.judge_scene_accessible(target_scene_str,character_id)
+                close_type = map_handle.judge_scene_accessible(target_scene_str, character_id)
                 if close_type == "open":
                     break
         assembly_line_id = int(target_scene_str[-1]) - 1
@@ -1074,9 +978,7 @@ def character_move_to_bath_room(character_id: int):
             find_flag = True
             break
     if not find_flag:
-        to_bath_room = map_handle.get_map_system_path_for_str(
-    random.choice(constant.place_data["Bathroom"])
-    )
+        to_bath_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Bathroom"]))
 
     general_movement_module(character_id, to_bath_room)
 
@@ -1095,14 +997,12 @@ def character_move_to_training_room(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    if character_data.profession in {1,5,6,8}:
+    if character_data.profession in {1, 5, 6, 8}:
         room_name = "Fight_Room"
     else:
         room_name = "Shoot_Room"
 
-    to_training_room = map_handle.get_map_system_path_for_str(
-    random.choice(constant.place_data[room_name])
-    )
+    to_training_room = map_handle.get_map_system_path_for_str(random.choice(constant.place_data[room_name]))
 
     general_movement_module(character_id, to_training_room)
 
@@ -1124,7 +1024,7 @@ def character_move_to_player(character_id: int):
     character_data.target_character_id = character_id
     to_dr = cache.character_data[0].position
     move_type, tem_1, move_path, move_time = character_move.character_move(character_id, to_dr)
-    move_flag = True # flase的话就是等待
+    move_flag = True  # flase的话就是等待
     if move_path == []:
         move_flag = False
     #     print(f"debug {character_data.name} 无法移动至玩家位置，move_type = {move_type},当前位置 = {character_data.position},move_path = {move_path}")
@@ -1164,8 +1064,8 @@ def character_continue_move(character_id: int):
             # 基础数据计算
             to_dr = cache.character_data[0].position
             tem_1, tem_2, move_path, move_time = character_move.character_move(character_id, character_data.behavior.move_final_target)
-            move_flag = True # true的话就是移动
-            wait_flag = False # true的话就是等待
+            move_flag = True  # true的话就是移动
+            wait_flag = False  # true的话就是等待
 
             if len(move_path) == 0:
                 move_flag = False
@@ -1312,7 +1212,7 @@ def character_see_h_and_move_to_dormitory(character_id: int):
     character_data: game_type.Character = cache.character_data[character_id]
 
     # 输出提示信息，并结算
-    result_type = 0 # 0为无事发生，1为中断H，2为加入群交
+    result_type = 0  # 0为无事发生，1为中断H，2为加入群交
     now_draw = draw.NormalDraw()
     now_draw.text = _("被{0}看到了情事现场\n").format(character_data.name)
     if handle_premise.handle_instruct_judge_group_sex(character_id):
@@ -1383,6 +1283,7 @@ def character_entertain_read(character_id: int):
     character_id -- 角色id
     """
     from Script.UI.Panel import borrow_book_panel
+
     character_data: game_type.Character = cache.character_data[character_id]
     # 检查是否要借书
     borrow_book_panel.check_random_borrow_book(character_id)
@@ -1466,6 +1367,7 @@ def character_photography(character_id: int):
     character_data.behavior.behavior_id = constant.Behavior.PHOTOGRAPHY
     character_data.state = constant.CharacterStatus.STATUS_PHOTOGRAPHY
 
+
 @handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_PLAY_WATER)
 def character_play_water(character_id: int):
     """
@@ -1478,6 +1380,7 @@ def character_play_water(character_id: int):
     character_data.behavior.duration = 60
     character_data.behavior.behavior_id = constant.Behavior.PLAY_WATER
     character_data.state = constant.CharacterStatus.STATUS_PLAY_WATER
+
 
 @handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_PLAY_CHESS)
 def character_play_chess(character_id: int):
@@ -1739,11 +1642,7 @@ def character_singing_to_rand_character(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    character_list = list(
-        cache.scene_data[
-            map_handle.get_map_system_path_str_for_list(character_data.position)
-        ].character_list
-    )
+    character_list = list(cache.scene_data[map_handle.get_map_system_path_str_for_list(character_data.position)].character_list)
     character_list.remove(character_id)
     if 0 in character_list:
         character_list.remove(0)
@@ -1763,11 +1662,7 @@ def character_play_instrument_to_rand_character(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    character_list = list(
-        cache.scene_data[
-            map_handle.get_map_system_path_str_for_list(character_data.position)
-        ].character_list
-    )
+    character_list = list(cache.scene_data[map_handle.get_map_system_path_str_for_list(character_data.position)].character_list)
     character_list.remove(character_id)
     if 0 in character_list:
         character_list.remove(0)
@@ -2293,9 +2188,7 @@ def character_buy_rand_food_at_foodshop(character_id: int):
             all_food_list = make_food_list
         # 随机选一个食物id
         now_food_id = random.choice(all_food_list)
-        now_food = cache.rhodes_island.dining_hall_data[now_food_id][
-            random.choice(list(cache.rhodes_island.dining_hall_data[now_food_id].keys()))
-        ]
+        now_food = cache.rhodes_island.dining_hall_data[now_food_id][random.choice(list(cache.rhodes_island.dining_hall_data[now_food_id].keys()))]
         # 加入背包
         character_data.food_bag[now_food.uid] = now_food
         # 删除食堂中的食物
@@ -2315,12 +2208,9 @@ def character_buy_rand_food_at_foodshop(character_id: int):
             cooking.init_food_shop_data(restaurant_id)
             return
         now_food_id = random.choice(all_food_list)
-        now_food = cache.rhodes_island.restaurant_data[restaurant_id][now_food_id][
-            random.choice(list(cache.rhodes_island.restaurant_data[restaurant_id][now_food_id].keys()))
-        ]
+        now_food = cache.rhodes_island.restaurant_data[restaurant_id][now_food_id][random.choice(list(cache.rhodes_island.restaurant_data[restaurant_id][now_food_id].keys()))]
         character_data.food_bag[now_food.uid] = now_food
         del cache.rhodes_island.restaurant_data[restaurant_id][now_food_id][now_food.uid]
-
 
     # 记录食物名字
     food_recipe: game_type.Recipes = cache.recipe_data[now_food.recipe]
@@ -2500,9 +2390,7 @@ def character_work_library_1(character_id: int):
     character_data.target_character_id = character_id
     rand_num = random.randint(0, 99)
     if rand_num < 30:
-        to_library = map_handle.get_map_system_path_for_str(
-            random.choice(constant.place_data["Library"])
-        )
+        to_library = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Library"]))
         general_movement_module(character_id, to_library)
     else:
         character_data.behavior.behavior_id = constant.Behavior.WAIT
@@ -2523,12 +2411,10 @@ def character_work_library_2(character_id: int):
     character_data.target_character_id = character_id
     rand_num = random.randint(0, 99)
     if rand_num < 30:
-        to_library = map_handle.get_map_system_path_for_str(
-            random.choice(constant.place_data["Library_Office"])
-        )
+        to_library = map_handle.get_map_system_path_for_str(random.choice(constant.place_data["Library_Office"]))
         general_movement_module(character_id, to_library)
     else:
-        borrow_book_panel.check_random_borrow_book(character_id)# 检查是否要借书
+        borrow_book_panel.check_random_borrow_book(character_id)  # 检查是否要借书
         for book_id_all in character_data.entertainment.borrow_book_id_set:
             book_id = book_id_all
         book_data = game_config.config_book[book_id]
@@ -2572,7 +2458,7 @@ def character_work_maintenance_1(character_id: int):
         # 指定的地点需要是可进入的
         while 1:
             target_scene_str = random.choice(constant.place_data["Room"])
-            close_type = map_handle.judge_scene_accessible(target_scene_str,character_id)
+            close_type = map_handle.judge_scene_accessible(target_scene_str, character_id)
             if close_type == "open":
                 break
     # 记录检修地点
@@ -2611,7 +2497,7 @@ def character_work_repair_equipment(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = character_id
     character_data.behavior.behavior_id = constant.Behavior.REPAIR_EQUIPMENT
     character_data.behavior.duration = 60
@@ -2626,7 +2512,7 @@ def character_work_cook(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = character_id
     character_data.behavior.behavior_id = constant.Behavior.NPC_WORK_COOK
     character_data.behavior.duration = 30
@@ -2641,7 +2527,7 @@ def character_work_cook(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = character_id
     character_data.behavior.behavior_id = constant.Behavior.NPC_ASSISTANT_COOK
     character_data.behavior.duration = 30
@@ -2660,7 +2546,7 @@ def character_morning_salutation_1(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.MORNING_SALUTATION_1
     character_data.behavior.duration = 5
@@ -2682,7 +2568,7 @@ def character_morning_salutation_2(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.MORNING_SALUTATION_2
     character_data.behavior.duration = 5
@@ -2704,7 +2590,7 @@ def character_morning_salutation_2(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.MORNING_SALUTATION_3
     character_data.behavior.duration = 10
@@ -2726,7 +2612,7 @@ def character_night_salutation_1(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.NIGHT_SALUTATION_1
     character_data.behavior.duration = 30
@@ -2746,7 +2632,7 @@ def character_night_salutation_2(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.NIGHT_SALUTATION_2
     character_data.behavior.duration = 5
@@ -2767,7 +2653,7 @@ def character_night_salutation_3(character_id: int):
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    
+
     character_data.target_character_id = 0
     character_data.behavior.behavior_id = constant.Behavior.NIGHT_SALUTATION_3
     character_data.behavior.duration = 10
@@ -2977,7 +2863,7 @@ def character_work_sex_exercises(character_id: int):
     character_data.target_character_id = character_id
     # 从目前的性爱练习列表中随机选一个
     exercises_list = []
-    for i in range(30,40):
+    for i in range(30, 40):
         if i in character_data.body_manage and character_data.body_manage[i]:
             status_id = i + 650
             exercises_list.append(status_id)
@@ -3015,4 +2901,3 @@ def character_fitness_training(character_id: int):
     character_data.behavior.behavior_id = constant.Behavior.EXERCISE
     character_data.behavior.duration = 60
     character_data.state = constant.CharacterStatus.STATUS_EXERCISE
-

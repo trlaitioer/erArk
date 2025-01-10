@@ -131,6 +131,7 @@ def handle_add_1_bclimax_experience(
         character_data.h_state.orgasm_count[1][0] += 1
         character_data.h_state.orgasm_count[1][1] += 1
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_CClimax_EXPERIENCE)
 def handle_add_1_cclimax_experience(
     character_id: int,
@@ -157,6 +158,7 @@ def handle_add_1_cclimax_experience(
         character_data.h_state.orgasm_count[2][0] += 1
         character_data.h_state.orgasm_count[2][1] += 1
 
+
 # @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_PClimax_EXPERIENCE)
 # def handle_add_1_pclimax_experience(
 #     character_id: int,
@@ -181,6 +183,7 @@ def handle_add_1_cclimax_experience(
 #     change_data.experience[13] += 1
 #     change_data.experience.setdefault(20, 0)
 #     change_data.experience[20] += 1
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_VClimax_EXPERIENCE)
 def handle_add_1_vclimax_experience(
@@ -208,6 +211,7 @@ def handle_add_1_vclimax_experience(
         character_data.h_state.orgasm_count[4][0] += 1
         character_data.h_state.orgasm_count[4][1] += 1
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_AClimax_EXPERIENCE)
 def handle_add_1_aclimax_experience(
     character_id: int,
@@ -233,6 +237,7 @@ def handle_add_1_aclimax_experience(
     if character_data.sp_flag.is_h == 1:
         character_data.h_state.orgasm_count[5][0] += 1
         character_data.h_state.orgasm_count[5][1] += 1
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_UClimax_EXPERIENCE)
 def handle_add_1_uclimax_experience(
@@ -260,6 +265,7 @@ def handle_add_1_uclimax_experience(
         character_data.h_state.orgasm_count[6][0] += 1
         character_data.h_state.orgasm_count[6][1] += 1
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_WClimax_EXPERIENCE)
 def handle_add_1_wclimax_experience(
     character_id: int,
@@ -286,6 +292,7 @@ def handle_add_1_wclimax_experience(
         character_data.h_state.orgasm_count[7][0] += 1
         character_data.h_state.orgasm_count[7][1] += 1
 
+
 """
     8-9留空
 """
@@ -311,6 +318,7 @@ def handle_add_1_wclimax_experience(
 #     change_data.experience.setdefault(20, 0)
 #     change_data.experience[20] += 1
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_Cumming_EXPERIENCE)
 def handle_add_1_cumming_experience(
     character_id: int,
@@ -332,6 +340,7 @@ def handle_add_1_cumming_experience(
     character_data.h_state.orgasm_count[3][0] += 1
     character_data.h_state.orgasm_count[3][1] += 1
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_Milking_EXPERIENCE)
 def handle_add_1_milking_experience(
     character_id: int,
@@ -350,6 +359,7 @@ def handle_add_1_milking_experience(
     character_data.experience[22] += 1
     change_data.experience.setdefault(22, 0)
     change_data.experience[22] += 1
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_1_Peeing_EXPERIENCE)
 def handle_add_1_peeing_experience(
@@ -417,6 +427,7 @@ def handle_target_add_small_lubrication(
     target_change.status_data.setdefault(8, 0)
     target_change.status_data[8] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.TARGET_ADD_MIDDLE_LUBRICATION)
 def handle_target_add_middle_lubrication(
     character_id: int,
@@ -440,6 +451,7 @@ def handle_target_add_middle_lubrication(
     target_change.status_data.setdefault(8, 0)
     target_change.status_data[8] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.TARGET_ADD_LARGE_LUBRICATION)
 def handle_target_add_large_lubrication(
     character_id: int,
@@ -462,6 +474,7 @@ def handle_target_add_large_lubrication(
     target_change: game_type.TargetChange = change_data.target_change[target_data.cid]
     target_change.status_data.setdefault(8, 0)
     target_change.status_data[8] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_SMALL_LUBRICATION)
 def handle_add_small_lubrication(
@@ -545,6 +558,7 @@ def handle_down_small_hit_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 10, -1, dregree=0, change_data=change_data)
 
 
@@ -561,6 +575,7 @@ def handle_down_small_mana_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 20, mp_value=-1, dregree=0, change_data=change_data)
 
 
@@ -577,6 +592,7 @@ def handle_down_middle_hit_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 20, -1, dregree=1, change_data=change_data)
 
 
@@ -593,6 +609,7 @@ def handle_down_middle_mana_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 25, mp_value=-1, dregree=1, change_data=change_data)
 
 
@@ -609,6 +626,7 @@ def handle_down_large_hit_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 30, -1, dregree=2, change_data=change_data)
 
 
@@ -625,6 +643,7 @@ def handle_down_large_mana_point(
     """
 
     from Script.Settle import default
+
     default.base_chara_hp_mp_common_settle(character_id, 30, mp_value=-1, dregree=2, change_data=change_data)
 
 
@@ -728,7 +747,7 @@ def handle_add_small_p_feel(
 
     character_data: game_type.Character = cache.character_data[0]
 
-    now_add_lust = 100 + character_data.eja_point*0.4
+    now_add_lust = 100 + character_data.eja_point * 0.4
     # adjust = attr_calculation.get_ability_adjust(character_data.ability[3])
     # now_add_lust *= adjust
     character_data.eja_point += now_add_lust
@@ -763,6 +782,7 @@ def handle_add_small_v_feel(
     change_data.status_data.setdefault(4, 0)
     change_data.status_data[4] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_SMALL_A_FEEL)
 def handle_add_small_a_feel(
     character_id: int,
@@ -790,6 +810,7 @@ def handle_add_small_a_feel(
     change_data.status_data.setdefault(5, 0)
     change_data.status_data[5] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_SMALL_U_FEEL)
 def handle_add_small_u_feel(
     character_id: int,
@@ -816,6 +837,7 @@ def handle_add_small_u_feel(
     character_data.status_data[6] = min(99999, character_data.status_data[6])
     change_data.status_data.setdefault(6, 0)
     change_data.status_data[6] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_SMALL_W_FEEL)
 def handle_add_small_w_feel(
@@ -955,6 +977,7 @@ def handle_add_small_friendly(
     character_data.status_data[11] = min(99999, character_data.status_data[11])
     change_data.status_data.setdefault(11, 0)
     change_data.status_data[11] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_SMALL_DESIRE)
 def handle_add_small_desire(
@@ -1193,7 +1216,7 @@ def handle_add_small_disgust(
 
     character_data: game_type.Character = cache.character_data[character_id]
 
-    default.base_chara_state_common_settle(character_id, 0, 20, 20, ability_level = character_data.ability[18], change_data = change_data)
+    default.base_chara_state_common_settle(character_id, 0, 20, 20, ability_level=character_data.ability[18], change_data=change_data)
 
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_MIDDLE_N_FEEL)
@@ -1335,6 +1358,7 @@ def handle_add_middle_v_feel(
     change_data.status_data.setdefault(4, 0)
     change_data.status_data[4] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_MIDDLE_A_FEEL)
 def handle_add_middle_a_feel(
     character_id: int,
@@ -1362,6 +1386,7 @@ def handle_add_middle_a_feel(
     change_data.status_data.setdefault(5, 0)
     change_data.status_data[5] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_MIDDLE_U_FEEL)
 def handle_add_middle_u_feel(
     character_id: int,
@@ -1388,6 +1413,7 @@ def handle_add_middle_u_feel(
     character_data.status_data[6] = min(99999, character_data.status_data[6])
     change_data.status_data.setdefault(6, 0)
     change_data.status_data[6] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_MIDDLE_W_FEEL)
 def handle_add_middle_w_feel(
@@ -1527,6 +1553,7 @@ def handle_add_middle_friendly(
     character_data.status_data[11] = min(99999, character_data.status_data[11])
     change_data.status_data.setdefault(11, 0)
     change_data.status_data[11] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_MIDDLE_DESIRE)
 def handle_add_middle_desire(
@@ -1765,7 +1792,7 @@ def handle_add_middle_disgust(
 
     character_data: game_type.Character = cache.character_data[character_id]
 
-    default.base_chara_state_common_settle(character_id, 0, 20, 100, ability_level = character_data.ability[18], change_data = change_data)
+    default.base_chara_state_common_settle(character_id, 0, 20, 100, ability_level=character_data.ability[18], change_data=change_data)
 
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_N_FEEL)
@@ -1907,6 +1934,7 @@ def handle_add_large_v_feel(
     change_data.status_data.setdefault(4, 0)
     change_data.status_data[4] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_A_FEEL)
 def handle_add_large_a_feel(
     character_id: int,
@@ -1934,6 +1962,7 @@ def handle_add_large_a_feel(
     change_data.status_data.setdefault(5, 0)
     change_data.status_data[5] += now_add_lust
 
+
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_U_FEEL)
 def handle_add_large_u_feel(
     character_id: int,
@@ -1960,6 +1989,7 @@ def handle_add_large_u_feel(
     character_data.status_data[6] = min(99999, character_data.status_data[6])
     change_data.status_data.setdefault(6, 0)
     change_data.status_data[6] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_W_FEEL)
 def handle_add_large_w_feel(
@@ -2091,6 +2121,7 @@ def handle_add_large_friendly(
     character_data.status_data[11] = min(99999, character_data.status_data[11])
     change_data.status_data.setdefault(11, 0)
     change_data.status_data[11] += now_add_lust
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_DESIRE)
 def handle_add_large_desire(
@@ -2499,7 +2530,7 @@ def handle_add_large_pain_first_sex(
     # print("润滑修正", now_add_lust)
     # 欲情修正
     adjust = attr_calculation.get_pain_adjust(character_data.status_data[12])
-    adjust = adjust/3 if adjust >=2 else adjust/1.5
+    adjust = adjust / 3 if adjust >= 2 else adjust / 1.5
     now_add_lust *= adjust
     # print("欲情修正", now_add_lust)
     # 痛苦刻印修正
@@ -2516,6 +2547,7 @@ def handle_add_large_pain_first_sex(
     change_data.status_data.setdefault(17, 0)
     change_data.status_data[17] += now_add_lust
     # print("破处修正", now_add_lust)
+
 
 @settle_behavior.add_settle_second_behavior_effect(constant_effect.SecondEffect.ADD_LARGE_PAIN_FIRST_A_SEX)
 def handle_add_large_pain_first_a_sex(
@@ -2539,7 +2571,7 @@ def handle_add_large_pain_first_a_sex(
     now_add_lust *= adjust
     # 欲情修正
     adjust = attr_calculation.get_pain_adjust(character_data.status_data[12])
-    adjust = adjust/3 if adjust >=2 else adjust/1.5
+    adjust = adjust / 3 if adjust >= 2 else adjust / 1.5
     now_add_lust *= adjust
     # 痛苦刻印修正
     adjust = attr_calculation.get_mark_debuff_adjust(character_data.ability[15])
@@ -2785,8 +2817,8 @@ def handle_extra_orgasm(
     # 如果有额外高潮次数，则进行苦痛和恐怖结算
     if all_extra_count > 0:
         # 额外高潮次数的苦痛和恐怖
-        extra_pain = 100 * (1.2 ** all_extra_count)
-        extra_terror = 100 * (1.2 ** all_extra_count)
+        extra_pain = 100 * (1.2**all_extra_count)
+        extra_terror = 100 * (1.2**all_extra_count)
         # 痛苦刻印修正
         adjust = attr_calculation.get_mark_debuff_adjust(character_data.ability[15])
         extra_pain *= adjust
@@ -2824,6 +2856,7 @@ def handle_plural_orgasm(
     change_data -- 状态变更信息记录对象
     """
     from Script.Settle.default import base_chara_state_common_settle
+
     character_data: game_type.Character = cache.character_data[character_id]
     if character_data.dead:
         return
@@ -2833,9 +2866,9 @@ def handle_plural_orgasm(
     # 如果有多重高潮次数，则进行结算
     if plural_orgasm_count > 0:
         base_value = 1000 * plural_orgasm_count
-        extral_adjust = 1.4 ** plural_orgasm_count
-        base_chara_state_common_settle(character_id, 0, 13, base_value = base_value, extra_adjust = extral_adjust, change_data = change_data)
-        base_chara_state_common_settle(character_id, 0, 15, base_value = base_value, extra_adjust = extral_adjust, change_data = change_data)
+        extral_adjust = 1.4**plural_orgasm_count
+        base_chara_state_common_settle(character_id, 0, 13, base_value=base_value, extra_adjust=extral_adjust, change_data=change_data)
+        base_chara_state_common_settle(character_id, 0, 15, base_value=base_value, extra_adjust=extral_adjust, change_data=change_data)
 
         # 多重绝顶数据清零
         character_data.h_state.plural_orgasm_set = set()
@@ -2873,6 +2906,7 @@ def handle_give_pan_in_day_first_meet(
     change_data -- 状态变更信息记录对象
     """
     from Script.Design import clothing
+
     # 转移到玩家的临时收藏
     clothing.pl_get_chara_pan(character_id)
 
@@ -2889,6 +2923,7 @@ def handle_give_socks_in_day_first_meet(
     change_data -- 状态变更信息记录对象
     """
     from Script.Design import clothing
+
     # 转移到玩家的临时收藏
     clothing.pl_get_chara_socks(character_id)
 
@@ -3211,4 +3246,3 @@ def handle_add_1_w_experience(
     character_data.experience[7] += 1
     change_data.experience.setdefault(7, 0)
     change_data.experience[7] += 1
-

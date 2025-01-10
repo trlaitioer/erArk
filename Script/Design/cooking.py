@@ -225,7 +225,7 @@ def init_food_shop_data(update_restaurant_id: int = -2, new_day_flag: bool = Fal
         cache.rhodes_island.dining_hall_data = {}
     max_people = len(cache.npc_id_got)
     # 初始化食堂内的食物
-    if update_restaurant_id in [-1,-2]:
+    if update_restaurant_id in [-1, -2]:
         cook_index = 0
         while 1:
             recipes_id_list = list(cache.recipe_data.keys())
@@ -254,14 +254,14 @@ def init_food_shop_data(update_restaurant_id: int = -2, new_day_flag: bool = Fal
         while 1:
             food_list = {}
             # 只能选择该餐馆自己的食谱
-            recipes_id_list = [ x for x in game_config.config_recipes if game_config.config_recipes[x].restaurant == restaurant_id]
+            recipes_id_list = [x for x in game_config.config_recipes if game_config.config_recipes[x].restaurant == restaurant_id]
             recipes_id = random.choice(recipes_id_list)
             now_recipe_data = cache.recipe_data[recipes_id]
             # 难度上无法制作的菜谱直接跳过
             if now_recipe_data.difficulty == 999:
                 continue
             # 无法制作的种类的菜谱直接跳过
-            if now_recipe_data.type in {4,5,8,9}:
+            if now_recipe_data.type in {4, 5, 8, 9}:
                 continue
             cook_level = random.randint(3, 7)
             new_food = cook(food_list, recipes_id, cook_level, "")
@@ -278,7 +278,7 @@ def init_food_shop_data(update_restaurant_id: int = -2, new_day_flag: bool = Fal
         while 1:
             food_list = {}
             # 选择零食和饮料类型的食谱
-            recipes_id_list = [ x for x in game_config.config_recipes if game_config.config_recipes[x].type in [1, 2]]
+            recipes_id_list = [x for x in game_config.config_recipes if game_config.config_recipes[x].type in [1, 2]]
             recipes_id = random.choice(recipes_id_list)
             now_recipe_data = cache.recipe_data[recipes_id]
             cook_level = random.randint(1, 8)
@@ -289,7 +289,8 @@ def init_food_shop_data(update_restaurant_id: int = -2, new_day_flag: bool = Fal
             if cook_index >= max_people or cook_index >= 10:
                 break
 
-def get_character_cookable_recipes(character_id: int = 0, weight_flag = False) -> list[int]:
+
+def get_character_cookable_recipes(character_id: int = 0, weight_flag=False) -> list[int]:
     """
     获取角色可以制作的食物食谱列表
     Keyword arguments:
@@ -305,7 +306,7 @@ def get_character_cookable_recipes(character_id: int = 0, weight_flag = False) -
         if recipe.difficulty >= 100:
             continue
         # 无法制作的种类的菜谱直接跳过
-        if recipe.type in {4,5,9}:
+        if recipe.type in {4, 5, 9}:
             continue
         # 非玩家跳过咖啡
         if character_id != 0 and recipe.type in {8}:
@@ -322,6 +323,7 @@ def get_character_cookable_recipes(character_id: int = 0, weight_flag = False) -
         else:
             cookable_recipes_list.append(recipe_id)
     return cookable_recipes_list
+
 
 def init_makefood_data():
     """初始化玩家做饭区内的食物数据"""
@@ -403,7 +405,7 @@ def get_character_food_bag_type_list_buy_food_type(character_id: int, food_type:
     return food_list
 
 
-def get_food_list_from_food_shop(food_type: str, restaurant_id:int = -1) -> Dict[uuid.UUID, str]:
+def get_food_list_from_food_shop(food_type: str, restaurant_id: int = -1) -> Dict[uuid.UUID, str]:
     """
     获取餐馆内指定类型的食物种类
     Keyword arguments:
@@ -481,6 +483,7 @@ def get_cook_from_makefood_data_by_food_type(food_type: str) -> Dict[uuid.UUID, 
             food_list[food_id] = cache.recipe_data[int(food_id)].name
     return food_list
 
+
 def judge_accept_special_seasoning_food(character_id: int):
     """
     是否接受特殊调味的食物
@@ -491,14 +494,14 @@ def judge_accept_special_seasoning_food(character_id: int):
     """
     pl_character_data: game_type.Character = cache.character_data[0]
     target_data: game_type.Character = cache.character_data[character_id]
-    return_d100 = random.randint(1,100)
+    return_d100 = random.randint(1, 100)
     # 口才+厨艺的双重加成判定
-    accept_rate = pl_character_data.ability[40] *10 + pl_character_data.ability[43] * 10
-    accept_rate = max(accept_rate,5) # 保底5%几率
+    accept_rate = pl_character_data.ability[40] * 10 + pl_character_data.ability[43] * 10
+    accept_rate = max(accept_rate, 5)  # 保底5%几率
 
     # debug模式直接过
     # if cache.debug_mode:
-        # return 1
+    # return 1
     # 567异常则直接通过
     if handle_premise.handle_unnormal_567(character_id):
         return 1
@@ -513,13 +516,14 @@ def judge_accept_special_seasoning_food(character_id: int):
     # 其他特殊调味
     else:
         # 精液判定
-        if pl_character_data.behavior.food_seasoning in {11,12}:
+        if pl_character_data.behavior.food_seasoning in {11, 12}:
             # 精爱味觉或淫乱可以通过
             if target_data.talent[31] or target_data.talent[40]:
                 target_data.sp_flag.find_food_weird = 1
                 # 精爱味觉触发一次绝顶
                 if target_data.talent[31]:
                     from Script.Settle.default import base_chara_climix_common_settle
+
                     base_chara_climix_common_settle(character_id, 0)
                 return 1
             # 性无知会直接接受精液食物
@@ -530,7 +534,7 @@ def judge_accept_special_seasoning_food(character_id: int):
             # 精液_巧妙混合
             if pl_character_data.behavior.food_seasoning == 11:
                 # 3级爱情系或至少2级隶属系的话才接受
-                for talent_id in {203,204,212,213,214}:
+                for talent_id in {203, 204, 212, 213, 214}:
                     if target_data.talent[talent_id]:
                         target_data.sp_flag.find_food_weird = 1
                         return 1
@@ -544,7 +548,7 @@ def judge_accept_special_seasoning_food(character_id: int):
             # 精液_直接盖上
             elif pl_character_data.behavior.food_seasoning == 12:
                 # 4级爱情系或至少3级隶属系的话才接受
-                for talent_id in {204,213,214}:
+                for talent_id in {204, 213, 214}:
                     if target_data.talent[talent_id]:
                         target_data.sp_flag.find_food_weird = 1
                         return 1
@@ -587,7 +591,7 @@ def find_character_birthplace_restaurant(character_id: int) -> int:
         return 3
     # 龙门的选龙门食坊，其他炎国的选山城茶馆
     elif character_data.relationship.birthplace == 17:
-        if character_data.relationship.nation in [13,14,15]:
+        if character_data.relationship.nation in [13, 14, 15]:
             return 6
         return 1
     # 拉特兰的选瓦莱丽蛋糕店

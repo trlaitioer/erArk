@@ -3,7 +3,7 @@ from typing import Dict, List
 from types import FunctionType
 from uuid import UUID
 from Script.Core import cache_control, game_type, get_text, flow_handle, text_handle, constant, py_cmd
-from Script.Design import basement,character_handle, handle_premise, attr_calculation, clothing, map_handle
+from Script.Design import basement, character_handle, handle_premise, attr_calculation, clothing, map_handle
 from Script.UI.Moudle import draw, panel
 from Script.Config import game_config, normal_config
 
@@ -17,6 +17,7 @@ line_feed.text = "\n"
 line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
+
 
 class Debug_Panel:
     """
@@ -38,7 +39,7 @@ class Debug_Panel:
         """绘制对象"""
 
         title_text = "debug面板"
-        department_type_list = [_("常用更改"),_("全局变量"),_("NPC角色")]
+        department_type_list = [_("常用更改"), _("全局变量"), _("NPC角色")]
 
         title_draw = draw.TitleLineDraw(title_text, self.width)
 
@@ -108,13 +109,7 @@ class Debug_Panel:
 
                 for i in range(len(draw_text_list)):
 
-                    button_draw = draw.LeftButton(
-                        draw_text_list[i],
-                        f"\n{i}",
-                        self.width ,
-                        cmd_func=self.change_value,
-                        args=i
-                    )
+                    button_draw = draw.LeftButton(draw_text_list[i], f"\n{i}", self.width, cmd_func=self.change_value, args=i)
                     now_draw.draw_list.append(button_draw)
                     now_draw.width += len(button_draw.text)
                     now_draw.draw_list.append(line_feed)
@@ -123,7 +118,9 @@ class Debug_Panel:
             elif self.now_panel == "常用更改":
 
                 all_info_draw = draw.NormalDraw()
-                all_info_text = _("！！！特别注意事项！！！\n！debug前请一定要进行存档备份，不正确和过大的数值修改可能会出现数据超限、跳过中间值结算、数据类型错误和长度错误等问题\n！这些问题会导致游戏的部分结算和功能无法运行和使用，进而坏档\n！总之请一定要进行存档备份，存档数据很珍贵的，坏档了就太痛了\n！！！特别注意事项！！！\n\n")
+                all_info_text = _(
+                    "！！！特别注意事项！！！\n！debug前请一定要进行存档备份，不正确和过大的数值修改可能会出现数据超限、跳过中间值结算、数据类型错误和长度错误等问题\n！这些问题会导致游戏的部分结算和功能无法运行和使用，进而坏档\n！总之请一定要进行存档备份，存档数据很珍贵的，坏档了就太痛了\n！！！特别注意事项！！！\n\n"
+                )
                 all_info_text += _("玩家的各项属性")
                 all_info_draw.text = all_info_text
                 all_info_draw.width = self.width
@@ -154,16 +151,9 @@ class Debug_Panel:
                 draw_text_list.append(f"[016]:招募指定adv_id的干员")
                 draw_text_list.append(f"[017]:重置全角色娱乐")
 
-
                 for i in range(len(draw_text_list)):
 
-                    button_draw = draw.LeftButton(
-                        draw_text_list[i],
-                        f"\n{i}",
-                        self.width ,
-                        cmd_func=self.change_value,
-                        args=i
-                    )
+                    button_draw = draw.LeftButton(draw_text_list[i], f"\n{i}", self.width, cmd_func=self.change_value, args=i)
                     now_draw.draw_list.append(button_draw)
                     now_draw.width += len(button_draw.text)
                     now_draw.draw_list.append(line_feed)
@@ -191,13 +181,7 @@ class Debug_Panel:
                     target_data: game_type.Character = cache.character_data[NPC_id]
                     button_text = f"[{str(target_data.adv).rjust(4,'0')}]：{target_data.name}"
 
-                    button_draw = draw.LeftButton(
-                        button_text,
-                        f"\n{NPC_id}",
-                        self.width/6 ,
-                        cmd_func=self.change_target_character,
-                        args=NPC_id
-                    )
+                    button_draw = draw.LeftButton(button_text, f"\n{NPC_id}", self.width / 6, cmd_func=self.change_target_character, args=NPC_id)
                     now_draw.draw_list.append(button_draw)
                     now_draw.width += len(button_draw.text)
                     return_list.append(button_draw.return_text)
@@ -205,7 +189,6 @@ class Debug_Panel:
                     if npc_count % 6 == 0:
                         now_draw.draw_list.append(line_feed)
                 now_draw.draw_list.append(line_feed)
-
 
             self.draw_list: List[draw.NormalDraw] = []
             """ 绘制的文本列表 """
@@ -236,8 +219,7 @@ class Debug_Panel:
 
         self.now_panel = department_type
 
-
-    def change_target_character(self,NPC_id):
+    def change_target_character(self, NPC_id):
         """
         选择目标角色
         """
@@ -282,16 +264,9 @@ class Debug_Panel:
             draw_text_list.append(f"[020]:特殊flag（已实装）")
             draw_text_list.append(f"[021]:催眠（已实装）")
 
-
             for i in range(len(draw_text_list)):
 
-                button_draw = draw.LeftButton(
-                    draw_text_list[i],
-                    f"\n{i}",
-                    self.width ,
-                    cmd_func=self.change_target_value,
-                    args=i
-                )
+                button_draw = draw.LeftButton(draw_text_list[i], f"\n{i}", self.width, cmd_func=self.change_target_value, args=i)
                 now_draw.draw_list.append(button_draw)
                 now_draw.width += len(button_draw.text)
                 now_draw.draw_list.append(line_feed)
@@ -316,8 +291,7 @@ class Debug_Panel:
             if yrn == back_draw.return_text:
                 break
 
-
-    def change_value(self,key_index):
+    def change_value(self, key_index):
         """
         调整该变量的值
         """
@@ -330,7 +304,6 @@ class Debug_Panel:
             info_draw.width = self.width
             return_list = []
 
-
             if self.now_panel == "全局变量":
                 if key_index == 0:
                     info_text = f"[000]:游戏时间：{cache.game_time}      年月日分别为0,1,2"
@@ -341,7 +314,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -356,12 +329,11 @@ class Debug_Panel:
                         info_draw.draw()
                         continue
                     if value_index[1] == 0:
-                        cache.game_time = cache.game_time.replace(year = new_value)
+                        cache.game_time = cache.game_time.replace(year=new_value)
                     elif value_index[1] == 1:
-                        cache.game_time = cache.game_time.replace(month = new_value)
+                        cache.game_time = cache.game_time.replace(month=new_value)
                     elif value_index[1] == 2:
-                        cache.game_time = cache.game_time.replace(day = new_value)
-
+                        cache.game_time = cache.game_time.replace(day=new_value)
 
                 elif key_index == 1:
                     info_text = f"[001]:已拥有的干员id列表：\n"
@@ -381,7 +353,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入要改变第几号角色，以及这一项变成0或者1，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -542,7 +514,7 @@ class Debug_Panel:
                     cache.character_data[0].hunger_point = new_value
                 # 全源石技艺全开，理智9999
                 elif key_index == 8:
-                    for talent_id in {304,305,306,307,308,309,310,311,312,316,317,318,331,332,333,334}:
+                    for talent_id in {304, 305, 306, 307, 308, 309, 310, 311, 312, 316, 317, 318, 331, 332, 333, 334}:
                         cache.character_data[0].talent[talent_id] = 1
                         cache.character_data[0].sanity_point = 9999
                         cache.character_data[0].sanity_point_max = 9999
@@ -574,12 +546,12 @@ class Debug_Panel:
                     for chara_id in cache.npc_id_got:
                         character_data = cache.character_data[chara_id]
                         # 将字符串中的"01区"替换为"1区"
-                        character_data.dormitory = character_data.dormitory.replace("01区","1区")
+                        character_data.dormitory = character_data.dormitory.replace("01区", "1区")
                         character_data.position = map_handle.get_map_system_path_for_str(character_data.dormitory)
                 # 重置文职部的招募数据
                 elif key_index == 14:
                     for i in range(len(cache.rhodes_island.recruit_line)):
-                        cache.rhodes_island.recruit_line[i] = [0,0,set(),0]
+                        cache.rhodes_island.recruit_line[i] = [0, 0, set(), 0]
                     cache.rhodes_island.recruited_id = set()
                 # 交互对象全部位快感增加
                 elif key_index == 15:
@@ -594,6 +566,7 @@ class Debug_Panel:
                 # 招募指定adv_id的干员
                 elif key_index == 16:
                     from Script.Design import character
+
                     line_feed.draw()
                     change_value_panel = panel.AskForOneMessage()
                     change_value_panel.set(_("输入adv_id"), 100)
@@ -609,6 +582,7 @@ class Debug_Panel:
                 # 重置全角色娱乐
                 elif key_index == 17:
                     from Script.Design import handle_npc_ai
+
                     cache.npc_id_got.discard(0)
                     for chara_id in cache.npc_id_got:
                         handle_npc_ai.get_chara_entertainment(chara_id)
@@ -623,8 +597,7 @@ class Debug_Panel:
             #     break
             break
 
-
-    def change_target_value(self,key_index):
+    def change_target_value(self, key_index):
         """
         调整目标角色变量的值
         """
@@ -636,7 +609,7 @@ class Debug_Panel:
             line.draw()
 
             target_data: game_type.Character = cache.character_data[self.target_character_id]
-            name_draw,info_draw = draw.NormalDraw(),draw.NormalDraw()
+            name_draw, info_draw = draw.NormalDraw(), draw.NormalDraw()
             name_draw.text = f"[{str(target_data.adv).rjust(4,'0')}]：{target_data.name}\n\n"
             name_draw.width = self.width
             name_draw.draw()
@@ -677,7 +650,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -751,7 +724,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -785,7 +758,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -819,7 +792,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -854,7 +827,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -889,7 +862,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -924,7 +897,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -962,7 +935,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1017,7 +990,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1066,7 +1039,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1079,7 +1052,6 @@ class Debug_Panel:
                     # 接着刷新一遍显示新内容
                     change_draw_flag = False
                     continue
-
 
             # 娱乐数据
             elif key_index == 17:
@@ -1095,7 +1067,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变的项目，中间用英文小写逗号隔开。娱乐活动输入三个int；借还书则先输入0为删除1为增加，然后再输入书籍编号；可能性直接输入对应数字"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1113,7 +1085,6 @@ class Debug_Panel:
                     change_draw_flag = False
                     continue
 
-
             # 怀孕数据
             elif key_index == 18:
                 draw_text_list = []
@@ -1121,10 +1092,12 @@ class Debug_Panel:
                 reproduction_period = target_data.pregnancy.reproduction_period
                 now_reproduction_period_type = game_config.config_reproduction_period[reproduction_period].type
                 period_cid = f"生理期{now_reproduction_period_type}"
-                reproduction_text = game_config.ui_text_data['h_state'][period_cid]
+                reproduction_text = game_config.ui_text_data["h_state"][period_cid]
                 draw_text_list.append(f"[001]:生殖周期的第几天(0安全1普通2危险3排卵，0110232)：{target_data.pregnancy.reproduction_period},{reproduction_text}")
                 draw_text_list.append(f"[002]:开始受精的时间：{target_data.pregnancy.fertilization_time}      年月日分别为0,1,2")
-                draw_text_list.append(f"[003]:当前妊娠素质：0受精-{target_data.talent[20]}，1妊娠-{target_data.talent[21]}，2临盆-{target_data.talent[22]}，3产后-{target_data.talent[23]}，4育儿-{target_data.talent[24]}")
+                draw_text_list.append(
+                    f"[003]:当前妊娠素质：0受精-{target_data.talent[20]}，1妊娠-{target_data.talent[21]}，2临盆-{target_data.talent[22]}，3产后-{target_data.talent[23]}，4育儿-{target_data.talent[24]}"
+                )
                 draw_text_list.append(f"[004]:出生的时间：{target_data.pregnancy.born_time}      年月日分别为0,1,2")
                 draw_text_list.append(f"[005]:一键触发生产事件")
                 draw_text_list.append(f"[006]:一键触发育儿+育儿完成事件")
@@ -1143,7 +1116,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变第几项，如果是带子项的项的话，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1162,13 +1135,13 @@ class Debug_Panel:
                         target_data.talent[22] = 1
                         target_data.pregnancy.fertilization_time = cache.game_time
                         new_year = target_data.pregnancy.fertilization_time.year - 1
-                        target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(year = new_year)
+                        target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(year=new_year)
                     elif value_index == 6:
 
                         child_id = target_data.relationship.child_id_list[-1]
                         child_character_data: game_type.Character = cache.character_data[child_id]
                         new_year = child_character_data.pregnancy.born_time.year - 1
-                        child_character_data.pregnancy.born_time = child_character_data.pregnancy.born_time.replace(year = new_year)
+                        child_character_data.pregnancy.born_time = child_character_data.pregnancy.born_time.replace(year=new_year)
                     elif value_index == 7:
                         target_data.pregnancy.milk = new_value
                     elif value_index == 8:
@@ -1179,11 +1152,11 @@ class Debug_Panel:
                             info_draw.draw()
                             continue
                         if value_index[1] == 0:
-                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(year = new_value)
+                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(year=new_value)
                         elif value_index[1] == 1:
-                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(month = new_value)
+                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(month=new_value)
                         elif value_index[1] == 2:
-                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(day = new_value)
+                            target_data.pregnancy.fertilization_time = target_data.pregnancy.fertilization_time.replace(day=new_value)
                     elif value_index[0] == 3:
                         if len(value_index) == 1:
                             info_draw.text = "\n输出格式错误，请重试\n"
@@ -1197,11 +1170,11 @@ class Debug_Panel:
                             info_draw.draw()
                             continue
                         if value_index[1] == 0:
-                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(year = new_value)
+                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(year=new_value)
                         elif value_index[1] == 1:
-                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(month = new_value)
+                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(month=new_value)
                         elif value_index[1] == 2:
-                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(day = new_value)
+                            target_data.pregnancy.born_time = target_data.pregnancy.born_time.replace(day=new_value)
 
                     # 接着刷新一遍显示新内容
                     change_draw_flag = False
@@ -1221,7 +1194,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变的项目，如果是列表则输入要改变第几号数据，以及这一项变成0或者1，中间用英文小写逗号隔开。列表的内容元素0为删除1为增加"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         value_index = int(value_index)
@@ -1238,7 +1211,6 @@ class Debug_Panel:
                     # 接着刷新一遍显示新内容
                     change_draw_flag = False
                     continue
-
 
             # 特殊flag数据
             elif key_index == 20:
@@ -1284,7 +1256,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变的项目，如果是列表则输入要改变第几号数据，以及这一项变成几，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         info_draw.text = "\n输出格式错误，请重试\n"
@@ -1361,7 +1333,7 @@ class Debug_Panel:
                     value_index_panel = panel.AskForOneMessage()
                     value_index_panel.set(_("输入改变的项目，如果是列表则输入要改变第几号数据，以及这一项变成几，中间用英文小写逗号隔开"), 100)
                     value_index = value_index_panel.draw()
-                    if "," in value_index: # 转成全int的list
+                    if "," in value_index:  # 转成全int的list
                         value_index = list(map(int, value_index.split(",")))
                     else:
                         info_draw.text = "\n输出格式错误，请重试\n"
@@ -1384,9 +1356,9 @@ class Debug_Panel:
                     continue
 
             line_feed.draw()
-            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width/2)
+            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width / 2)
             back_draw.draw()
-            again_draw = draw.CenterButton(_("[继续修改]"), _("继续修改"), window_width/2)
+            again_draw = draw.CenterButton(_("[继续修改]"), _("继续修改"), window_width / 2)
             again_draw.draw()
             return_list.append(again_draw.return_text)
             line_feed.draw()
@@ -1410,9 +1382,7 @@ class ChangeWorkButtonList:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.NPC_id: int = NPC_id
@@ -1434,15 +1404,12 @@ class ChangeWorkButtonList:
 
         # 按钮绘制
 
-        name_draw = draw.CenterButton(
-            button_text, self.button_return, self.width, cmd_func=self.button_0
-        )
+        name_draw = draw.CenterButton(button_text, self.button_return, self.width, cmd_func=self.button_0)
         self.now_draw = name_draw
         self.draw_text = button_text
 
         """ 绘制的对象 """
         self.now_draw = name_draw
-
 
     def button_0(self):
         """选项1"""
@@ -1479,11 +1446,7 @@ class ChangeWorkButtonList:
                     work_describe = game_config.config_work_type[cid].describe
 
                     button_draw = draw.LeftButton(
-                        f"[{str(work_cid).rjust(3,'0')}]{work_name}({work_place})：{work_describe}",
-                        f"\n{work_cid}",
-                        window_width ,
-                        cmd_func=self.select_new_work,
-                        args=work_cid
+                        f"[{str(work_cid).rjust(3,'0')}]{work_name}({work_place})：{work_describe}", f"\n{work_cid}", window_width, cmd_func=self.select_new_work, args=work_cid
                     )
                     button_draw.draw()
                     return_list.append(button_draw.return_text)
@@ -1502,7 +1465,7 @@ class ChangeWorkButtonList:
         """绘制对象"""
         self.now_draw.draw()
 
-    def select_new_work(self,work_id: int):
+    def select_new_work(self, work_id: int):
         """赋予新的工作id"""
         target_data: game_type.Character = cache.character_data[self.NPC_id]
         target_data.work.work_type = work_id

@@ -41,7 +41,7 @@ class Resource_Exchange_Line_Panel:
         title_draw = draw.TitleLineDraw(title_text, self.width)
 
         self.now_select_resouce_id = 11
-        self.buy_or_sell_flag = True # True为买入，False为卖出
+        self.buy_or_sell_flag = True  # True为买入，False为卖出
         self.quantity_of_resouce = 0
 
         while 1:
@@ -54,7 +54,7 @@ class Resource_Exchange_Line_Panel:
             money = cache.rhodes_island.materials_resouce[1]
             now_text += _("\n  当前龙门币数量    ：{0}").format(money)
 
-            resouce_data  = game_config.config_resouce[self.now_select_resouce_id]
+            resouce_data = game_config.config_resouce[self.now_select_resouce_id]
             now_resouce_stock = cache.rhodes_island.materials_resouce[self.now_select_resouce_id]
             warehouse_capacity = cache.rhodes_island.warehouse_capacity
             now_text += _("\n\n  要交易的资源为    ：{0}({1}/{2})    ").format(resouce_data.name, now_resouce_stock, warehouse_capacity)
@@ -74,7 +74,7 @@ class Resource_Exchange_Line_Panel:
                 _("{0}").format(button_text),
                 len(button_text) * 2,
                 cmd_func=self.select_exchange_resouce,
-                )
+            )
             return_list.append(button_draw.return_text)
             button_draw.draw()
 
@@ -82,15 +82,15 @@ class Resource_Exchange_Line_Panel:
             all_info_draw.draw()
 
             # 绘制数量变更按钮
-            button_text_list = [" [-1000] "," [-100] ", " [-10] ", " [-1] ", " [+1] ", " [+10] ", " [+100] ", " [+1000] "]
+            button_text_list = [" [-1000] ", " [-100] ", " [-10] ", " [-1] ", " [+1] ", " [+10] ", " [+100] ", " [+1000] "]
             for button_text in button_text_list:
                 button_draw = draw.CenterButton(
                     _(button_text),
                     _("{0}").format(button_text),
                     len(button_text) * 2,
                     cmd_func=self.settle_quantity,
-                    args=(button_text, ),
-                    )
+                    args=(button_text,),
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
 
@@ -100,7 +100,7 @@ class Resource_Exchange_Line_Panel:
                 _("{0}").format(button_text),
                 len(button_text) * 2,
                 cmd_func=self.reset_quantity,
-                )
+            )
             return_list.append(button_draw.return_text)
             button_draw.draw()
 
@@ -122,7 +122,7 @@ class Resource_Exchange_Line_Panel:
                 _("{0}").format(button_text),
                 len(button_text) * 2,
                 cmd_func=self.settle_buy_or_sell,
-                )
+            )
             return_list.append(button_draw.return_text)
             button_draw.draw()
 
@@ -152,16 +152,16 @@ class Resource_Exchange_Line_Panel:
             # 买入，但是该资源不可买入
             # 卖出，且资源不足
             if (
-                (self.buy_or_sell_flag and price * self.quantity_of_resouce > money) or 
-                (self.buy_or_sell_flag and cant_buy_flag) or
-                (not self.buy_or_sell_flag and self.quantity_of_resouce > now_resouce_stock)
-                ):
+                (self.buy_or_sell_flag and price * self.quantity_of_resouce > money)
+                or (self.buy_or_sell_flag and cant_buy_flag)
+                or (not self.buy_or_sell_flag and self.quantity_of_resouce > now_resouce_stock)
+            ):
                 pass
             else:
-                yes_draw = draw.CenterButton(_("[确定]"), _("确定"), window_width/2)
+                yes_draw = draw.CenterButton(_("[确定]"), _("确定"), window_width / 2)
                 yes_draw.draw()
                 return_list.append(yes_draw.return_text)
-            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width/2)
+            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width / 2)
             back_draw.draw()
             line_feed.draw()
             return_list.append(back_draw.return_text)
@@ -178,90 +178,79 @@ class Resource_Exchange_Line_Panel:
                     cache.rhodes_island.materials_resouce[1] += price * self.quantity_of_resouce
                 break
 
-
     def select_exchange_resouce(self):
         """选择交易资源"""
         while 1:
 
-                line = draw.LineDraw("-", window_width)
-                line.draw()
+            line = draw.LineDraw("-", window_width)
+            line.draw()
+            line_feed.draw()
+            info_draw = draw.NormalDraw()
+            info_draw.width = window_width
+            return_list = []
+
+            resouce_now_data = game_config.config_resouce[self.now_select_resouce_id]
+
+            info_text = _("当前的交易资源为：{0}").format(resouce_now_data.name)
+            info_text += _("\n当前可以交易的资源有：\n")
+            info_draw.text = info_text
+            info_draw.draw()
+            line_feed.draw()
+
+            # 遍历全资源类型
+            resouce_list = [_("材料"), _("药剂"), _("乳制品"), _("香水"), _("特产")]
+            for resouce_type in resouce_list:
+
+                # 判断是否显示该类型的资源
+                if self.show_resource_type_dict[resouce_type]:
+                    draw_text = f" ▼[{resouce_type}]"
+                else:
+                    draw_text = f" ▶[{resouce_type}]"
+                button_draw = draw.LeftButton(f"{draw_text}", f"{resouce_type}", len(draw_text) * 2, cmd_func=self.settle_show_resource_type, args=(resouce_type))
+                button_draw.draw()
+                return_list.append(button_draw.return_text)
                 line_feed.draw()
-                info_draw = draw.NormalDraw()
-                info_draw.width = window_width
-                return_list = []
 
-                resouce_now_data = game_config.config_resouce[self.now_select_resouce_id]
+                # 遍历该类型的资源
+                if not self.show_resource_type_dict[resouce_type]:
+                    continue
+                for resouce_id in game_config.config_resouce:
+                    resouce_data = game_config.config_resouce[resouce_id]
+                    if resouce_data.type == resouce_type:
+                        # 特产商品仅在当地可以买入，其他地方只能卖出
+                        if resouce_data.type == "特产":
+                            if cache.rhodes_island.materials_resouce[resouce_id] == 0 and resouce_data.specialty != cache.rhodes_island.current_location[0]:
+                                continue
+                        button_draw = draw.LeftButton(
+                            f" [{str(resouce_id).rjust(3,'0')}]{resouce_data.name}：{resouce_data.info}", f"\n{resouce_id}", window_width, cmd_func=self.settle_now_select_resouce_id, args=(resouce_id)
+                        )
+                        button_draw.draw()
+                        return_list.append(button_draw.return_text)
 
-                info_text = _("当前的交易资源为：{0}").format(resouce_now_data.name)
-                info_text += _("\n当前可以交易的资源有：\n")
-                info_draw.text = info_text
-                info_draw.draw()
-                line_feed.draw()
+                        now_text = _("\n      当前存量：{0}/{1}").format(cache.rhodes_island.materials_resouce[resouce_id], cache.rhodes_island.warehouse_capacity)
+                        # 判断是否可以买入卖出
+                        if resouce_data.cant_buy == 0:
+                            now_text += _("   买入:{0}龙门币/1单位").format(int(resouce_data.price * 1.2))
+                        if resouce_data.type == "特产" and cache.rhodes_island.current_location[0] != resouce_data.specialty:
+                            now_text += _("   卖出:{0}龙门币/1单位\n").format(int(resouce_data.price * 1.5))
+                        else:
+                            now_text += _("   卖出:{0}龙门币/1单位\n").format(int(resouce_data.price * 0.8))
+                        info_draw.text = now_text
+                        info_draw.draw()
 
-                # 遍历全资源类型
-                resouce_list = [_("材料"), _("药剂"), _("乳制品"), _("香水"), _("特产")]
-                for resouce_type in resouce_list:
-
-                    # 判断是否显示该类型的资源
-                    if self.show_resource_type_dict[resouce_type]:
-                        draw_text = f" ▼[{resouce_type}]"
-                    else:
-                        draw_text = f" ▶[{resouce_type}]"
-                    button_draw = draw.LeftButton(
-                    f"{draw_text}",
-                    f"{resouce_type}",
-                    len(draw_text) * 2,
-                    cmd_func=self.settle_show_resource_type,
-                    args=(resouce_type)
-                    )
-                    button_draw.draw()
-                    return_list.append(button_draw.return_text)
-                    line_feed.draw()
-
-                    # 遍历该类型的资源
-                    if not self.show_resource_type_dict[resouce_type]:
-                        continue
-                    for resouce_id in game_config.config_resouce:
-                        resouce_data  = game_config.config_resouce[resouce_id]
-                        if resouce_data.type == resouce_type:
-                            # 特产商品仅在当地可以买入，其他地方只能卖出
-                            if resouce_data.type == "特产":
-                                if cache.rhodes_island.materials_resouce[resouce_id] == 0 and resouce_data.specialty != cache.rhodes_island.current_location[0]:
-                                    continue
-                            button_draw = draw.LeftButton(
-                            f" [{str(resouce_id).rjust(3,'0')}]{resouce_data.name}：{resouce_data.info}",
-                            f"\n{resouce_id}",
-                            window_width ,
-                            cmd_func=self.settle_now_select_resouce_id,
-                            args=(resouce_id)
-                            )
-                            button_draw.draw()
-                            return_list.append(button_draw.return_text)
-
-                            now_text = _("\n      当前存量：{0}/{1}").format(cache.rhodes_island.materials_resouce[resouce_id], cache.rhodes_island.warehouse_capacity)
-                            # 判断是否可以买入卖出
-                            if resouce_data.cant_buy == 0:
-                                now_text += _("   买入:{0}龙门币/1单位").format(int(resouce_data.price * 1.2))
-                            if resouce_data.type == "特产" and cache.rhodes_island.current_location[0] != resouce_data.specialty:
-                                now_text += _("   卖出:{0}龙门币/1单位\n").format(int(resouce_data.price * 1.5))
-                            else:
-                                now_text += _("   卖出:{0}龙门币/1单位\n").format(int(resouce_data.price * 0.8))
-                            info_draw.text = now_text
-                            info_draw.draw()
-
-                line_feed.draw()
-                back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
-                back_draw.draw()
-                line_feed.draw()
-                return_list.append(back_draw.return_text)
-                yrn = flow_handle.askfor_all(return_list)
-                if yrn in return_list and yrn not in resouce_list:
-                    break
+            line_feed.draw()
+            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
+            back_draw.draw()
+            line_feed.draw()
+            return_list.append(back_draw.return_text)
+            yrn = flow_handle.askfor_all(return_list)
+            if yrn in return_list and yrn not in resouce_list:
+                break
 
     def settle_now_select_resouce_id(self, resouce_id):
         """结算要交易的资源"""
         self.now_select_resouce_id = resouce_id
-        resouce_data  = game_config.config_resouce[self.now_select_resouce_id]
+        resouce_data = game_config.config_resouce[self.now_select_resouce_id]
         # 默认变成买入，不可买入的则变成卖出
         if self.now_select_resouce_id == 12 or resouce_data.type == "药剂":
             self.buy_or_sell_flag = False
@@ -288,7 +277,9 @@ class Resource_Exchange_Line_Panel:
         if self.quantity_of_resouce < 0:
             self.quantity_of_resouce = 0
 
-    def reset_quantity(self,):
+    def reset_quantity(
+        self,
+    ):
         """重置资源交易数量"""
         self.quantity_of_resouce = 0
 

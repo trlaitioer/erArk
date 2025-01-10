@@ -37,12 +37,11 @@ class Instruct_filter_Panel:
         self.handle_panel = panel.PageHandlePanel([], HandleFilterButtonList, 999, 8, self.width, 1, 1, 0)
 
         instruct_index_list = []
-        
+
         for now_type in cache.instruct_type_filter:
             if now_type != constant.InstructType.SYSTEM:
                 for instruct in constant.instruct_type_data[now_type]:
                     instruct_index_list.append(instruct)
-
 
         while 1:
             py_cmd.clr_cmd()
@@ -64,6 +63,7 @@ class Instruct_filter_Panel:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 
+
 class HandleFilterButtonList:
     """
     点击后可调整指令过滤的按钮对象
@@ -75,9 +75,7 @@ class HandleFilterButtonList:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, index: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, index: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.index: int = index
@@ -103,9 +101,7 @@ class HandleFilterButtonList:
             cache.instruct_index_filter[self.index] = 1
         text_style = "standard" if cache.instruct_index_filter[self.index] else "deep_gray"
 
-        name_draw = draw.LeftButton(
-            button_text, self.button_return, self.width, normal_style = text_style, cmd_func=self.chose_button
-        )
+        name_draw = draw.LeftButton(button_text, self.button_return, self.width, normal_style=text_style, cmd_func=self.chose_button)
         self.button_return = index
         self.now_draw = name_draw
         self.draw_text = button_text

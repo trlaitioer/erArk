@@ -1,24 +1,11 @@
-from PySide6.QtWidgets import (
-    QHBoxLayout,
-    QDialog,
-    QTreeWidget,
-    QTreeWidgetItem,
-    QAbstractItemView,
-    QVBoxLayout,
-    QTextEdit,
-    QPushButton,
-    QLabel,
-    QMenu,
-    QComboBox,
-    QMenuBar,
-    QWidgetAction
-)
+from PySide6.QtWidgets import QHBoxLayout, QDialog, QTreeWidget, QTreeWidgetItem, QAbstractItemView, QVBoxLayout, QTextEdit, QPushButton, QLabel, QMenu, QComboBox, QMenuBar, QWidgetAction
 from PySide6.QtGui import QFont, Qt, QActionGroup
 import cache_control
 
 font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
+
 
 class TreeItem(QTreeWidgetItem):
     """树选框对象"""
@@ -39,7 +26,7 @@ class EffectMenu(QDialog):
         self.setWindowTitle(cache_control.now_event_data[cache_control.now_select_id].text)
         self.font = font
         self.layout: QVBoxLayout = QVBoxLayout()
-        self.resize(1000,1000)
+        self.resize(1000, 1000)
         # 增加一个搜索框，确定键，重置键，三个合在一起，放在最上面作为一个横向的搜索栏
         self.search_text = QTextEdit()
         self.search_text.setFont(self.font)
@@ -60,7 +47,7 @@ class EffectMenu(QDialog):
         all_type_list = sorted([k for k in cache_control.effect_type_data.keys() if k is not None])
         range_index = int(len(all_type_list) / 2) + 1
         range_a = all_type_list[:range_index]
-        range_b = all_type_list[range_index :]
+        range_b = all_type_list[range_index:]
         range_list = [range_a, range_b]
         index = 1
         self.tree_list = []
@@ -82,7 +69,7 @@ class EffectMenu(QDialog):
                     effect_node = TreeItem(now_root)
                     effect_node.cid = effect
                     effect_node.setText(0, cache_control.effect_data[effect])
-                    effect_node.setToolTip(0,effect_node.text(0))
+                    effect_node.setToolTip(0, effect_node.text(0))
                     if effect in cache_control.now_event_data[cache_control.now_select_id].effect:
                         effect_node.setCheckState(0, Qt.Checked)
                     else:
@@ -153,7 +140,7 @@ class CVEMenu(QDialog):
         self.font = font
         self.layout: QVBoxLayout = QVBoxLayout()
         self.ABCD_button_layout = QHBoxLayout()
-        self.resize(1000,50)
+        self.resize(1000, 50)
 
         # 一段说明文字，用来介绍各个功能，位置在最上面的第一行
         self.cve_text = QLabel("用于实现数值方面的综合型万用结算")
@@ -370,7 +357,9 @@ class CVEMenu(QDialog):
             # b2提供一个文本框，用来输入flag的编号，最多支持10个flag
             for i in range(50):
                 self.cve_b2.addItem(str(i))
-            self.cve_text.setText("口上用flag是用来实现供口上作者自定义的数据变量，可以用来实现一些特殊的前提\n口上用flag的数据类型为int，默认值为0，最多支持50个flag（即编号为0~49）\n口上用flag无法独立使用，需要用编辑器的事件中的结算来进行修改\n如【用flag0来记录触发某个指令或某句口上的次数】，【用flag1来记录自己设定的某种攻略的阶段】，【用flag2来衡量自己设定的角色对玩家的某种感情】等等")
+            self.cve_text.setText(
+                "口上用flag是用来实现供口上作者自定义的数据变量，可以用来实现一些特殊的前提\n口上用flag的数据类型为int，默认值为0，最多支持50个flag（即编号为0~49）\n口上用flag无法独立使用，需要用编辑器的事件中的结算来进行修改\n如【用flag0来记录触发某个指令或某句口上的次数】，【用flag1来记录自己设定的某种攻略的阶段】，【用flag2来衡量自己设定的角色对玩家的某种感情】等等"
+            )
         elif index == 9:
             self.cve_b2.clear()
             for organ_id, organ_name in cache_control.organ_data.items():
@@ -379,7 +368,9 @@ class CVEMenu(QDialog):
             self.cve_c.clear()
             self.cve_c.addItems(["增加", "变为"])
             self.cve_c.setCurrentIndex(0)
-            self.cve_text.setText("触发一次该部位的绝顶，0为小绝顶，1为普绝顶，2为强绝顶。\n选择[增加]时，效果为从小绝顶开始，同时触发多次不同强度的绝顶，如增加 1 即为同时触发0小绝顶和1普绝顶，以此类推\n选择[变为]则变为哪个就触发哪个，如变为 2 即为触发强绝顶")
+            self.cve_text.setText(
+                "触发一次该部位的绝顶，0为小绝顶，1为普绝顶，2为强绝顶。\n选择[增加]时，效果为从小绝顶开始，同时触发多次不同强度的绝顶，如增加 1 即为同时触发0小绝顶和1普绝顶，以此类推\n选择[变为]则变为哪个就触发哪个，如变为 2 即为触发强绝顶"
+            )
         elif index == 10:
             self.cve_a.setVisible(False)
             self.cve_b2.clear()
@@ -388,7 +379,9 @@ class CVEMenu(QDialog):
             self.cve_c.clear()
             self.cve_c.addItems(["变为"])
             self.cve_c.setCurrentIndex(0)
-            self.cve_text.setText("嵌套父事件，用于在事件编辑中展开多层嵌套父子事件\n\n①如果仅需要单层的父子选项事件请使用[整体修改]-[系统量]-[基础]\n②本前提需要配合[综合数值前提]中的[嵌套子事件]使用\n③同数字的父事件会展开同数字的子事件，如，序号0的嵌套父事件会检索序号0的嵌套子事件，以此类推\n\n例子：父事件A1（嵌套父事件=0）\n  一级子事件B1（嵌套子事件=0↔A1，嵌套父事件=1）、B2（嵌套子事件=0↔A1，嵌套父事件=2）\n  二级子事件C1（嵌套子事件=1↔B1），C2（嵌套子事件=1↔B1），C3（嵌套子事件=2↔B2），C4（嵌套子事件=2↔B2）\n")
+            self.cve_text.setText(
+                "嵌套父事件，用于在事件编辑中展开多层嵌套父子事件\n\n①如果仅需要单层的父子选项事件请使用[整体修改]-[系统量]-[基础]\n②本前提需要配合[综合数值前提]中的[嵌套子事件]使用\n③同数字的父事件会展开同数字的子事件，如，序号0的嵌套父事件会检索序号0的嵌套子事件，以此类推\n\n例子：父事件A1（嵌套父事件=0）\n  一级子事件B1（嵌套子事件=0↔A1，嵌套父事件=1）、B2（嵌套子事件=0↔A1，嵌套父事件=2）\n  二级子事件C1（嵌套子事件=1↔B1），C2（嵌套子事件=1↔B1），C3（嵌套子事件=2↔B2），C4（嵌套子事件=2↔B2）\n"
+            )
         elif index == 11:
             self.cve_a.clear()
             self.cve_a.addItems(["角色id为"])
@@ -396,7 +389,9 @@ class CVEMenu(QDialog):
             self.cve_b2.setVisible(False)
             self.cve_c.setVisible(False)
             self.cve_d.setVisible(False)
-            self.cve_text.setText("选择当前场景中的指定id的角色作为自己的交互对象\n\n需要搭配综合数值前提中的，当前场景中有特定id的角色存在，的前提一同使用，当前场景中没有该id角色时会无法起效\n当有多个结算时，本结算需要放到第一个，以便第一个执行\n玩家的id固定为0")
+            self.cve_text.setText(
+                "选择当前场景中的指定id的角色作为自己的交互对象\n\n需要搭配综合数值前提中的，当前场景中有特定id的角色存在，的前提一同使用，当前场景中没有该id角色时会无法起效\n当有多个结算时，本结算需要放到第一个，以便第一个执行\n玩家的id固定为0"
+            )
 
         self.cve_b = self.cve_b2
 
@@ -414,7 +409,7 @@ class CSEMenu(QDialog):
         self.font = font
         self.layout: QVBoxLayout = QVBoxLayout()
         self.ABCD_button_layout = QHBoxLayout()
-        self.resize(1000,50)
+        self.resize(1000, 50)
 
         # 一段说明文字，用来介绍各个功能，位置在最上面的第一行
         self.cse_text = QLabel("用于实现指令状态方面的综合型万用结算，目前仅支持触发玩家的指令")
@@ -513,7 +508,6 @@ class CSEMenu(QDialog):
                 status_menu.setFont(self.font)
             self.status_menu.addMenu(status_menu)
         status_group.triggered.connect(self.change_status_menu)
-
 
     def ok(self):
         """点击确定按钮"""

@@ -86,9 +86,7 @@ class SeeMapPanel:
                 line_feed.draw()
                 line_feed.draw()
             now_draw_list: game_type.MapDraw = map_data.map_draw
-            character_scene_name = map_handle.get_map_scene_id_for_scene_path(
-                self.now_map, character_data.position
-            )
+            character_scene_name = map_handle.get_map_scene_id_for_scene_path(self.now_map, character_data.position)
             # print(f"debug self.now_map = {self.now_map}, map_path_str = {map_path_str}，map_name = {map_name}, character_data.position = {character_data.position}, character_scene_id = {character_scene_name}")
             return_list = []
             index = 0
@@ -107,9 +105,7 @@ class SeeMapPanel:
                     if "is_button" in draw_text.__dict__ and draw_text.is_button:
 
                         # 获取地点路径
-                        scene_path = map_handle.get_scene_path_for_map_scene_id(
-                            self.now_map, draw_text.text
-                        )
+                        scene_path = map_handle.get_scene_path_for_map_scene_id(self.now_map, draw_text.text)
                         full_scene_str = map_handle.get_map_system_path_str_for_list(scene_path)
                         # print(f"debug scene_path = {scene_path}，draw_text.text = {draw_text.text}, full_scene_str = {full_scene_str}")
 
@@ -117,17 +113,13 @@ class SeeMapPanel:
                         if draw_text.text != character_scene_name:
                             # 如果当前地点可以进入则正常绘制
                             if map_handle.judge_scene_accessible(full_scene_str, 0, False) == "open":
-                                now_draw = draw.Button(
-                                    draw_text.text, draw_text.text, cmd_func=self.move_now, args=(scene_path,)
-                                )
+                                now_draw = draw.Button(draw_text.text, draw_text.text, cmd_func=self.move_now, args=(scene_path,))
                                 # 如果是有NPC在那么显示为绿色
                                 if len(cache.scene_data[full_scene_str].character_list):
                                     now_draw.normal_style = "green"
                             # 如果当前地点不可进入则绘制灰色按钮
                             else:
-                                now_draw = draw.Button(
-                                    draw_text.text, draw_text.text,normal_style="deep_gray", cmd_func=self.move_now, args=(scene_path,)
-                                )
+                                now_draw = draw.Button(draw_text.text, draw_text.text, normal_style="deep_gray", cmd_func=self.move_now, args=(scene_path,))
                             now_draw.width = self.width
                             now_draw.draw()
                             return_list.append(now_draw.return_text)
@@ -197,9 +189,7 @@ class SeeMapPanel:
             if self.now_map != []:
                 now_id = text_handle.id_index(now_index)
                 now_text = now_id + _("查看上级地图")
-                up_button = draw.CenterButton(
-                    now_text, str(now_index), self.width / 3, cmd_func=self.up_map
-                )
+                up_button = draw.CenterButton(now_text, str(now_index), self.width / 3, cmd_func=self.up_map)
                 up_button.draw()
                 return_list.append(up_button.return_text)
                 now_index += 1
@@ -218,9 +208,7 @@ class SeeMapPanel:
             if character_map != self.now_map:
                 now_id = text_handle.id_index(now_index)
                 now_text = now_id + _("查看下级地图")
-                down_button = draw.CenterButton(
-                    now_text, str(now_index), self.width / 3, cmd_func=self.down_map
-                )
+                down_button = draw.CenterButton(now_text, str(now_index), self.width / 3, cmd_func=self.down_map)
                 down_button.draw()
                 return_list.append(down_button.return_text)
             line_feed.draw()
@@ -263,6 +251,7 @@ class SeeMapPanel:
             cache.now_panel_id = constant.Panel.SEE_MAP
             self.down_map()
 
+
 class MoveMenuPanel:
     """
     快捷移动菜单面板
@@ -280,9 +269,7 @@ class MoveMenuPanel:
         """ 当前的移动菜单类型 """
         self.draw_list: List[draw.NormalDraw] = []
         """ 绘制的对象列表 """
-        self.move_type_id_data: Dict[str, int] = {
-            game_config.config_move_menu_type[i].name: i for i in game_config.config_move_menu_type
-        }
+        self.move_type_id_data: Dict[str, int] = {game_config.config_move_menu_type[i].name: i for i in game_config.config_move_menu_type}
         """ 移动类型名字对应配表id """
 
     def update(self):
@@ -292,9 +279,7 @@ class MoveMenuPanel:
         self.return_list = []
         self.draw_list.append(line)
         menu_draw = panel.CenterDrawButtonListPanel()
-        move_name_list = [
-            game_config.config_move_menu_type[i].name for i in game_config.config_move_menu_type
-        ]
+        move_name_list = [game_config.config_move_menu_type[i].name for i in game_config.config_move_menu_type]
         move_name_draw_list = [f"[{name}]" for name in move_name_list]
         menu_draw.set(
             move_name_draw_list,
@@ -360,9 +345,7 @@ class MapSceneNameDraw:
         scene_id_list = list(path_edge.keys())
         if len(scene_id_list):
             character_data: game_type.Character = cache.character_data[0]
-            character_scene_id = map_handle.get_map_scene_id_for_scene_path(
-                self.now_map, character_data.position
-            )
+            character_scene_id = map_handle.get_map_scene_id_for_scene_path(self.now_map, character_data.position)
             scene_path = path_edge[character_scene_id].copy()
             if character_scene_id in scene_path:
                 del scene_path[character_scene_id]
@@ -373,7 +356,7 @@ class MapSceneNameDraw:
 
                 # now_id_text = f"{scene_id}:{load_scene_data.scene_name}"
                 # 如果编号=0的话为出口，单独标注，其他的不标注序号
-                if scene_id == '0':
+                if scene_id == "0":
                     now_id_text = f"→0:{_(load_scene_data.scene_name)}"
                 else:
                     now_id_text = f"→{_(load_scene_data.scene_name)}"
@@ -390,9 +373,7 @@ class MapSceneNameDraw:
                     now_draw.width = self.width
                     now_draw.style = "gold_enrod"
                 else:
-                    now_draw = draw.LeftButton(
-                        now_id_text, now_id_text, self.width, cmd_func=self.move_now, args=(now_scene_path,)
-                    )
+                    now_draw = draw.LeftButton(now_id_text, now_id_text, self.width, cmd_func=self.move_now, args=(now_scene_path,))
                     self.return_list.append(now_draw.return_text)
                 draw_list.append(now_draw)
             draw_group = value_handle.list_of_groups(draw_list, 8)
@@ -437,9 +418,7 @@ class UsefulSceneNamePanel:
         """ 当前面板的按钮返回 """
         self.end_index: int = 0
         """ 结束按钮id """
-        self.handle_panel = panel.PageHandlePanel(
-            self.get_path_list(), ScenePathNameMoveDraw, 20, 3, self.width, 1
-        )
+        self.handle_panel = panel.PageHandlePanel(self.get_path_list(), ScenePathNameMoveDraw, 20, 3, self.width, 1)
         self.end_index = self.handle_panel.end_index
 
     def get_path_list(self) -> list:
@@ -722,9 +701,7 @@ class CollectionSceneNamePanel:
                     collect_scene_name_draw.width = self.width
                     collect_scene_name_draw.style = "gold_enrod"
                 else:
-                    collect_scene_name_draw = draw.LeftButton(
-                        _(draw_text), draw_text, self.width, cmd_func=self.move_now, args=(collect_position,)
-                    )
+                    collect_scene_name_draw = draw.LeftButton(_(draw_text), draw_text, self.width, cmd_func=self.move_now, args=(collect_position,))
                     self.return_list.append(collect_scene_name_draw.return_text)
                 draw_list.append(collect_scene_name_draw)
 
@@ -751,4 +728,3 @@ class CollectionSceneNamePanel:
         line_feed.draw()
         cache.wframe_mouse.w_frame_skip_wait_mouse = 1
         character_move.own_charcter_move(scene_path)
-

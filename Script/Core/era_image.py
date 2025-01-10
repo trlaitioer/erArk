@@ -11,6 +11,7 @@ cache: game_type.Cache = cache_control.cache
 """ 游戏缓存数据 """
 image_dir_path = os.path.join("image")
 
+
 def load_images_from_directory(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:
@@ -32,5 +33,6 @@ def load_images_from_directory(directory):
                     if character_name not in image_data_index_by_chara:
                         image_data_index_by_chara[character_name] = []
                     image_data_index_by_chara[character_name].append(image_file_name)
+
 
 load_images_from_directory(image_dir_path)

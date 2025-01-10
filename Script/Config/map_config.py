@@ -20,12 +20,7 @@ all_map_data_path = os.path.join("data", "MapData")
 
 def init_map_data():
     """载入地图和场景数据"""
-    if (
-        os.path.exists(all_scene_data_path)
-        and os.path.exists(all_map_data_path)
-        and os.path.exists(all_place_data_path)
-        and os.path.exists(scene_path_edge_path)
-    ):
+    if os.path.exists(all_scene_data_path) and os.path.exists(all_map_data_path) and os.path.exists(all_place_data_path) and os.path.exists(scene_path_edge_path):
         with open(all_scene_data_path, "rb") as all_scene_data_file:
             cache.scene_data = pickle.load(all_scene_data_file)
         with open(all_map_data_path, "rb") as all_map_data_file:
@@ -55,43 +50,39 @@ def load_dir_now(data_path: str):
         if os.path.isfile(now_path):
             now_file = i.split(".")
             if len(now_file) > 1 and now_file[1] == "json":
-                    if now_file[0] == "Scene":
-                        now_scene_data = game_type.Scene()
-                        now_scene_data.scene_path = get_map_system_path_str(
-                            get_map_system_path_for_path(now_path)
-                        )
-                        load_scene_data = json_handle.load_json(now_path)
-                        now_scene_data.scene_name = get_text._(load_scene_data["SceneName"])
-                        now_scene_data.in_door = load_scene_data["InOutDoor"] == "In"
-                        now_scene_data.exposed = int(load_scene_data["Exposed"])
-                        now_scene_data.have_furniture = int(load_scene_data["Have_Furniture"])
-                        now_scene_data.close_type = int(load_scene_data["Close_Type"])
-                        now_scene_data.room_area = int(load_scene_data["Room_Area"])
-                        now_scene_data.close_flag = 0
-                        scene_tag_list = load_scene_data["SceneTag"]
-                        if "|" not in scene_tag_list:
-                            now_scene_data.scene_tag.append(scene_tag_list)
-                        else:
-                            scene_tag_list = scene_tag_list.split('|')
-                            for scene_tag in scene_tag_list:
-                                now_scene_data.scene_tag.append(scene_tag)
-                        cache.scene_data[now_scene_data.scene_path] = now_scene_data
-                        for scene_tag in now_scene_data.scene_tag:
-                            constant.place_data.setdefault(scene_tag, [])
-                            constant.place_data[scene_tag].append(now_scene_data.scene_path)
-                    elif now_file[0] == "Map":
-                        now_map_data = game_type.Map()
-                        now_map_data.map_path = get_map_system_path_str(
-                            get_map_system_path_for_path(now_path)
-                        )
-                        with open(os.path.join(data_path, "Map"), "r",encoding="utf-8") as now_read_file:
-                            draw_data = now_read_file.read()
-                            now_map_data.map_draw = get_print_map_data(draw_data)
-                        load_map_data = json_handle.load_json(now_path)
-                        now_map_data.map_name = get_text._(load_map_data["MapName"])
-                        now_map_data.path_edge = load_map_data["PathEdge"]
-                        now_map_data.sorted_path = get_sorted_map_path_data(now_map_data.path_edge)
-                        cache.map_data[now_map_data.map_path] = now_map_data
+                if now_file[0] == "Scene":
+                    now_scene_data = game_type.Scene()
+                    now_scene_data.scene_path = get_map_system_path_str(get_map_system_path_for_path(now_path))
+                    load_scene_data = json_handle.load_json(now_path)
+                    now_scene_data.scene_name = get_text._(load_scene_data["SceneName"])
+                    now_scene_data.in_door = load_scene_data["InOutDoor"] == "In"
+                    now_scene_data.exposed = int(load_scene_data["Exposed"])
+                    now_scene_data.have_furniture = int(load_scene_data["Have_Furniture"])
+                    now_scene_data.close_type = int(load_scene_data["Close_Type"])
+                    now_scene_data.room_area = int(load_scene_data["Room_Area"])
+                    now_scene_data.close_flag = 0
+                    scene_tag_list = load_scene_data["SceneTag"]
+                    if "|" not in scene_tag_list:
+                        now_scene_data.scene_tag.append(scene_tag_list)
+                    else:
+                        scene_tag_list = scene_tag_list.split("|")
+                        for scene_tag in scene_tag_list:
+                            now_scene_data.scene_tag.append(scene_tag)
+                    cache.scene_data[now_scene_data.scene_path] = now_scene_data
+                    for scene_tag in now_scene_data.scene_tag:
+                        constant.place_data.setdefault(scene_tag, [])
+                        constant.place_data[scene_tag].append(now_scene_data.scene_path)
+                elif now_file[0] == "Map":
+                    now_map_data = game_type.Map()
+                    now_map_data.map_path = get_map_system_path_str(get_map_system_path_for_path(now_path))
+                    with open(os.path.join(data_path, "Map"), "r", encoding="utf-8") as now_read_file:
+                        draw_data = now_read_file.read()
+                        now_map_data.map_draw = get_print_map_data(draw_data)
+                    load_map_data = json_handle.load_json(now_path)
+                    now_map_data.map_name = get_text._(load_map_data["MapName"])
+                    now_map_data.path_edge = load_map_data["PathEdge"]
+                    now_map_data.sorted_path = get_sorted_map_path_data(now_map_data.path_edge)
+                    cache.map_data[now_map_data.map_path] = now_map_data
         else:
             load_dir_now(now_path)
 
@@ -190,7 +181,7 @@ def get_print_map_data(map_draw: str) -> game_type.MapDraw:
                 i += 11
             i += 1
         if len(new_x_list):
-            now_rich_draw_list:List[game_type.MapDraw] = []
+            now_rich_draw_list: List[game_type.MapDraw] = []
             now_style_list = rich_text.get_rich_text_print(new_x_list, "standard")
             new_x_list = rich_text.remove_rich_cache(new_x_list)
             # test_flag = False
@@ -226,9 +217,7 @@ def get_print_map_data(map_draw: str) -> game_type.MapDraw:
     return map_draw_data
 
 
-def get_sorted_map_path_data(
-    map_data: Dict[str, Dict[str, int]]
-) -> Dict[str, Dict[str, game_type.TargetPath]]:
+def get_sorted_map_path_data(map_data: Dict[str, Dict[str, int]]) -> Dict[str, Dict[str, game_type.TargetPath]]:
     """
     获取地图下各节点到目标节点的最短路径数据
     Keyword arguments:
@@ -239,7 +228,7 @@ def get_sorted_map_path_data(
     sorted_path_data = {}
     for node in map_data:
         node_path = dijkstra.dijkstra(map_data, node)
-        sorted_path_data.setdefault(node,{})
+        sorted_path_data.setdefault(node, {})
         for target_id in node_path:
             target = node_path[target_id]
             target_path = game_type.TargetPath()

@@ -31,7 +31,7 @@ from Script.UI.Panel import (
     invite_visitor_panel,
     system_setting,
     chat_ai_setting,
-    physical_check_and_manage
+    physical_check_and_manage,
 )
 from Script.Config import normal_config
 
@@ -178,11 +178,13 @@ def manage_library_flow():
     now_panel = manage_library.Manage_Library_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.DEBUG_ADJUST)
 def debug_flow():
     """debug数值调整面板"""
     now_panel = debug_panel.Debug_Panel(width)
     now_panel.draw()
+
 
 @handle_panel.add_panel(constant.Panel.ORIGINIUM_ARTS)
 def originium_arts_flow():
@@ -190,11 +192,13 @@ def originium_arts_flow():
     now_panel = originium_arts.Originium_Arts_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.PRTS)
 def prts_flow():
     """普瑞赛斯面板"""
     now_panel = prts_panel.Prts_Panel(width)
     now_panel.draw()
+
 
 @handle_panel.add_panel(constant.Panel.RECRUITMENT)
 def recruit_flow():
@@ -202,11 +206,13 @@ def recruit_flow():
     now_panel = recruit_panel.Recruit_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.VISITOR)
 def visitor_flow():
     """访客面板"""
     now_panel = invite_visitor_panel.Invite_Visitor_Panel(width)
     now_panel.draw()
+
 
 @handle_panel.add_panel(constant.Panel.FRIDGE)
 def fridge_flow():
@@ -214,11 +220,13 @@ def fridge_flow():
     now_panel = normal_panel.Fridge_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.SYSTEM_SETTING)
 def system_setting_flow():
     """系统设置面板"""
     now_panel = system_setting.System_Setting_Panel(width)
     now_panel.draw()
+
 
 @handle_panel.add_panel(constant.Panel.AROMATHERAPY)
 def aromatherapy_flow():
@@ -226,17 +234,20 @@ def aromatherapy_flow():
     now_panel = aromatherapy_panel.Aromatherapy_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.NATION_DIPLOMACY)
 def nation_diplomacy_flow():
     """势力外交面板"""
     now_panel = nation_diplomacy_panel.Nation_Diplomacy_Panel(width)
     now_panel.draw()
 
+
 @handle_panel.add_panel(constant.Panel.CHAT_AI_SETTING)
 def chat_ai_setting_flow():
     """文本生成AI设置面板"""
     now_panel = chat_ai_setting.Chat_Ai_Setting_Panel(width)
     now_panel.draw()
+
 
 @handle_panel.add_panel(constant.Panel.PHYSICAL_CHECK_AND_MANAGE)
 def physical_check_and_manage_flow():

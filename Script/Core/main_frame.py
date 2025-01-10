@@ -203,7 +203,7 @@ def read_queue():
             if cmd_nums == "all":
                 io_clear_cmd()
             else:
-                io_clear_cmd(tuple(cmd_nums))
+                io_clear_cmd(*cmd_nums)
         if "bgcolor" in json_data:
             set_background(json_data["bgcolor"])
         if "set_style" in json_data:
@@ -457,7 +457,7 @@ def io_print_cmd(cmd_str: str, cmd_number: int, normal_style="standard", on_styl
     print_cmd(cmd_str, style=(cmd_tag_name, normal_style))
 
 
-def io_print_image_cmd(cmd_str: str, cmd_number: int):
+def io_print_image_cmd(cmd_str: str, cmd_number: str):
     """
     打印一个图片按钮
     Keyword arguments:
@@ -487,7 +487,7 @@ def io_print_image_cmd(cmd_str: str, cmd_number: int):
 
 
 # 清除命令函数
-def io_clear_cmd(*cmd_numbers: list):
+def io_clear_cmd(*cmd_numbers: str):
     """
     清除命令
     Keyword arguments:

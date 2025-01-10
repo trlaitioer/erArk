@@ -11,6 +11,7 @@ font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
 
+
 class DataList(QWidget):
     """表单主体"""
 
@@ -62,20 +63,20 @@ class DataList(QWidget):
         self.setFont(self.font)
         self.list_widget.setFont(self.font)
         self.close_flag = 1
-        self.delet_text_id_flag = 1 # 是否删除条目序号相关的控件
+        self.delet_text_id_flag = 1  # 是否删除条目序号相关的控件
         self.edited_item = self.list_widget.currentItem()
         self.list_widget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.list_widget.customContextMenuRequested.connect(self.right_button_menu)
         self.update_clear = 0
-        self.now_in_moving_flag = False # 是否正在移动条目
+        self.now_in_moving_flag = False  # 是否正在移动条目
 
         # 连接 self.text_edit 的 textChanged 信号到 update_adv_id 方法
         self.chara_id_text_edit.textChanged.connect(self.update_adv_id)
         # 初始化菜单
         self.menu_bar = QMenuBar(self)
         self.status_menu: QMenu = QMenu(cache_control.status_data[cache_control.now_status], self)
-        self.type_menu : QMenu = QMenu(cache_control.now_type, self)
+        self.type_menu: QMenu = QMenu(cache_control.now_type, self)
         self.menu_bar.addMenu(self.status_menu)
         self.menu_bar.addMenu(self.type_menu)
         self.status_menu.setFont(self.font)

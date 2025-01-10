@@ -409,9 +409,9 @@ class CharacterInfoHead:
         # 好感与信赖
         favorability_and_trust_text = ""
         if character_id:
-            favorability_lv,tem = attr_calculation.get_favorability_level(character_data.favorability[0])
+            favorability_lv, tem = attr_calculation.get_favorability_level(character_data.favorability[0])
             favorability_lv_letter = attr_calculation.judge_grade(favorability_lv)
-            trust_lv,tem = attr_calculation.get_trust_level(character_data.trust)
+            trust_lv, tem = attr_calculation.get_trust_level(character_data.trust)
             trust_lv_letter = attr_calculation.judge_grade(trust_lv)
             favorability_text = f"{int(character_data.favorability[0])}"
             trust_text = f"{round(character_data.trust, 1)}%"
@@ -431,12 +431,12 @@ class CharacterInfoHead:
         # if character_id != 0:
         #     print("debug character_id = ",character_id,"    character_data.tired_point = ",character_data.tired_point,"   sleep_text = ",sleep_text)
         # 0疲劳的清醒则不输出
-        if sleep_text == _(" <清醒>" ):
+        if sleep_text == _(" <清醒>"):
             sleep_text = ""
         if character_id > 0:
             # 睡眠中则输出睡眠程度
             if handle_premise.handle_action_sleep(character_id) or handle_premise.handle_unconscious_flag_1(character_id):
-                tem,sleep_name = attr_calculation.get_sleep_level(character_data.sleep_point)
+                tem, sleep_name = attr_calculation.get_sleep_level(character_data.sleep_point)
                 sleep_text = f" <{sleep_name}>"
             # 如果在装睡则输出装睡
             if handle_premise.handle_self_sleep_h_awake_but_pretend_sleep(character_id):
@@ -503,11 +503,7 @@ class CharacterInfoHead:
         # 首先需要判断是否开启了催眠显示，其次要么已经是某个催眠状态下，要么催眠度大于0而且开启了显示催眠度
         hypnosis_draw = draw.LeftDraw()
         hypnosis_text = ""
-        if (
-            cache.system_setting[10] and 
-            (handle_premise.handle_unconscious_hypnosis_flag(character_id) or
-            (character_data.hypnosis.hypnosis_degree > 0 and cache.system_setting[10] == 2))
-        ):
+        if cache.system_setting[10] and (handle_premise.handle_unconscious_hypnosis_flag(character_id) or (character_data.hypnosis.hypnosis_degree > 0 and cache.system_setting[10] == 2)):
             hypnosis_text = _(" <催眠")
             # 根据催眠程度来区分颜色
             if character_data.hypnosis.hypnosis_degree < 50:
@@ -585,15 +581,13 @@ class CharacterInfoHead:
         time_stop_draw.text = time_stop_text
 
         if character_id:
-            message = (
-                "{character_name} {favorability_and_trust}{visitor}").format(
+            message = ("{character_name} {favorability_and_trust}{visitor}").format(
                 character_name=character_data.name,
                 favorability_and_trust=favorability_and_trust_text,
                 visitor=visitor_text,
             )
         else:
-            message = (
-                "{character_name}{character_nick_name}{eja}").format(
+            message = ("{character_name}{character_nick_name}{eja}").format(
                 # character_id=character_id,
                 character_name=character_data.name,
                 character_nick_name=character_data.nick_name,
@@ -604,7 +598,9 @@ class CharacterInfoHead:
         message_draw = draw.CenterDraw()
         # 根据其他状态的长度来调整文本的长度，同时也保证了一个最小长度
         text_width = text_handle.get_text_index(message)
-        base_width = width / 3.5 - text_handle.get_text_index(follow_text + angry_text + sleep_text + tired_text + urinate_text + hypnosis_text + hunger_text + active_h_text + orgasm_edge_text + time_stop_text + imprisonment_text)
+        base_width = width / 3.5 - text_handle.get_text_index(
+            follow_text + angry_text + sleep_text + tired_text + urinate_text + hypnosis_text + hunger_text + active_h_text + orgasm_edge_text + time_stop_text + imprisonment_text
+        )
         max_width = max(base_width, text_width)
         message_draw.width = max_width
         message_draw.text = message
@@ -651,9 +647,25 @@ class CharacterInfoHead:
         # status_draw.text = _(" ").format(status_text=status_text)
         None_draw = draw.CenterDraw()
         None_draw.width = 1
-        None_draw.text = (" ")
+        None_draw.text = " "
         self.draw_list: List[Tuple[draw.NormalDraw, draw.NormalDraw]] = [
-            (message_draw, follow_draw, angry_draw, hunger_draw, urinate_draw, sleep_draw, tired_draw, hypnosis_draw, active_h_draw, orgasm_edge_draw, imprisonment_draw, time_stop_draw, hp_draw, None_draw, mp_draw),
+            (
+                message_draw,
+                follow_draw,
+                angry_draw,
+                hunger_draw,
+                urinate_draw,
+                sleep_draw,
+                tired_draw,
+                hypnosis_draw,
+                active_h_draw,
+                orgasm_edge_draw,
+                imprisonment_draw,
+                time_stop_draw,
+                hp_draw,
+                None_draw,
+                mp_draw,
+            ),
         ]
         if character_id == 0:
             self.draw_list[0] = self.draw_list[0] + (sp_draw,)
@@ -774,9 +786,7 @@ class CharacterBirthdayText:
         """ 当前最大可绘制宽度 """
         character_data = cache.character_data[self.character_id]
         # age_text = _("年龄:{character_age}岁").format(character_age=character_data.age)
-        birthday_text = _("生日:{birthday_month}月{birthday_day}日").format(
-            birthday_month=character_data.birthday.month, birthday_day=character_data.birthday.day
-        )
+        birthday_text = _("生日:{birthday_month}月{birthday_day}日").format(birthday_month=character_data.birthday.month, birthday_day=character_data.birthday.day)
         # self.info_list = [age_text, birthday_text]
         self.info_list = [birthday_text]
         """ 绘制的文本列表 """
@@ -1095,8 +1105,7 @@ class CharacterExperienceText:
         experience_text_list = []
         for experience_id in game_config.config_experience:
             if character_data.sex == 0:
-                if experience_id in {2, 4, 7, 12, 14, 17, 20, 22, 26, 51, 54, 55, 58, 72, 74, 77, 86, 100, 101, 102,
-                                     103, 104, 105, 106}:
+                if experience_id in {2, 4, 7, 12, 14, 17, 20, 22, 26, 51, 54, 55, 58, 72, 74, 77, 86, 100, 101, 102, 103, 104, 105, 106}:
                     continue
             elif character_data.sex == 1:
                 if experience_id == {3, 13, 21, 73}:
@@ -1260,7 +1269,6 @@ class CharacterDailyText:
         for entertainment_type in character_data.entertainment.entertainment_type:
             entertainment_name = game_config.config_entertainment[entertainment_type].name
             entertainment_text_list.append(entertainment_name)
-
 
         type_data = _("日程")
         type_line = draw.LittleTitleLineDraw(type_data, width, ":")
@@ -1544,7 +1552,7 @@ class CharacterBodyText:
             # 胸部信息#
             now_text = _("\n 【胸】\n")
             # 根据胸部大小的素质来显示信息
-            for bust_cid in [121,122,123,124,125]:
+            for bust_cid in [121, 122, 123, 124, 125]:
                 if character_data.talent[bust_cid]:
                     info_text = game_config.config_talent[bust_cid].info
                     now_text += f"  {info_text}\n"
@@ -1578,7 +1586,7 @@ class CharacterBodyText:
             ui_text = ""
             if character_data.talent[0]:
                 now_text += _("保有处女\n")
-                ui_text = game_config.ui_text_data['ability']['V感觉0']
+                ui_text = game_config.ui_text_data["ability"]["V感觉0"]
             elif character_data.first_record.first_sex_id != -1:
                 sex_id = character_data.first_record.first_sex_id
                 sex_time = character_data.first_record.first_sex_time
@@ -1590,11 +1598,11 @@ class CharacterBodyText:
                     palce=attr_text.get_scene_path_text(character_data.first_record.first_sex_place),
                     posture=sex_posture,
                 )
-                ui_text_lv = (character_data.ability[4] + 1 ) // 2
+                ui_text_lv = (character_data.ability[4] + 1) // 2
                 ui_text_lv = max(1, ui_text_lv)
                 ui_text_lv = min(4, ui_text_lv)
                 ui_text_cid = f"V感觉{ui_text_lv}"
-                ui_text = game_config.ui_text_data['ability'][ui_text_cid]
+                ui_text = game_config.ui_text_data["ability"][ui_text_cid]
             # V感觉描述
             now_text += f"  {ui_text}\n"
             if character_data.dirty.body_semen[7][3] == 0:
@@ -1608,7 +1616,7 @@ class CharacterBodyText:
             ui_text = ""
             if character_data.talent[1]:
                 now_text += _("保有后庭处女\n")
-                ui_text = game_config.ui_text_data['ability']['A感觉0']
+                ui_text = game_config.ui_text_data["ability"]["A感觉0"]
             elif character_data.first_record.first_a_sex_id != -1:
                 a_sex_id = character_data.first_record.first_a_sex_id
                 a_sex_time = character_data.first_record.first_a_sex_time
@@ -1620,11 +1628,11 @@ class CharacterBodyText:
                     palce=attr_text.get_scene_path_text(character_data.first_record.first_a_sex_place),
                     posture=a_sex_posture,
                 )
-                ui_text_lv = (character_data.ability[5] + 1 ) // 2
+                ui_text_lv = (character_data.ability[5] + 1) // 2
                 ui_text_lv = max(1, ui_text_lv)
                 ui_text_lv = min(4, ui_text_lv)
                 ui_text_cid = f"A感觉{ui_text_lv}"
-                ui_text = game_config.ui_text_data['ability'][ui_text_cid]
+                ui_text = game_config.ui_text_data["ability"][ui_text_cid]
             # A感觉描述
             now_text += f"  {ui_text}\n"
             if character_data.dirty.body_semen[8][3] == 0:
@@ -1635,9 +1643,9 @@ class CharacterBodyText:
             # 子宫信息#
             now_text = _("\n 【宫】\n")
             # W感觉描述
-            ui_text_lv = (character_data.ability[7] + 1 ) // 2
+            ui_text_lv = (character_data.ability[7] + 1) // 2
             ui_text_cid = f"W感觉{ui_text_lv}"
-            ui_text = game_config.ui_text_data['ability'][ui_text_cid]
+            ui_text = game_config.ui_text_data["ability"][ui_text_cid]
             now_text += f"  {ui_text}\n"
             # 怀孕情况
             if character_data.experience[86] == 0:
@@ -1710,13 +1718,7 @@ class PlayerAbilityText:
         ability_text_list = []
 
         # 定义能力与素质的对应字典
-        abilities = {
-            _("视觉系"): {307, 308, 309},
-            _("触觉系"): {310, 311, 312},
-            _("激素系"): {304, 305, 306},
-            _("催眠系"): {331, 332, 333, 334},
-            _("时间系"): {316, 317, 318}
-        }
+        abilities = {_("视觉系"): {307, 308, 309}, _("触觉系"): {310, 311, 312}, _("激素系"): {304, 305, 306}, _("催眠系"): {331, 332, 333, 334}, _("时间系"): {316, 317, 318}}
 
         # 遍历能力字典，获取对应的文本
         for ability_name, ids in abilities.items():
@@ -1764,9 +1766,7 @@ class PlayerAbilityText:
         self.draw_list.append(line_feed)
         # 更改装备信物的按钮
         button_text = _("[更改装备信物]")
-        now_draw = draw.CenterButton(
-            button_text, button_text, self.width / 4, cmd_func=self.change_token
-        )
+        now_draw = draw.CenterButton(button_text, button_text, self.width / 4, cmd_func=self.change_token)
         self.return_list.append(now_draw.return_text)
         self.draw_list.append(now_draw)
         self.draw_list.append(line_feed)
@@ -1826,8 +1826,8 @@ class PlayerAbilityText:
                         draw_text,
                         f"\n{character_id}",
                         self.width,
-                        normal_style = draw_style,
-                        cmd_func = self.select_this_token,
+                        normal_style=draw_style,
+                        cmd_func=self.select_this_token,
                         args=character_id,
                     )
                     button_draw.draw()
@@ -1865,6 +1865,7 @@ class PlayerAbilityText:
             pl_character_data.pl_collection.eqip_token[1].remove(character_id)
         else:
             pl_character_data.pl_collection.eqip_token[1].append(character_id)
+
 
 # class SeeCharacterSocialContact:
 #     """
@@ -1955,14 +1956,10 @@ class SeeCharacterInfoByNameDraw:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = f"{index_text} {character_name}"
-                name_draw = draw.CenterButton(
-                    button_text, self.button_return, self.width, cmd_func=self.see_character
-                )
+                name_draw = draw.CenterButton(button_text, self.button_return, self.width, cmd_func=self.see_character)
             else:
                 button_text = f"[{character_name}]"
-                name_draw = draw.CenterButton(
-                    button_text, character_name, self.width, cmd_func=self.see_character
-                )
+                name_draw = draw.CenterButton(button_text, character_name, self.width, cmd_func=self.see_character)
                 self.button_return = character_name
             self.draw_text = button_text
         else:
@@ -2013,14 +2010,10 @@ class SeeCharacterInfoByNameDrawInScene:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = f"{index_text} {character_name}"
-                name_draw = draw.CenterButton(
-                    button_text, self.button_return, self.width, cmd_func=self.see_character
-                )
+                name_draw = draw.CenterButton(button_text, self.button_return, self.width, cmd_func=self.see_character)
             else:
                 button_text = f"[{character_name}]"
-                name_draw = draw.CenterButton(
-                    button_text, character_name, self.width, cmd_func=self.see_character
-                )
+                name_draw = draw.CenterButton(button_text, character_name, self.width, cmd_func=self.see_character)
                 self.button_return = character_name
             self.draw_text = button_text
         else:
@@ -2068,9 +2061,7 @@ class SeeCharacterInfoByimageDrawInScene:
         character_name = character_data.name
         # character_name = character_data.name + f"({sex_text})"
         button_text = f"{character_name}"
-        name_draw = draw.ImageButton(
-            button_text, self.button_return, self.width, cmd_func=self.see_character
-        )
+        name_draw = draw.ImageButton(button_text, self.button_return, self.width, cmd_func=self.see_character)
         character_name = f"[{character_name}]"
         character_name = text_handle.align(character_name, "center", 0, 1, self.width)
         name_draw.text = character_name
@@ -2107,9 +2098,7 @@ class SeeCharacterInfoOnSocialPanel:
         """ 面板最大宽度 """
         self.return_list: List[str] = []
         """ 当前面板监听的按钮列表 """
-        self.now_draw: SeeCharacterInfoPanel = SeeCharacterInfoHandle(
-            character_id, width, list(cache.character_data.keys())
-        )
+        self.now_draw: SeeCharacterInfoPanel = SeeCharacterInfoHandle(character_id, width, list(cache.character_data.keys()))
         """ 角色属性面板 """
 
     def draw(self):
@@ -2140,12 +2129,8 @@ class SeeCharacterInfoHandle:
 
     def draw(self):
         """绘制面板"""
-        old_button_draw = draw.CenterButton(
-            _("[上一人]"), _("上一人"), self.width / 3, cmd_func=self.old_character
-        )
-        next_button_draw = draw.CenterButton(
-            _("[下一人]"), _("下一人"), self.width / 3, cmd_func=self.next_character
-        )
+        old_button_draw = draw.CenterButton(_("[上一人]"), _("上一人"), self.width / 3, cmd_func=self.old_character)
+        next_button_draw = draw.CenterButton(_("[下一人]"), _("下一人"), self.width / 3, cmd_func=self.next_character)
         back_draw = draw.CenterButton(_("[返回]"), _("返回"), self.width / 3)
         now_panel_id = _("基础属性")
         while 1:
@@ -2244,4 +2229,3 @@ class SeeCharacterInfoInScenePanel:
         """绘制对象"""
         self.handle_panel.draw()
         cache.now_panel_id = constant.Panel.IN_SCENE
-

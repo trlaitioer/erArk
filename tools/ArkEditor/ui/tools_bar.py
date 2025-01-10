@@ -6,6 +6,7 @@ font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
 
+
 class ToolsBar(QMenuBar):
     """筛选表单用菜单栏"""
 

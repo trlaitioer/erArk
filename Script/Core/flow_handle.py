@@ -12,6 +12,7 @@ from Script.Core import (
     cache_control,
     constant,
 )
+
 cache: game_type.Cache = cache_control.cache
 """ 游戏缓存数据 """
 _: FunctionType = get_text._
@@ -149,7 +150,7 @@ def print_cmd(
 
 def print_image_cmd(
     cmd_str,
-    cmd_number,
+    cmd_number: str,
     cmd_func=null_func,
     arg=(),
     kw={},
@@ -199,9 +200,7 @@ def _cmd_valid(order_number):
     Keyword arguments:
     order_number -- 对应命令数字
     """
-    return (order_number in cmd_map) and (
-        cmd_map[order_number] != null_func and cmd_map[order_number] is not None
-    )
+    return (order_number in cmd_map) and (cmd_map[order_number] != null_func and cmd_map[order_number] is not None)
 
 
 __skip_flag__ = False
@@ -276,6 +275,7 @@ def askfor_all(input_list: list, print_order=False):
                 _cmd_deal(order)
             elif order == "999":
                 from Script.Core import save_handle
+
                 # 保存到自动存档
                 save_handle.establish_save("auto")
                 # 退出游戏

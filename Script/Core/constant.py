@@ -1,6 +1,7 @@
 from typing import Dict, List, Set
 from types import FunctionType
 from Script.Core import get_text
+
 _: FunctionType = get_text._
 """ 翻译api """
 
@@ -74,7 +75,7 @@ class CharacterStatus:
     """ 衣柜衣服穿回身上 """
     STATUS_READY_TO_SWIM = 146
     """ 脱掉衣服并换上泳衣并进入要游泳状态 """
-    STATUS_FOOT_CLOTH_TO_LOCKER =147
+    STATUS_FOOT_CLOTH_TO_LOCKER = 147
     """ 袜子和鞋子转移到衣柜里 """
     STATUS_WEAR_TO_LOCKER_AND_GET_SHOWER_CLOTH = 148
     """ 身上衣服脱到衣柜并换上浴帽和浴巾 """
@@ -733,7 +734,7 @@ class Behavior:
     """ 衣柜衣服穿回身上 """
     READY_TO_SWIM = 146
     """ 脱掉衣服并换上泳衣并进入要游泳状态 """
-    FOOT_CLOTH_TO_LOCKER =147
+    FOOT_CLOTH_TO_LOCKER = 147
     """ 袜子和鞋子转移到衣柜里 """
     WEAR_TO_LOCKER_AND_GET_SHOWER_CLOTH = 148
     """ 身上衣服脱到衣柜并换上浴帽和浴巾 """
@@ -1334,6 +1335,7 @@ class Behavior:
     """ 对方在时停中获得自由 """
     TARGET_STOP_IN_TIME_STOP = 946
     """ 对方在时停中再次停止 """
+
 
 class StateMachine:
     """状态机id"""
@@ -2214,7 +2216,7 @@ class SexInstructSubType:
 class Instruct:
     """指令id"""
 
-    #系统#
+    # 系统#
     MOVE = 0
     """ 移动 """
     SEE_ATTR = 0
@@ -2252,7 +2254,7 @@ class Instruct:
     TALK_QUICK_TEST = 0
     """ 快速测试口上 """
 
-    #日常#
+    # 日常#
     WAIT = 0
     """ 等待五分钟 """
     WAIT_1_HOUR = 0
@@ -2314,7 +2316,7 @@ class Instruct:
     ORDER_HOTEL_ROOM = 0
     """ 预定房间 """
 
-    #娱乐#
+    # 娱乐#
     SINGING = 0
     """ 唱歌 """
     PLAY_INSTRUMENT = 0
@@ -2376,7 +2378,7 @@ class Instruct:
     AROMATHERAPY = 0
     """ 香薰疗愈 """
 
-    #工作#
+    # 工作#
     OFFICIAL_WORK = 0
     """ 处理公务 """
     BATTLE_COMMAND = 0
@@ -2432,7 +2434,7 @@ class Instruct:
     MANAGE_BASEMENT = 0
     """ 管理罗德岛 """
 
-    #源石技艺#
+    # 源石技艺#
     HYPNOSIS_ONE = 0
     """ 单人催眠 """
     DEEPENING_HYPNOSIS = 0
@@ -2478,7 +2480,7 @@ class Instruct:
     TARGET_STOP_IN_TIME_STOP = 0
     """ 对方在时停中再次停止 """
 
-    #猥亵#
+    # 猥亵#
     MAKE_COFFEE_ADD = 0
     """ 泡咖啡（加料） """
     TOUCH_HEAD = 0
@@ -2558,7 +2560,7 @@ class Instruct:
     ASK_GROUP_SEX = 0
     """ 邀请群交 """
 
-    #性爱#
+    # 性爱#
     WAIT_5_MIN_IN_H = 0
     """ 等待五分钟(H中) """
     END_H = 0
@@ -2827,7 +2829,6 @@ class Instruct:
     """ 给对方口交 """
 
 
-
 i = 0
 for k in Instruct.__dict__:
     if isinstance(Instruct.__dict__[k], int):
@@ -2877,16 +2878,34 @@ settle_behavior_effect_data: Dict[int, FunctionType] = {}
 settle_second_behavior_effect_data: Dict[int, FunctionType] = {}
 """ 角色二段行为结算处理器 处理器id:处理器 """
 
-first_NPC_name_set = {_("阿米娅"),_("凯尔希"),_("可露希尔"),_("特蕾西娅"),_("华法琳"),_("杜宾")}
+first_NPC_name_set = {_("阿米娅"), _("凯尔希"), _("可露希尔"), _("特蕾西娅"), _("华法琳"), _("杜宾")}
 """ 初始就有的NPC的名字 """
 
-ban_NPC_name_set = {_("普瑞赛斯"),_("老天师"),_("魔王"),_("菈玛莲"),_("塔露拉"),_("莉泽洛特"),_("希尔德加德"),_("坎黛拉"),_("克丽斯腾"),_("爱布拉娜"),_("温德米尔"),_("赫拉提娅"),_("文月"),_("年"),_("夕"),_("令"),_("黍")}
+ban_NPC_name_set = {
+    _("普瑞赛斯"),
+    _("老天师"),
+    _("魔王"),
+    _("菈玛莲"),
+    _("塔露拉"),
+    _("莉泽洛特"),
+    _("希尔德加德"),
+    _("坎黛拉"),
+    _("克丽斯腾"),
+    _("爱布拉娜"),
+    _("温德米尔"),
+    _("赫拉提娅"),
+    _("文月"),
+    _("年"),
+    _("夕"),
+    _("令"),
+    _("黍"),
+}
 """ 无法直接招募到的NPC的名字 """
 
 special_end_H_list = [Behavior.H_INTERRUPT, Behavior.H_HP_0, Behavior.T_H_HP_0, Behavior.GROUP_SEX_PL_HP_0_END]
 """ 意外中断H的行为id列表 """
 
-chat_ai_model_list = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o', 'gpt-4o-mini', 'gemini-1.5-pro', 'gemini-1.5-flash']
+chat_ai_model_list = ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o", "gpt-4o-mini", "gemini-1.5-pro", "gemini-1.5-flash"]
 """ 文本生成的AI模型列表 """
 
 sleep_text_list = [_("清醒"), _("疲劳"), _("昏昏欲睡"), _("随时睡着")]

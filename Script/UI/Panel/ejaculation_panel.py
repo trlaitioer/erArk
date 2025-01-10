@@ -17,6 +17,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 def show_endure_ejaculation_panel():
     """
     进行是否忍住射精的判断
@@ -122,7 +123,7 @@ def common_ejaculation():
 
     # 如果已经没有精液了，则不射精
     if handle_premise.handle_pl_semen_le_2(0):
-        return _("只流出了些许前列腺液，已经射不出精液了"),0
+        return _("只流出了些许前列腺液，已经射不出精液了"), 0
     else:
         # 基础射精值，小中多射精区分
         if character_data.second_behavior[1011] == 1:
@@ -141,11 +142,11 @@ def common_ejaculation():
         # 射精量不高于剩余精液值
         semen_count = min(semen_count, character_data.semen_point + character_data.tem_extra_semen_point)
 
-        character_data.h_state.orgasm_level[3] += 1 # 更新射精次数
-        character_data.h_state.just_shoot = 1 # 更新刚射精状态
-        character_data.dirty.penis_dirty_dict["semen"] = True # 更新阴茎精液污浊状态
-        cache.rhodes_island.total_semen_count += semen_count # 更新总精液量
-        character_data.h_state.endure_not_shot_count = 0 # 清零忍住不射次数
+        character_data.h_state.orgasm_level[3] += 1  # 更新射精次数
+        character_data.h_state.just_shoot = 1  # 更新刚射精状态
+        character_data.dirty.penis_dirty_dict["semen"] = True  # 更新阴茎精液污浊状态
+        cache.rhodes_island.total_semen_count += semen_count  # 更新总精液量
+        character_data.h_state.endure_not_shot_count = 0  # 清零忍住不射次数
 
         # # 更新精液值，目前弃用
         # if semen_count > character_data.semen_point:
@@ -160,7 +161,7 @@ def common_ejaculation():
             character_data.semen_point -= semen_count
         character_data.semen_point = max(0, character_data.semen_point)
 
-        return semen_text,semen_count
+        return semen_text, semen_count
 
 
 def update_semen_dirty(character_id: int, part_cid: int, part_type: int, semen_count: int, update_shoot_position_flag: bool = True):
@@ -429,11 +430,13 @@ class Ejaculation_Panel:
 
         # 对应部位有衣服，则无法射在对应部位
         if isinstance(body_cloth[body_part_cid], list):
+
             def cloth_list(bbc):
                 for bc in bbc:
                     if bc in clothing.keys():
                         return False
                 return True
+
             if not cloth_list(body_cloth[body_part_cid]):
                 return False
         else:
@@ -463,9 +466,7 @@ class Ejaculation_Panel:
                 chara_name = now_character_data.name
                 chara_adv = now_character_data.adv
                 draw_text = f"[{chara_adv}]{chara_name}"
-                name_draw = draw.CenterButton(
-                    draw_text, chara_name, (len(draw_text) + 1) * 3, cmd_func=self.change_shoot_target, args=(chara_id)
-                )
+                name_draw = draw.CenterButton(draw_text, chara_name, (len(draw_text) + 1) * 3, cmd_func=self.change_shoot_target, args=(chara_id))
                 name_draw.draw()
                 return_list.append(name_draw.return_text)
 
@@ -499,9 +500,7 @@ class Ejaculation_Panel:
                 body_count += 1
                 show_flag = self.part_can_choose(body_part_cid)
                 if show_flag:
-                    name_draw = draw.CenterButton(
-                        draw_text, part_name, (len(draw_text) + 1) * 2, cmd_func=self.shoot_here, args=(body_part_cid, 0)
-                    )
+                    name_draw = draw.CenterButton(draw_text, part_name, (len(draw_text) + 1) * 2, cmd_func=self.shoot_here, args=(body_part_cid, 0))
                     name_draw.draw()
                     return_list.append(name_draw.return_text)
                     if body_count > 0 and body_count % 8 == 0:
@@ -517,9 +516,7 @@ class Ejaculation_Panel:
                 cloth_count += 1
                 show_flag = len(target_data.cloth.cloth_wear[clothing_type])
                 if show_flag:
-                    name_draw = draw.CenterButton(
-                        draw_text, cloth_name, (len(draw_text) + 1) * 2, cmd_func=self.shoot_here, args=(clothing_type, 1)
-                    )
+                    name_draw = draw.CenterButton(draw_text, cloth_name, (len(draw_text) + 1) * 2, cmd_func=self.shoot_here, args=(clothing_type, 1))
                     name_draw.draw()
                     return_list.append(name_draw.return_text)
                     if cloth_count > 0 and cloth_count % 8 == 0:
@@ -528,7 +525,7 @@ class Ejaculation_Panel:
             yrn = flow_handle.askfor_all(return_list)
 
             # 在非页面切换时退出面板
-            if yrn not in [_('身体'), _('服装')]:
+            if yrn not in [_("身体"), _("服装")]:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 

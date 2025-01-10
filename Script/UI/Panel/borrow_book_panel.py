@@ -53,7 +53,7 @@ def check_return_book(character_id):
         return 0
     # 已借书则d100和还书概率比大小
     else:
-        return_d100 = random.randint(1,100)
+        return_d100 = random.randint(1, 100)
         # 小于还书概率则还书
         # print(f"debug return_d100 = {return_d100},book_return_possibility = {character_data.entertainment.book_return_possibility}")
         if return_d100 < character_data.entertainment.book_return_possibility:
@@ -77,7 +77,7 @@ def check_random_borrow_book(character_id):
     # 未借书则随机借书
     else:
         # 遍历获得所有没借的书id
-        recommend_book_id_set,book_id_set = [],[]
+        recommend_book_id_set, book_id_set = [], []
         for book_id in cache.rhodes_island.book_borrow_dict:
             # 未被借出则加入book_id_set
             if cache.rhodes_island.book_borrow_dict[book_id] == -1:
@@ -86,7 +86,7 @@ def check_random_borrow_book(character_id):
                 if game_config.config_book[book_id].type in cache.rhodes_island.recommend_book_type_set:
                     recommend_book_id_set.append(book_id)
         # 如果推荐列表有书，则有一半的概率在推荐列表里借书，否则在全列表里借书
-        if len(recommend_book_id_set) and random.randint(0,1) == 1:
+        if len(recommend_book_id_set) and random.randint(0, 1) == 1:
             borrow_book_id = random.choice(recommend_book_id_set)
         else:
             borrow_book_id = random.choice(book_id_set)
@@ -199,10 +199,10 @@ class Borrow_Book_Panel:
                                 _(book_text),
                                 _(str(book_count)),
                                 self.width,
-                                normal_style = book_style,
+                                normal_style=book_style,
                                 cmd_func=self.show_book,
                                 args=(book_cid,),
-                                )
+                            )
                             return_list.append(button_draw.return_text)
                         else:
                             button_draw = draw.NormalDraw()
@@ -282,9 +282,7 @@ class Borrow_Book_Panel:
             else:
                 borrow_buttin_text = _("[借阅]")
 
-            borrow_button = draw.CenterButton(
-                borrow_buttin_text, borrow_buttin_text, window_width / 2, cmd_func=self.borrow, args=(book_cid,)
-            )
+            borrow_button = draw.CenterButton(borrow_buttin_text, borrow_buttin_text, window_width / 2, cmd_func=self.borrow, args=(book_cid,))
             borrow_button.draw()
             return_list.append(borrow_button.return_text)
 
@@ -322,4 +320,3 @@ class Borrow_Book_Panel:
             borrow_limit_draw.text = borrow_limit_text
             borrow_limit_draw.width = self.width
             borrow_limit_draw.draw()
-

@@ -98,7 +98,7 @@ class Physical_Check_And_Manage_Panel:
         title_text = _("身体检查与管理")
         title_draw = draw.TitleLineDraw(title_text, self.width)
         while 1:
-            self.pl_character_data = cache.character_data[0] # 更新玩家的角色数据
+            self.pl_character_data = cache.character_data[0]  # 更新玩家的角色数据
             target_character_id = self.pl_character_data.target_character_id
             target_character_data = cache.character_data[target_character_id]
             return_list = []
@@ -165,7 +165,7 @@ class Physical_Check_And_Manage_Panel:
                     window_width,
                     cmd_func=self.adjust_physical_check_schedule,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button3_draw.draw()
                 return_list.append(button3_draw.return_text)
@@ -178,7 +178,7 @@ class Physical_Check_And_Manage_Panel:
                     window_width,
                     cmd_func=self.check_physcial_report,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button11_draw.draw()
                 return_list.append(button11_draw.return_text)
@@ -240,15 +240,7 @@ class Physical_Check_And_Manage_Panel:
         }
 
         # 部位与素质的对应表
-        body_talent_map = {
-            881: 113,  # 尾巴
-            882: 113,  # 尾巴
-            883: 112,  # 兽角
-            884: 111,  # 兽耳
-            885: 115,  # 翅膀
-            886: 114,  # 光环
-            887: 116   # 触手
-        }
+        body_talent_map = {881: 113, 882: 113, 883: 112, 884: 111, 885: 115, 886: 114, 887: 116}  # 尾巴  # 尾巴  # 兽角  # 兽耳  # 翅膀  # 光环  # 触手
 
         while 1:
             return_list = []
@@ -330,7 +322,7 @@ class Physical_Check_And_Manage_Panel:
         line = draw.LineDraw("-", window_width)
         line.draw()
         line_feed.draw()
-        handle_instruct.chara_handle_instruct_common_settle(status_id, force_taget_wait = True)
+        handle_instruct.chara_handle_instruct_common_settle(status_id, force_taget_wait=True)
         info_draw = draw.WaitDraw()
         info_draw.text = "\n"
         info_draw.draw()
@@ -568,7 +560,7 @@ class Physical_Check_And_Manage_Panel:
             target_character_data.second_behavior[body_manage_second_behavior_id] = 1
             # 结算身体管理
             target_character_data.body_manage[manage_cid] = 1
-            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_WAIT, duration = 1, force_taget_wait = True)
+            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_WAIT, duration=1, force_taget_wait=True)
             info_text += _("对{0}进行了{1}的身体管理，将在明天睡醒后生效。\n").format(target_character_data.name, game_config.config_status[body_manage_second_behavior_id].name)
             # 练习类的身体管理
             if manage_cid in range(31, 40):
@@ -583,7 +575,7 @@ class Physical_Check_And_Manage_Panel:
         else:
             # 结算身体管理
             target_character_data.body_manage[manage_cid] = 0
-            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_WAIT, duration = 1, force_taget_wait = True)
+            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_WAIT, duration=1, force_taget_wait=True)
             info_text += _("取消了对{0}的{1}的身体管理，将在明天睡醒后生效。\n").format(target_character_data.name, game_config.config_status[body_manage_second_behavior_id].name)
             # 练习类的身体管理
             if manage_cid in range(31, 40):
@@ -632,8 +624,8 @@ class Physical_Check_And_Manage_Panel:
                 # 如果没有该键，则创建一个，并置为0
                 if cid not in cache.rhodes_island.physical_examination_setting:
                     cache.rhodes_island.physical_examination_setting[cid] = 0
-                now_setting_flag = cache.rhodes_island.physical_examination_setting[cid] # 当前设置的值
-                option_len = len(game_config.config_physical_exam_setting_option[cid]) # 选项的长度
+                now_setting_flag = cache.rhodes_island.physical_examination_setting[cid]  # 当前设置的值
+                option_len = len(game_config.config_physical_exam_setting_option[cid])  # 选项的长度
 
                 # 当前选择的选项的名字
                 button_text = f" [{game_config.config_physical_exam_setting_option[cid][now_setting_flag]}] "
@@ -669,7 +661,6 @@ class Physical_Check_And_Manage_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text:
                 break
-
 
     def check_physcial_report(self):
         """查看检查报告"""
@@ -840,10 +831,10 @@ class Physical_Check_And_Manage_Panel:
             kiss_id = target_character_data.first_record.first_kiss_id
             kiss_time = target_character_data.first_record.first_kiss_time
             now_text += _("于{kiss_time}在{kiss_palce}，向{character_name}博士").format(
-            character_name=cache.character_data[kiss_id].name,
-            kiss_time=str(kiss_time.month) + "月" + str(kiss_time.day) + "日",
-            kiss_palce=attr_text.get_scene_path_text(target_character_data.first_record.first_kiss_place),
-        )
+                character_name=cache.character_data[kiss_id].name,
+                kiss_time=str(kiss_time.month) + "月" + str(kiss_time.day) + "日",
+                kiss_palce=attr_text.get_scene_path_text(target_character_data.first_record.first_kiss_place),
+            )
             if target_character_data.first_record.first_kiss_body_part == 1:
                 now_text += _("的阴茎")
             now_text += _("献上了初吻")
@@ -990,11 +981,11 @@ class Physical_Check_And_Manage_Panel:
             # 绘制星期
             for week_id in range(7):
                 draw_text = f" [{week_id}]{week_data[week_id].name}"
-                draw_style = 'standard'
+                draw_style = "standard"
                 # 如果已选择该日期，则显示为选中状态
                 if week_id in cache.rhodes_island.manually_selected_exam_week_day_list:
                     draw_text += _("(已选择)")
-                    draw_style = 'gold_enrod'
+                    draw_style = "gold_enrod"
                 week_draw = draw.LeftButton(draw_text, str(week_id), window_width, normal_style=draw_style, cmd_func=self.set_physical_exam_date, args=(week_id))
 
                 return_list.append(week_draw.return_text)

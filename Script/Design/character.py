@@ -79,23 +79,22 @@ def init_attr(character_id: int):
         character_data.sanity_point_max = 100
         character_data.semen_point = 100
         character_data.semen_point_max = 100
-        character_data.pl_collection.token_list = attr_calculation.get_token_zero(
-            character_data.pl_collection.token_list)
+        character_data.pl_collection.token_list = attr_calculation.get_token_zero(character_data.pl_collection.token_list)
         character_data.tired_point = 0
         character_data.pl_ability = attr_calculation.get_pl_ability_zero()
         character_data.pl_collection = attr_calculation.get_collection_zero()
         character_data.cloth = attr_calculation.get_cloth_zero()
-        character_data.favorability = {0:0}
-        character_data.dormitory = map_handle.get_map_system_path_str_for_list(["中枢", "博士房间"]) # 此处不可使用翻译
+        character_data.favorability = {0: 0}
+        character_data.dormitory = map_handle.get_map_system_path_str_for_list(["中枢", "博士房间"])  # 此处不可使用翻译
         character_data.pre_dormitory = map_handle.get_map_system_path_str_for_list(["中枢", "博士房间"])
         # 初始收藏地点
-        cache.collect_position_list.append(['中枢', '博士房间'])
-        cache.collect_position_list.append(['中枢', '博士办公室'])
-        cache.collect_position_list.append(['贸易', '成人用品店'])
-        cache.collect_position_list.append(['书', '藏品馆'])
+        cache.collect_position_list.append(["中枢", "博士房间"])
+        cache.collect_position_list.append(["中枢", "博士办公室"])
+        cache.collect_position_list.append(["贸易", "成人用品店"])
+        cache.collect_position_list.append(["书", "藏品馆"])
 
     # 一系列初始化函数
-    init_character_behavior_start_time(character_id,cache.game_time)
+    init_character_behavior_start_time(character_id, cache.game_time)
     character_data.hit_point = character_data.hit_point_max
     character_data.mana_point = character_data.mana_point_max
     character_data.angry_point = random.randrange(1, 35)
@@ -260,6 +259,7 @@ def calculation_favorability(character_id: int, target_character_id: int, favora
     favorability *= fix
     return favorability
 
+
 def calculation_trust(character_id: int, target_character_id: int, add_time: int) -> int:
     """
     按角色当前状态、素质和能力计算最终增加的信赖度
@@ -324,7 +324,7 @@ def calculation_trust(character_id: int, target_character_id: int, add_time: int
     return trust_add
 
 
-def calculation_instuct_judege(character_id: int, target_character_id: int, instruct_name: str, not_draw_flag = False):
+def calculation_instuct_judege(character_id: int, target_character_id: int, instruct_name: str, not_draw_flag=False):
     """
     根据角色和目标角色的各属性来计算总实行值\n
     Keyword arguments:\n
@@ -362,17 +362,17 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
     judge = 0
 
     # 好感判定#
-    favorability_level,judge_favorability = attr_calculation.get_favorability_level(target_data.favorability[0])
+    favorability_level, judge_favorability = attr_calculation.get_favorability_level(target_data.favorability[0])
     calculation_text += _("好感修正(") + str(judge_favorability) + ")"
     judge += judge_favorability
 
     # 信赖判定#
-    trust_level,judge_trust = attr_calculation.get_trust_level(target_data.trust)
+    trust_level, judge_trust = attr_calculation.get_trust_level(target_data.trust)
     judge += judge_trust
     calculation_text += _("+信赖修正(") + str(judge_trust) + ")"
 
     # 状态修正，好意(11)和欲情(12)修正#
-    status_level_sum =  attr_calculation.get_status_level(target_data.status_data[11]) + attr_calculation.get_status_level(target_data.status_data[12])
+    status_level_sum = attr_calculation.get_status_level(target_data.status_data[11]) + attr_calculation.get_status_level(target_data.status_data[12])
     judge_status = status_level_sum * 10
     judge += judge_status
     if judge_status:
@@ -398,9 +398,16 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
         calculation_text += _("+心情修正(") + str(judge_angry) + ")"
 
     # 陷落素质判定，第一阶段~第四阶段分别为30,50,80,100#
-    judge_fall = target_data.talent[201] * 30 + target_data.talent[202] * 50 + target_data.talent[203] * 80 + \
-                 target_data.talent[204] * 100 + target_data.talent[211] * 30 + target_data.talent[212] * 50 + \
-                 target_data.talent[213] * 80 + target_data.talent[214] * 100
+    judge_fall = (
+        target_data.talent[201] * 30
+        + target_data.talent[202] * 50
+        + target_data.talent[203] * 80
+        + target_data.talent[204] * 100
+        + target_data.talent[211] * 30
+        + target_data.talent[212] * 50
+        + target_data.talent[213] * 80
+        + target_data.talent[214] * 100
+    )
     judge += judge_fall
     if judge_fall:
         calculation_text += _("+陷落修正(") + str(judge_fall) + ")"
@@ -536,12 +543,7 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
     # 性交的避孕相关修正
     if instruct_name == _("性交"):
         # 妊娠合意、避孕套、避孕中出合意+事前避孕药、性无知，以上可直接通过
-        if (
-            target_data.talent[14] or
-            character_data.h_state.body_item[13][1] or
-            (target_data.talent[13] and target_data.h_state.body_item[11][1]) or
-            target_data.talent[222]
-            ):
+        if target_data.talent[14] or character_data.h_state.body_item[13][1] or (target_data.talent[13] and target_data.h_state.body_item[11][1]) or target_data.talent[222]:
             pass
         else:
             if handle_premise.handle_reproduction_period_0(target_character_id):
@@ -562,13 +564,10 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
                 calculation_text += _("+排卵期(-300)")
 
     # 催眠系能力的最后补正，仅在催眠、性爱判定、且实行值不足时生效
-    judge_hypnosis = 0 # 初始为零，方便其他修正判断是否进行了催眠
-    if target_data.sp_flag.unconscious_h in [4,5,6,7] and judge_data_type == "S" and judge < judge_data_value:
+    judge_hypnosis = 0  # 初始为零，方便其他修正判断是否进行了催眠
+    if target_data.sp_flag.unconscious_h in [4, 5, 6, 7] and judge_data_type == "S" and judge < judge_data_value:
         # 性骚扰级别需要至少50%催眠深度，性行为需要2级催眠和至少100%催眠深度
-        if (
-            ((_("骚扰") in instruct_name or _("亲吻") in instruct_name) and target_data.hypnosis.hypnosis_degree >= 50) or 
-            (character_data.talent[332] and target_data.hypnosis.hypnosis_degree >= 100)
-        ):
+        if ((_("骚扰") in instruct_name or _("亲吻") in instruct_name) and target_data.hypnosis.hypnosis_degree >= 50) or (character_data.talent[332] and target_data.hypnosis.hypnosis_degree >= 100):
             # 实行值不够的差值为
             unenough = judge_data_value - judge
             # 催眠基础补正为100，再不足的部分用理智折算为实行值
@@ -621,10 +620,7 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
             condom_flag = False
         if instruct_name == _("性交"):
             # 避孕套、已显示过该信息，以上可直接通过
-            if (
-                character_data.h_state.body_item[13][1] or
-                target_data.h_state.condom_info_show_flag == False
-                ):
+            if character_data.h_state.body_item[13][1] or target_data.h_state.condom_info_show_flag == False:
                 pass
             else:
                 # 无意识
@@ -705,22 +701,22 @@ def calculation_instuct_judege(character_id: int, target_character_id: int, inst
             # 避孕相关合意
             # 避孕中出合意需要在非处女、不带套、安全期时，通过判定才可获得
             if (
-                handle_premise.handle_no_virgin(target_character_id) and
-                instruct_name == _("性交") and
-                target_data.talent[13] == 0 and
-                condom_flag == False and
-                handle_premise.handle_reproduction_period_0(target_character_id)
-                ):
+                handle_premise.handle_no_virgin(target_character_id)
+                and instruct_name == _("性交")
+                and target_data.talent[13] == 0
+                and condom_flag == False
+                and handle_premise.handle_reproduction_period_0(target_character_id)
+            ):
                 target_data.talent[13] = 1
                 draw_text += _("\n 获得了{0}的【避孕中出合意】\n").format(target_data.name)
             # 妊娠合意需要在非处女、不带套、非安全期时，通过判定才可获得
             if (
-                handle_premise.handle_no_virgin(target_character_id) and
-                instruct_name == _("性交") and
-                target_data.talent[14] == 0 and
-                condom_flag == False and
-                (handle_premise.handle_reproduction_period_2(target_character_id) or handle_premise.handle_reproduction_period_3(target_character_id))
-                ):
+                handle_premise.handle_no_virgin(target_character_id)
+                and instruct_name == _("性交")
+                and target_data.talent[14] == 0
+                and condom_flag == False
+                and (handle_premise.handle_reproduction_period_2(target_character_id) or handle_premise.handle_reproduction_period_3(target_character_id))
+            ):
                 target_data.talent[14] = 1
                 draw_text += _("\n 获得了{0}的【妊娠合意】\n").format(target_data.name)
             if len(draw_text):
@@ -788,6 +784,7 @@ def judge_character_time_over_24(character_id: int) -> bool:
     if end_time.day != start_time.day:
         return 1
     return 0
+
 
 def get_character_id_from_adv(adv_id: int) -> int:
     """

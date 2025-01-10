@@ -18,7 +18,7 @@ window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
 
-def settle_agriculture_line(draw_flag = True):
+def settle_agriculture_line(draw_flag=True):
     """
     结算农业的生产
     Keyword arguments:
@@ -34,7 +34,7 @@ def settle_agriculture_line(draw_flag = True):
     # 计算设施损坏
     damage_down = 0
     for facility_str in cache.rhodes_island.facility_damage_data:
-        if '疗养庭院' in facility_str:
+        if "疗养庭院" in facility_str:
             damage_down = cache.rhodes_island.facility_damage_data[facility_str] * 2
     # 计算总调整值
     adjust = (cache.rhodes_island.effectiveness - damage_down) / 100
@@ -155,7 +155,7 @@ class Agriculture_Production_Panel:
 
             # 遍历该类型的资源
             for material_id in [11, 16]:
-                material_data  = game_config.config_resouce[material_id]
+                material_data = game_config.config_resouce[material_id]
                 now_text += f"  {material_data.name}：{cache.rhodes_island.materials_resouce[material_id]}"
             now_text += "\n"
 
@@ -178,12 +178,8 @@ class Agriculture_Production_Panel:
                 all_info_draw.draw()
                 button_text = _(" [生产调整] ")
                 button_draw = draw.CenterButton(
-                    _(button_text),
-                    _("{0}_药田_{1}").format(button_text, agriculture_line_id),
-                    len(button_text) * 2,
-                    cmd_func=self.select_agriculture_line_produce,
-                    args = (agriculture_line_id, 0)
-                    )
+                    _(button_text), _("{0}_药田_{1}").format(button_text, agriculture_line_id), len(button_text) * 2, cmd_func=self.select_agriculture_line_produce, args=(agriculture_line_id, 0)
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
 
@@ -222,12 +218,8 @@ class Agriculture_Production_Panel:
                     all_info_draw.draw()
                     button_text = _(" [生产调整] ")
                     button_draw = draw.CenterButton(
-                        _(button_text),
-                        _("{0}_温室_{1}").format(button_text, agriculture_line_id),
-                        len(button_text) * 2,
-                        cmd_func=self.select_agriculture_line_produce,
-                        args = (agriculture_line_id, 1)
-                        )
+                        _(button_text), _("{0}_温室_{1}").format(button_text, agriculture_line_id), len(button_text) * 2, cmd_func=self.select_agriculture_line_produce, args=(agriculture_line_id, 1)
+                    )
                     return_list.append(button_draw.return_text)
                     button_draw.draw()
 
@@ -251,13 +243,7 @@ class Agriculture_Production_Panel:
 
             line_feed.draw()
             button_text = _("[001]种植员增减")
-            button_draw = draw.LeftButton(
-                _(button_text),
-                _(button_text),
-                self.width,
-                cmd_func=manage_basement_panel.change_npc_work_out,
-                args=self.width
-                )
+            button_draw = draw.LeftButton(_(button_text), _(button_text), self.width, cmd_func=manage_basement_panel.change_npc_work_out, args=self.width)
             button_draw.draw()
             return_list.append(button_draw.return_text)
 
@@ -283,54 +269,54 @@ class Agriculture_Production_Panel:
             resouce_id_list = [16]
         while 1:
 
-                line = draw.LineDraw("-", window_width)
-                line.draw()
-                info_draw = draw.NormalDraw()
-                info_draw.width = window_width
-                return_list = []
+            line = draw.LineDraw("-", window_width)
+            line.draw()
+            info_draw = draw.NormalDraw()
+            info_draw.width = window_width
+            return_list = []
 
-                # now_level = cache.rhodes_island.facility_level[16]
-                resouce_id = cache.rhodes_island.herb_garden_line[agriculture_line_id][0]
-                resouce_data = game_config.config_resouce[resouce_id]
+            # now_level = cache.rhodes_island.facility_level[16]
+            resouce_id = cache.rhodes_island.herb_garden_line[agriculture_line_id][0]
+            resouce_data = game_config.config_resouce[resouce_id]
 
-                info_text = f""
-                info_text += _(" 当前种植的是：{0}").format(resouce_data.name)
+            info_text = f""
+            info_text += _(" 当前种植的是：{0}").format(resouce_data.name)
 
-                info_text += _("\n\n 当前可以种植的有：\n\n")
-                info_draw.text = info_text
-                info_draw.draw()
+            info_text += _("\n\n 当前可以种植的有：\n\n")
+            info_draw.text = info_text
+            info_draw.draw()
 
-                # 遍历配方列表，获取每个配方的信息
-                for cid in resouce_id_list:
-                    resouce_now_data = game_config.config_resouce[cid]
+            # 遍历配方列表，获取每个配方的信息
+            for cid in resouce_id_list:
+                resouce_now_data = game_config.config_resouce[cid]
 
-                    # 判断当前配方是否可以生产，未解锁则跳过
-                    flag_open = True
-                    # if product_difficulty > now_level:
-                    #     flag_open = False
+                # 判断当前配方是否可以生产，未解锁则跳过
+                flag_open = True
+                # if product_difficulty > now_level:
+                #     flag_open = False
 
-                    if flag_open:
+                if flag_open:
 
-                        # 输出配方信息
-                        button_draw = draw.LeftButton(
-                            f"[{str(cid).rjust(3,'0')}]{resouce_now_data.name}：{resouce_now_data.info}",
-                            f"\n{cid}",
-                            window_width ,
-                            cmd_func=self.change_agriculture_line_produce,
-                            args=(agriculture_line_id ,cid, agriculture_type)
-                        )
-                        button_draw.draw()
-                        return_list.append(button_draw.return_text)
-                        line_feed.draw()
+                    # 输出配方信息
+                    button_draw = draw.LeftButton(
+                        f"[{str(cid).rjust(3,'0')}]{resouce_now_data.name}：{resouce_now_data.info}",
+                        f"\n{cid}",
+                        window_width,
+                        cmd_func=self.change_agriculture_line_produce,
+                        args=(agriculture_line_id, cid, agriculture_type),
+                    )
+                    button_draw.draw()
+                    return_list.append(button_draw.return_text)
+                    line_feed.draw()
 
-                line_feed.draw()
-                back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
-                back_draw.draw()
-                line_feed.draw()
-                return_list.append(back_draw.return_text)
-                yrn = flow_handle.askfor_all(return_list)
-                if yrn in return_list:
-                    break
+            line_feed.draw()
+            back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
+            back_draw.draw()
+            line_feed.draw()
+            return_list.append(back_draw.return_text)
+            yrn = flow_handle.askfor_all(return_list)
+            if yrn in return_list:
+                break
 
     def change_agriculture_line_produce(self, agriculture_line_id, formula_cid, agriculture_type):
         """更改农产品的种植"""

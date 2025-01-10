@@ -7,12 +7,7 @@ from Script.Core import (
     game_type,
     get_text,
 )
-from Script.Design import (
-    character_handle,
-    game_time,
-    talk,
-    attr_calculation
-)
+from Script.Design import character_handle, game_time, talk, attr_calculation
 from Script.UI.Moudle import draw
 from Script.UI.Panel import sp_event_panel
 from Script.Config import game_config, normal_config
@@ -41,12 +36,12 @@ def get_fertilization_rate(character_id: int):
     semen_level = character_data.dirty.body_semen[7][2]
     now_reproduction = character_data.pregnancy.reproduction_period
     # 基础概率
-    now_rate = math.pow(semen_count / 1000,2) * 100 + semen_level * 5
+    now_rate = math.pow(semen_count / 1000, 2) * 100 + semen_level * 5
 
     # 事前避孕药修正
     if character_data.h_state.body_item[11][1]:
         now_rate = 0
-        if game_time.judge_date_big_or_small(cache.game_time,character_data.h_state.body_item[11][2]):
+        if game_time.judge_date_big_or_small(cache.game_time, character_data.h_state.body_item[11][2]):
             character_data.h_state.body_item[11][1] = False
     # 事后避孕药修正
     if character_data.h_state.body_item[12][1]:
@@ -95,7 +90,7 @@ def check_fertilization(character_id: int):
     if character_data.hypnosis.force_ovulation:
         character_data.hypnosis.force_ovulation = False
     # 如果当前已受精，则跳过判断
-    for i in {20,21,22}:
+    for i in {20, 21, 22}:
         if character_data.talent[i] == 1:
             character_data.pregnancy.fertilization_rate = 0
             return 0
@@ -117,7 +112,7 @@ def check_fertilization(character_id: int):
         else:
 
             # 由随机数判断是否受精
-            if random.randint(1,100) <= character_data.pregnancy.fertilization_rate:
+            if random.randint(1, 100) <= character_data.pregnancy.fertilization_rate:
                 draw_text += "\n※※※※※※※※※\n"
                 draw_text += _("\n博士的精子与{0}的卵子结合，成功在子宫里着床了\n").format(character_data.name)
                 draw_text += _("\n{0}获得了[受精]\n").format(character_data.name)
@@ -169,7 +164,7 @@ def check_pregnancy(character_id: int):
             character_data.talent[26] = 1
             character_data.talent[27] = 1
             # 根据罩杯大小修改乳汁上限
-            for talent_id in [121,122,123,124,125]:
+            for talent_id in [121, 122, 123, 124, 125]:
                 if character_data.talent[talent_id]:
                     character_data.pregnancy.milk_max = 150 + (talent_id - 121) * 40
                     break
@@ -233,7 +228,7 @@ def check_born(character_id: int):
         # 每过一天+20%几率判断是否生产
         now_rate = past_day * 20
         # print(f"debug {character_data.name}进入生产检测，当前生产几率为{now_rate}%")
-        if random.randint(1,100) <= now_rate:
+        if random.randint(1, 100) <= now_rate:
             draw_panel = sp_event_panel.Born_Panel(character_id)
             draw_panel.draw()
 
@@ -251,7 +246,7 @@ def check_rearing(character_id: int):
         start_date = cache.game_time
         end_date = child_character_data.pregnancy.born_time
         past_day = (start_date - end_date).days
-        # 
+        #
         if past_day >= 2:
             character_data.talent[23] = 0
             character_data.talent[24] = 1
@@ -404,7 +399,7 @@ def update_reproduction_period(character_id: int):
         character_data.pregnancy.reproduction_period += 1
 
 
-def chest_grow(character_id: int,print_flag = False):
+def chest_grow(character_id: int, print_flag=False):
     """
     进行胸部生长判定
     """
@@ -413,7 +408,7 @@ def chest_grow(character_id: int,print_flag = False):
     mom_id = character_data.relationship.mother_id
     mom_character_data: game_type.Character = cache.character_data[mom_id]
     # 获得本人的旧胸部大小和母亲的胸部大小
-    for i in {121,122,123,124,125}:
+    for i in {121, 122, 123, 124, 125}:
         if character_data.talent[i]:
             old_chest_id = i
         if mom_character_data.talent[i]:
@@ -421,17 +416,17 @@ def chest_grow(character_id: int,print_flag = False):
 
     # 用随机数计算生长，可能长3、长2或者长1，母亲胸部越大生长比例就越高
     # 母亲胸部0时从长0~长3生长比例是 0.6 0.25 0.1 0.05，母亲胸部6时反过来
-    randow_grow = random.randint(1,100)
+    randow_grow = random.randint(1, 100)
     grow_rate = mom_chest_id - 121
     grow_0 = 60 - 11 * grow_rate
-    grow_1 = 25 - 3 *grow_rate
-    grow_2 = 10 + 3 *grow_rate
+    grow_1 = 25 - 3 * grow_rate
+    grow_2 = 10 + 3 * grow_rate
     if randow_grow > grow_0 + grow_1 + grow_2:
-        new_chest_id = min(old_chest_id + 3 ,125)
+        new_chest_id = min(old_chest_id + 3, 125)
     elif randow_grow > grow_0 + grow_1:
-        new_chest_id = min(old_chest_id + 2 ,125)
-    elif randow_grow > grow_0 :
-        new_chest_id = min(old_chest_id + 1 ,125)
+        new_chest_id = min(old_chest_id + 2, 125)
+    elif randow_grow > grow_0:
+        new_chest_id = min(old_chest_id + 1, 125)
     else:
         new_chest_id = old_chest_id
 
@@ -455,7 +450,8 @@ def chest_grow(character_id: int,print_flag = False):
     # 返回胸部成长情况的文本
     return now_text
 
-def body_part_grow(character_id: int,print_flag = False):
+
+def body_part_grow(character_id: int, print_flag=False):
     """
     进行除胸部外其他部位的生长判定
     """
@@ -467,7 +463,7 @@ def body_part_grow(character_id: int,print_flag = False):
 
     old_talent_id_list, new_talent_id_list = [], []
     # 获得本人的臀部大小和母亲的臀部大小
-    for i in {126,127,128,129,130,131,132}:
+    for i in {126, 127, 128, 129, 130, 131, 132}:
         if character_data.talent[i]:
             old_talent_id_list.append(i)
         if mom_character_data.talent[i]:

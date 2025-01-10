@@ -122,7 +122,6 @@ class BehaviorEffect:
     SCENE_ALL_CHARACTERS_DESIRE_POINT_ZERO = 1531
     """ 属性_结构体 场景内所有角色欲望值归零 """
 
-
     TARGET_ADD_SMALL_N_FEEL = 41
     """ 属性_状态 交互对象增加少量Ｎ快（N感补正） """
     TARGET_ADD_SMALL_B_FEEL = 42
@@ -634,7 +633,7 @@ class BehaviorEffect:
     """ 指令_专用结算 （邀请访客用）根据发起者(如果有的话再加上交互对象)的话术技能增加邀请槽 """
     MILK_ADD_ADJUST = 519
     """ 指令_专用结算 （挤奶用）把交互对象的乳汁转移到厨房的冰箱里 """
-    #TODO 转移到随身道具上，之后到饭点了的时候再放到厨房里
+    # TODO 转移到随身道具上，之后到饭点了的时候再放到厨房里
     SALUTATION_3_ADD_ADJUST = 520
     """ 指令_专用结算 （早安咬与晚安咬）触发交互对象一次射精，射到发起者嘴里 """
     AROMATHERAPY_ADD_ADJUST = 521
@@ -1035,6 +1034,7 @@ class BehaviorEffect:
 
     FACILITY_DAMAGE_CHECK = 1751
     """ 设施 几率判定自己所在地点是否造成损坏 """
+
 
 class SecondEffect:
     """二段结算效果函数"""

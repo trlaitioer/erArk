@@ -15,6 +15,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 def get_target_chara_diy_instruct(character_id: int = 0):
     """
     获得交互对象的角色自定义指令\n
@@ -25,7 +26,7 @@ def get_target_chara_diy_instruct(character_id: int = 0):
     list -- 子事件列表\n
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    son_event_list = [] # 子事件列表
+    son_event_list = []  # 子事件列表
     if character_data.target_character_id:
         target_character_data = cache.character_data[character_data.target_character_id]
         # 判断是否存在该行为对应的事件
@@ -38,7 +39,7 @@ def get_target_chara_diy_instruct(character_id: int = 0):
                 for event_id in target_diy_instruct_event_list:
                     event_config = game_config.config_event[event_id]
                     # 计算总权重
-                    now_weight = handle_premise.get_weight_from_premise_dict(event_config.premise, character_id, unconscious_pass_flag = True)
+                    now_weight = handle_premise.get_weight_from_premise_dict(event_config.premise, character_id, unconscious_pass_flag=True)
                     # 判定通过，加入到子事件的列表中
                     if now_weight:
                         son_event_list.append(event_id)
@@ -57,7 +58,7 @@ def check_son_event_list_from_event_list(event_list: list, character_id: int, ev
     Return arguments:\n
     son_event_list -- 子事件列表\n
     """
-    son_event_list = [] # 子事件列表
+    son_event_list = []  # 子事件列表
 
     # 开始遍历当前行为的事件表
     for event_id in event_list:
@@ -72,7 +73,7 @@ def check_son_event_list_from_event_list(event_list: list, character_id: int, ev
             # 如果前提集不为空
             if len(premise_dict):
                 # 计算总权重
-                now_weight = handle_premise.get_weight_from_premise_dict(premise_dict, character_id, unconscious_pass_flag = True)
+                now_weight = handle_premise.get_weight_from_premise_dict(premise_dict, character_id, unconscious_pass_flag=True)
                 # 判定通过，加入到子事件的列表中
                 if now_weight:
                     son_event_list.append(event_id)
@@ -169,8 +170,8 @@ class multi_layer_event_option_Panel:
         target_character_data = cache.character_data[character_data.target_character_id]
         behavior_id = character_data.behavior.behavior_id
 
-        tem_event_list = [] # 临时事件列表
-        son_event_list = [] # 子事件列表
+        tem_event_list = []  # 临时事件列表
+        son_event_list = []  # 子事件列表
 
         # 开始遍历当前行为的事件表
         if behavior_id in game_config.config_event_status_data_by_chara_adv:
@@ -215,9 +216,7 @@ class SonEventDraw:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, value_list: list, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, value_list: list, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
         self.event_id = value_list[0]
         """ 事件id """
@@ -243,14 +242,10 @@ class SonEventDraw:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = f"{index_text}{option_text}"
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, cmd_func=self.run_son_event
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.run_son_event)
             else:
                 button_text = f"[{option_text}]"
-                name_draw = draw.CenterButton(
-                    button_text, option_text, self.width, cmd_func=self.run_son_event
-                )
+                name_draw = draw.CenterButton(button_text, option_text, self.width, cmd_func=self.run_son_event)
                 self.button_return = option_text
             self.draw_text = button_text
         else:
@@ -261,7 +256,6 @@ class SonEventDraw:
         self.now_draw = name_draw
         """ 绘制的对象 """
 
-
     def draw(self):
         """绘制对象"""
         self.now_draw.draw()
@@ -270,4 +264,3 @@ class SonEventDraw:
         """点击后运行对应的子事件"""
         character_data: game_type.Character = cache.character_data[self.character_id]
         character_data.event.son_event_id = self.event_id
-

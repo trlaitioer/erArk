@@ -22,7 +22,7 @@ class DrawEventTextPanel(draw.LineFeedWaitDraw):
     character_id -- 触发事件的角色id
     """
 
-    def __init__(self, event_id: str,character_id: int, event_type: int):
+    def __init__(self, event_id: str, character_id: int, event_type: int):
         """初始化绘制对象"""
         self.width: int = window_width
         """ 绘制的最大宽度 """
@@ -44,7 +44,7 @@ class DrawEventTextPanel(draw.LineFeedWaitDraw):
         if player_data.position not in [character_data.position, character_data.behavior.move_target]:
             return
 
-        son_event_flag = False # 子事件标记
+        son_event_flag = False  # 子事件标记
         diy_event_flag = False  # diy事件标记
 
         event_data = game_config.config_event[self.event_id]

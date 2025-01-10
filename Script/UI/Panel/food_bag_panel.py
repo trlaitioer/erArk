@@ -40,19 +40,15 @@ class FoodBagPanel:
         title_draw = draw.TitleLineDraw(_("食物背包"), self.width)
         food_type_list = [_("当前持有食物")]
         # food_type_list = [_("主食"), _("零食"), _("饮品"), _("水果"), _("食材"), _("调料")]
-        self.handle_panel_normal = panel.PageHandlePanel(
-            [], SeeFoodListByFoodNameDraw, 10, 1, window_width, 1, 0, 0
-        )
-        self.handle_panel_special = panel.PageHandlePanel(
-            [], SeeFoodListByFoodNameDraw, 10, 1, window_width, 1, 0, 0
-        )
+        self.handle_panel_normal = panel.PageHandlePanel([], SeeFoodListByFoodNameDraw, 10, 1, window_width, 1, 0, 0)
+        self.handle_panel_special = panel.PageHandlePanel([], SeeFoodListByFoodNameDraw, 10, 1, window_width, 1, 0, 0)
         while 1:
             character_data: game_type.Character = cache.character_data[0]
             if cache.now_panel_id != constant.Panel.FOOD_BAG:
                 break
 
             # 读取背包食物，并只提取uid列表
-            id_list_normal,id_list_special = [],[]
+            id_list_normal, id_list_special = [], []
             del_food_flag = False
             for i in character_data.food_bag.copy():
                 food_data: game_type.Food = cache.character_data[0].food_bag[i]
@@ -63,7 +59,7 @@ class FoodBagPanel:
                     del_food_flag = True
                     continue
                 # 如果food_data是精液调味(调味类型11和12)没有special_seasoning_amount属性，则删除该食物
-                elif food_data.special_seasoning in [11,12] and not hasattr(food_data, "special_seasoning_amount"):
+                elif food_data.special_seasoning in [11, 12] and not hasattr(food_data, "special_seasoning_amount"):
                     del cache.character_data[0].food_bag[i]
                     del_food_flag = True
                     continue
@@ -141,7 +137,7 @@ class FoodBagPanel:
             back_draw.draw()
             return_list.append(back_draw.return_text)
             yrn = flow_handle.askfor_all(return_list)
-            if yrn in return_list and yrn not in ["0","1"]:
+            if yrn in return_list and yrn not in ["0", "1"]:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 
@@ -155,7 +151,7 @@ class FoodBagPanel:
         character_data: game_type.Character = cache.character_data[0]
 
         # 读取背包食物，并只提取uid列表
-        id_list_normal,id_list_special = [],[]
+        id_list_normal, id_list_special = [], []
         for i in character_data.food_bag:
             food_data: game_type.Food = cache.character_data[0].food_bag[i]
             if food_data.special_seasoning == 0:
@@ -168,12 +164,8 @@ class FoodBagPanel:
         self.handle_panel_special.text_list = id_list_special
         self.handle_panel_special.update()
 
-        self.handle_panel_normal = panel.PageHandlePanel(
-            id_list_normal, SeeFoodListByFoodNameDraw, 10, 5, window_width, 1, 0, 0
-        )
-        self.handle_panel_special = panel.PageHandlePanel(
-            id_list_special, SeeFoodListByFoodNameDraw, 10, 5, window_width, 1, 0, 0
-        )
+        self.handle_panel_normal = panel.PageHandlePanel(id_list_normal, SeeFoodListByFoodNameDraw, 10, 5, window_width, 1, 0, 0)
+        self.handle_panel_special = panel.PageHandlePanel(id_list_special, SeeFoodListByFoodNameDraw, 10, 5, window_width, 1, 0, 0)
 
 
 class SeeFoodListByFoodNameDraw:
@@ -187,9 +179,7 @@ class SeeFoodListByFoodNameDraw:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, text: UUID, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, text: UUID, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
         self.text: UUID = text
         """ 食物id """
@@ -224,7 +214,7 @@ class SeeFoodListByFoodNameDraw:
         food_seasoning = ""
         if food_data.special_seasoning != 0:
             food_seasoning += f"({game_config.config_seasoning[food_data.special_seasoning].name})"
-        
+
         button_text = f"  {food_name}{food_seasoning}"
         button_text += f"{food_quality_str}"
         button_text += f"{milk_ml}"
@@ -251,9 +241,7 @@ class SeeFoodListByFoodNameDraw:
         if draw_button_flag:
             # 将uuid的前三位作为按钮的返回值
             return_text = f"\n{food_name}_{str(self.text)[:3]}"
-            name_draw = draw.LeftButton(
-                button_text, return_text, self.width, cmd_func=self.eat_food
-            )
+            name_draw = draw.LeftButton(button_text, return_text, self.width, cmd_func=self.eat_food)
             self.draw_text = button_text
             self.button_return = name_draw.return_text
         else:

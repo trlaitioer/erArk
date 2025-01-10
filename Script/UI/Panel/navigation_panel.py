@@ -25,6 +25,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 def judge_arrive():
     """
     判断是否抵达指定地点
@@ -44,11 +45,11 @@ def judge_arrive():
             if now_scene_id in cache.rhodes_island.diplomat_of_country:
                 now_diplomat_chara_id = cache.rhodes_island.diplomat_of_country[now_scene_id][0]
                 if now_diplomat_chara_id != 0:
-                    default.handle_chara_off_line(now_diplomat_chara_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                    default.handle_chara_off_line(now_diplomat_chara_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
             if target_scene_id in cache.rhodes_island.diplomat_of_country:
                 target_diplomat_chara_id = cache.rhodes_island.diplomat_of_country[target_scene_id][0]
                 if target_diplomat_chara_id != 0:
-                    default.handle_chara_on_line(target_diplomat_chara_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                    default.handle_chara_on_line(target_diplomat_chara_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
             # 清零移动目标
             cache.rhodes_island.move_target_and_time = [0, 0, 0]
             # 绘制提示信息
@@ -119,7 +120,6 @@ class Base_function_class:
             now_draw.width = window_width
             now_draw.draw()
 
-
     def move_to_scene(self, scene_name: str, need_fuel: int, need_time: int):
         """
         移动至指定场景
@@ -135,7 +135,7 @@ class Base_function_class:
             birthplace_data = game_config.config_birthplace[birthplace_id]
             if birthplace_data.name == scene_name:
                 cache.rhodes_island.move_target_and_time[0] = birthplace_id
-                arrive_time = game_time.get_sub_date(day = need_time, old_date = cache.game_time)
+                arrive_time = game_time.get_sub_date(day=need_time, old_date=cache.game_time)
                 cache.rhodes_island.move_target_and_time[2] = arrive_time
                 cache.rhodes_island.materials_resouce[15] -= need_fuel
                 break
@@ -152,7 +152,7 @@ class Navigation_Panel(Base_function_class):
         """初始化绘制对象"""
         self.width: int = width
         """ 绘制的最大宽度 """
-        self.now_map: List[str] = ['泰拉']
+        self.now_map: List[str] = ["泰拉"]
         """ 当前查看的地图坐标 """
 
     def draw(self):
@@ -175,7 +175,7 @@ class Navigation_Panel(Base_function_class):
             now_city_id = cache.rhodes_island.current_location[1]
             now_city_name = game_config.config_city[now_city_id].name
             # TODO 在处理好中文地图路径之后再改回来
-            base_scene_name = _(now_country_name, revert_translation = True)
+            base_scene_name = _(now_country_name, revert_translation=True)
             # 移动中的目标地点
             if cache.rhodes_island.move_target_and_time[0] != 0:
                 target_scene_id = cache.rhodes_island.move_target_and_time[0]
@@ -205,7 +205,6 @@ class Navigation_Panel(Base_function_class):
                     # 首先需要是地点按钮
                     if "is_button" in draw_text.__dict__ and draw_text.is_button:
 
-
                         # 如果不是基地所在的地点，则绘制按钮
                         if draw_text.text != base_scene_name:
                             # 初始化目标地点路径
@@ -213,13 +212,9 @@ class Navigation_Panel(Base_function_class):
                             # 如果正在移动中，则目标为红色，其他为灰色
                             if cache.rhodes_island.move_target_and_time[0] != 0:
                                 if draw_text.text == target_scene_name:
-                                    now_draw = draw.Button(
-                                        draw_text.text, draw_text.text, normal_style = "red", cmd_func=self.move_judge, args=(target_scene,2)
-                                    )
+                                    now_draw = draw.Button(draw_text.text, draw_text.text, normal_style="red", cmd_func=self.move_judge, args=(target_scene, 2))
                                 else:
-                                    now_draw = draw.Button(
-                                        draw_text.text, draw_text.text,normal_style="deep_gray", cmd_func=self.move_judge, args=(target_scene,2)
-                                    )
+                                    now_draw = draw.Button(draw_text.text, draw_text.text, normal_style="deep_gray", cmd_func=self.move_judge, args=(target_scene, 2))
                             else:
                                 # 临近地点正常绘制
                                 if draw_text.text in near_scene_path_name_list:
@@ -227,17 +222,13 @@ class Navigation_Panel(Base_function_class):
                                     # 获取目标地点路径，包括地点名和抵达该地点的距离
                                     target_scene = [draw_text.text, near_scene_path[draw_text.text]]
                                     # 绘制按钮
-                                    now_draw = draw.Button(
-                                        draw_text.text, draw_text.text, cmd_func=self.move_judge, args=(target_scene,)
-                                    )
+                                    now_draw = draw.Button(draw_text.text, draw_text.text, cmd_func=self.move_judge, args=(target_scene,))
                                     # TODO 如果是有特殊事件在那么显示为绿色
                                     # if len(cache.scene_data[full_scene_str].character_list):
                                     #     now_draw.normal_style = "green"
                                 # 非临近地点则绘制灰色按钮
                                 else:
-                                    now_draw = draw.Button(
-                                        draw_text.text, draw_text.text,normal_style="deep_gray", cmd_func=self.move_judge, args=(target_scene,1)
-                                    )
+                                    now_draw = draw.Button(draw_text.text, draw_text.text, normal_style="deep_gray", cmd_func=self.move_judge, args=(target_scene, 1))
                             now_draw.width = self.width
                             now_draw.draw()
                             return_list.append(now_draw.return_text)
@@ -303,9 +294,7 @@ class MoveMenuPanel:
         """ 当前的移动菜单类型 """
         self.draw_list: List[draw.NormalDraw] = []
         """ 绘制的对象列表 """
-        self.move_type_id_data: Dict[str, int] = {
-            game_config.config_move_menu_type[i].name: i for i in game_config.config_move_menu_type
-        }
+        self.move_type_id_data: Dict[str, int] = {game_config.config_move_menu_type[i].name: i for i in game_config.config_move_menu_type}
         """ 移动类型名字对应配表id """
 
     def update(self):
@@ -315,9 +304,7 @@ class MoveMenuPanel:
         self.return_list = []
         self.draw_list.append(line)
         menu_draw = panel.CenterDrawButtonListPanel()
-        move_name_list = [
-            game_config.config_move_menu_type[i].name for i in game_config.config_move_menu_type
-        ]
+        move_name_list = [game_config.config_move_menu_type[i].name for i in game_config.config_move_menu_type]
         move_name_draw_list = [f"[{_(name)}]" for name in move_name_list]
         menu_draw.set(
             move_name_draw_list,
@@ -390,7 +377,7 @@ class MapSceneNameDraw(Base_function_class):
         now_city_id = cache.rhodes_island.current_location[1]
         now_city_name = game_config.config_city[now_city_id].name
         # TODO 在处理好中文地图路径之后再改回来
-        base_scene_name = _(now_country_name, revert_translation = True)
+        base_scene_name = _(now_country_name, revert_translation=True)
         # 临近地点
         path_edge = map_data.path_edge
         scene_path = path_edge[base_scene_name].copy()
@@ -415,9 +402,7 @@ class MapSceneNameDraw(Base_function_class):
                 else:
                     now_id_text = f"→{_(load_scene_data.scene_name)}"
 
-                now_draw = draw.LeftButton(
-                    now_id_text, now_id_text, self.width, cmd_func=self.move_judge, args=(target_scene,)
-                )
+                now_draw = draw.LeftButton(now_id_text, now_id_text, self.width, cmd_func=self.move_judge, args=(target_scene,))
                 self.return_list.append(now_draw.return_text)
                 draw_list.append(now_draw)
             draw_group = value_handle.list_of_groups(draw_list, 8)

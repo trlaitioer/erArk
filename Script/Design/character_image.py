@@ -1,16 +1,12 @@
 from types import FunctionType
-from Script.Core import (
-    cache_control,
-    game_type,
-    get_text,
-    era_image
-)
+from Script.Core import cache_control, game_type, get_text, era_image
 from Script.Design import handle_premise
 
 cache: game_type.Cache = cache_control.cache
 """ 游戏缓存数据 """
 _: FunctionType = get_text._
 """ 翻译api """
+
 
 def find_character_image_name(character_id: int) -> str:
     """
@@ -153,4 +149,3 @@ def big_belly_judge(character_id: int) -> str:
     elif handle_premise.handle_cumflation_1(character_id):
         image_name += "_膨腹"
     return image_name
-

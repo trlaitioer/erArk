@@ -3,7 +3,7 @@ from types import FunctionType
 from Script.Core import cache_control, game_type, get_text, flow_handle, constant
 from Script.UI.Moudle import draw
 from Script.Config import game_config, normal_config
-from Script.Design import  attr_calculation
+from Script.Design import attr_calculation
 import random
 
 cache: game_type.Cache = cache_control.cache
@@ -16,6 +16,7 @@ line_feed.text = "\n"
 line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
+
 
 def update_nation_data():
     """
@@ -279,9 +280,9 @@ class Nation_Diplomacy_Panel:
                     nation_text,
                     "\n" + nation_name,
                     self.width,
-                    normal_style = draw_style,
-                    cmd_func = self.nation_info,
-                    args = (nation_id,),
+                    normal_style=draw_style,
+                    cmd_func=self.nation_info,
+                    args=(nation_id,),
                 )
                 nation_draw.draw()
                 return_list.append(nation_draw.return_text)
@@ -431,7 +432,6 @@ class Nation_Diplomacy_Panel:
             if yrn == back_draw.return_text:
                 break
 
-
     def adjust_NPC(self, nation_id: int):
         """
         调整负责外交官
@@ -473,10 +473,10 @@ class Nation_Diplomacy_Panel:
                 button_draw = draw.LeftButton(
                     draw_text,
                     f"\n{character_id}",
-                    self.width / 6 ,
-                    normal_style = draw_style,
-                    cmd_func = self.sure_NPC,
-                    args = (character_id, country_id),
+                    self.width / 6,
+                    normal_style=draw_style,
+                    cmd_func=self.sure_NPC,
+                    args=(character_id, country_id),
                 )
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
@@ -494,7 +494,6 @@ class Nation_Diplomacy_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn in return_list:
                 break
-
 
     def sure_NPC(self, character_id: int, country_id: int):
         """
@@ -516,7 +515,7 @@ class Nation_Diplomacy_Panel:
             cache.rhodes_island.diplomat_of_country[country_id][0] = 0
             # 如果是离线状态，则上线
             if not handle_premise.handle_normal_7(old_diplomat_id):
-                default.handle_chara_on_line(old_diplomat_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                default.handle_chara_on_line(old_diplomat_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
             # 根据是本地还是外派，赋予对应的二段行为结算
             if cache.rhodes_island.current_location[0] == country_id:
                 old_diplomat_chara_data.second_behavior[1372] = 1
@@ -536,18 +535,19 @@ class Nation_Diplomacy_Panel:
                 new_diplomat_chara_data.second_behavior[1371] = 1
                 talk.must_show_talk_check(character_id)
                 # 输出本地提示
-                info_text = _("\n{0}被任命为{1}的外交官，因为该地为当前罗德岛所在地，所以会在岛上办公，当罗德岛离开该国家后会进入离舰外派状态。\n").format(new_diplomat_chara_data.name, game_config.config_birthplace[country_id].name)
+                info_text = _("\n{0}被任命为{1}的外交官，因为该地为当前罗德岛所在地，所以会在岛上办公，当罗德岛离开该国家后会进入离舰外派状态。\n").format(
+                    new_diplomat_chara_data.name, game_config.config_birthplace[country_id].name
+                )
             else:
                 new_diplomat_chara_data.second_behavior[1373] = 1
                 talk.must_show_talk_check(character_id)
-                default.handle_chara_off_line(character_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                default.handle_chara_off_line(character_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
                 # 输出外派提示
                 info_text = _("\n{0}被派遣到{1}作为外交官，将会长期停留在那里，直到被召回或罗德岛抵达该国家。\n").format(new_diplomat_chara_data.name, game_config.config_birthplace[country_id].name)
             info_draw = draw.WaitDraw()
             info_draw.text = info_text
             info_draw.width = window_width
             info_draw.draw()
-
 
     def adjust_diplomatic_policy(self, nation_id: int):
         """
@@ -595,10 +595,10 @@ class Nation_Diplomacy_Panel:
                 button_draw = draw.LeftButton(
                     draw_text,
                     f"\n{diplomatic_policy_id}",
-                    self.width ,
-                    normal_style = draw_style,
-                    cmd_func = self.sure_diplomatic_policy,
-                    args = (diplomatic_policy_id, country_id),
+                    self.width,
+                    normal_style=draw_style,
+                    cmd_func=self.sure_diplomatic_policy,
+                    args=(diplomatic_policy_id, country_id),
                 )
                 button_draw.draw()
                 return_list.append(button_draw.return_text)

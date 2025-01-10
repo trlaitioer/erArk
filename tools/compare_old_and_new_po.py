@@ -33,10 +33,7 @@ for entry in new_po:
 for msgid, msgstr in new_msgid_msgstr_dict.items():
     # print(f"debug new msgid: {msgid}, msgstr: {msgstr}")
     # 创建一个新的PO文件条目
-    new_entry = polib.POEntry(
-        msgid=msgid,
-        msgstr=msgstr
-    )
+    new_entry = polib.POEntry(msgid=msgid, msgstr=msgstr)
     # 将新的PO文件条目添加到PO文件中
     po.append(new_entry)
 

@@ -31,10 +31,10 @@ def handle_talk(character_id: int):
             return
     # 智能跟随模式下，博士离开时，跟随的角色不显示送别文本
     if (
-        character_id == 0 and
-        target_data.sp_flag.is_follow == 1 and
-        behavior_id == constant.Behavior.MOVE and
-        handle_premise_place.handle_move_to_same_target_with_pl(character_data.target_character_id)
+        character_id == 0
+        and target_data.sp_flag.is_follow == 1
+        and behavior_id == constant.Behavior.MOVE
+        and handle_premise_place.handle_move_to_same_target_with_pl(character_data.target_character_id)
     ):
         # print(f"debug 智能跟随模式下，博士离开时，跟随的角色{target_data.name}不显示送别文本")
         return
@@ -96,7 +96,7 @@ def handle_second_talk(character_id: int, behavior_id: int = 0):
     #             handle_talk_draw(target_character_id, now_talk_data, second_behavior_id)
 
 
-def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag = False):
+def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag=False):
     """
     处理行为结算对话的内置循环部分
     Keyword arguments:
@@ -105,7 +105,7 @@ def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag =
     """
     character_data: game_type.Character = cache.character_data[character_id]
     target_data: game_type.Character = cache.character_data[character_data.target_character_id]
-    tem_talk_list = [] # 临时口上列表
+    tem_talk_list = []  # 临时口上列表
     if behavior_id in game_config.config_talk_data_by_chara_adv:
         # 获取通用口上
         if 0 in game_config.config_talk_data_by_chara_adv[behavior_id]:
@@ -116,7 +116,7 @@ def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag =
         # 获取交互目标的口上
         if target_data.adv != 0 and target_data.adv in game_config.config_talk_data_by_chara_adv[behavior_id]:
             tem_talk_list += game_config.config_talk_data_by_chara_adv[behavior_id][target_data.adv]
-    now_talk_data = {} # 正式口上数据
+    now_talk_data = {}  # 正式口上数据
     # 遍历口上列表
     for talk_id in tem_talk_list:
         talk_config = game_config.config_talk[talk_id]
@@ -130,7 +130,7 @@ def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag =
             continue
         # 计算前提字典的总权重
         premise_dict = game_config.config_talk_premise_data[talk_id]
-        now_weight = handle_premise.get_weight_from_premise_dict(premise_dict, character_id, weight_all_to_1_flag = True, unconscious_pass_flag = unconscious_pass_flag)
+        now_weight = handle_premise.get_weight_from_premise_dict(premise_dict, character_id, weight_all_to_1_flag=True, unconscious_pass_flag=unconscious_pass_flag)
         if now_weight:
             # 如果该句文本是角色口上，则权重乘以三
             if talk_config.adv_id != 0:
@@ -140,7 +140,7 @@ def handle_talk_sub(character_id: int, behavior_id: int, unconscious_pass_flag =
     return now_talk_data
 
 
-def handle_talk_draw(character_id: int, now_talk_data: dict, second_behavior_id = 0):
+def handle_talk_draw(character_id: int, now_talk_data: dict, second_behavior_id=0):
     """
     处理行为结算对话的输出
     Keyword arguments:
@@ -295,7 +295,7 @@ def second_behavior_info_text(character_id: int, second_behavior_id: int):
             range(1045, 1048): "反发",
         }
         mark_name = next((name for key, name in mark_name_map.items() if second_behavior_id in key), None)
-        mark_degree = (second_behavior_id % 3)
+        mark_degree = second_behavior_id % 3
         if mark_degree == 0:
             mark_degree = 3
         info_text = _("\n{0}获得了{1}刻印{2}\n").format(chara_name, mark_name, mark_degree)
@@ -341,7 +341,6 @@ def special_code_judge(now_talk: str):
         special_code[0] = True
 
     return now_talk, special_code
-
 
 
 def code_text_to_draw_text(now_talk: str, character_id: int):
@@ -393,7 +392,7 @@ def code_text_to_draw_text(now_talk: str, character_id: int):
 
     # 桌游
     board_game_name = ""
-    pl_board_game_type = player_data.behavior.board_game_type if hasattr(player_data.behavior, 'board_game_type') else 0
+    pl_board_game_type = player_data.behavior.board_game_type if hasattr(player_data.behavior, "board_game_type") else 0
     if character_id == 0 and pl_board_game_type != 0:
         board_game_name = game_config.config_board_game[pl_board_game_type].name
 
@@ -404,7 +403,7 @@ def code_text_to_draw_text(now_talk: str, character_id: int):
     scene_name = scene_data.scene_name
 
     # 移动前地点
-    src_scene_name,src_random_chara_name = "",""
+    src_scene_name, src_random_chara_name = "", ""
     if len(player_data.behavior.move_src):
         src_scene_path_str = map_handle.get_map_system_path_str_for_list(player_data.behavior.move_src)
         src_scene_data: game_type.Scene = cache.scene_data[src_scene_path_str]
@@ -415,7 +414,7 @@ def code_text_to_draw_text(now_talk: str, character_id: int):
                 break
 
     # 移动后地点
-    target_scene_name,tar_random_chara_name = "",""
+    target_scene_name, tar_random_chara_name = "", ""
     if len(character_data.behavior.move_target):
         target_scene_path_str = map_handle.get_map_system_path_str_for_list(character_data.behavior.move_target)
         target_scene_data: game_type.Scene = cache.scene_data[target_scene_path_str]
@@ -488,22 +487,19 @@ def code_text_to_draw_text(now_talk: str, character_id: int):
         TargetName=target_data.name,
         TargetNickName=target_nick_name,
         TargetNickNameToPl=target_nick_name_to_pl,
-
         FoodName=character_data.behavior.food_name,
         MakeFoodTime=character_data.behavior.make_food_time,
         AllFoodName=all_food_name,
-        BookName = character_data.behavior.book_name,
-        BoardGameName = board_game_name,
-        MilkMl = character_data.behavior.milk_ml,
-        HInterruptCharaName = character_data.behavior.h_interrupt_chara_name,
-
+        BookName=character_data.behavior.book_name,
+        BoardGameName=board_game_name,
+        MilkMl=character_data.behavior.milk_ml,
+        HInterruptCharaName=character_data.behavior.h_interrupt_chara_name,
         SceneName=scene_name,
         SceneOneCharaName=random_chara_name,
         TargetSceneName=target_scene_name,
         TargetOneCharaName=tar_random_chara_name,
         SrcSceneName=src_scene_name,
         SrcOneCharaName=src_random_chara_name,
-
         TagetBraName=target_bra_name,
         TagetSkiName=target_ski_name,
         TagetPanName=target_pan_name,

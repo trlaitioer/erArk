@@ -1,14 +1,7 @@
 from typing import List
 from types import FunctionType
 from Script.UI.Moudle import draw, panel
-from Script.Core import (
-    cache_control,
-    get_text,
-    game_type,
-    flow_handle,
-    constant,
-    py_cmd
-)
+from Script.Core import cache_control, get_text, game_type, flow_handle, constant, py_cmd
 from Script.Config import game_config, normal_config
 from Script.Design import update, map_handle, character, game_time, cooking, handle_premise
 
@@ -26,7 +19,8 @@ line_feed.width = 1
 window_width = normal_config.config_normal.text_width
 """ 屏幕宽度 """
 
-def common_select_npc_button_list_func(final_list: list, title_text: str = '', info_text:str = '') -> list:
+
+def common_select_npc_button_list_func(final_list: list, title_text: str = "", info_text: str = "") -> list:
     """
     通用npc选择按钮列表函数\n
     Keyword arguments:\n
@@ -57,7 +51,7 @@ def common_select_npc_button_list_func(final_list: list, title_text: str = '', i
     return_list = []
 
     # 绘制面板
-    now_draw_panel : panel.PageHandlePanel = panel.PageHandlePanel(final_list, CommonSelectNPCButtonList, 50, 5, window_width, 1, 0, 0)
+    now_draw_panel: panel.PageHandlePanel = panel.PageHandlePanel(final_list, CommonSelectNPCButtonList, 50, 5, window_width, 1, 0, 0)
     now_draw_panel.update()
     now_draw_panel.draw()
     return_list.extend(now_draw_panel.return_list)
@@ -70,6 +64,7 @@ def common_select_npc_button_list_func(final_list: list, title_text: str = '', i
     return_list.append(back_draw.return_text)
 
     return return_list
+
 
 class Close_Door_Panel:
     """
@@ -197,7 +192,7 @@ class Read_Book_Panel:
                         self.width,
                         cmd_func=self.read,
                         args=(book_id,),
-                        )
+                    )
                     # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                     return_list.append(button_draw.return_text)
                     button_draw.draw()
@@ -271,7 +266,7 @@ class Take_Care_Baby_Panel:
                         self.width,
                         cmd_func=self.choice_take_care,
                         args=(chara_id,),
-                        )
+                    )
                     # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                     return_list.append(button_draw.return_text)
                     button_draw.draw()
@@ -291,7 +286,7 @@ class Take_Care_Baby_Panel:
         self.target_chara_id = chara_id
         name = cache.character_data[self.target_chara_id].name
 
-        button_text_list = [_("抱一抱她"),_("哼唱儿歌"),_("喂奶"),_("换尿布"),_("教她说话"),_("给她玩玩具")]
+        button_text_list = [_("抱一抱她"), _("哼唱儿歌"), _("喂奶"), _("换尿布"), _("教她说话"), _("给她玩玩具")]
 
         while 1:
             return_list = []
@@ -310,7 +305,7 @@ class Take_Care_Baby_Panel:
                     self.width,
                     cmd_func=self.settle_take_care,
                     args=(button_id,),
-                    )
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
                 line_feed.draw()
@@ -322,7 +317,6 @@ class Take_Care_Baby_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text:
                 break
-
 
     def settle_take_care(self, instruct_id):
         """结算照顾指令"""
@@ -392,11 +386,11 @@ class Chose_First_bonus_ability_Panel:
                     ability_data = game_config.config_ability[cid]
                     button_text = f"[{cid}]{ability_data.name}"
                     button_draw = draw.LeftButton(
-                    _(button_text),
-                    _(button_text),
-                    int(len(button_text)*2),
-                    cmd_func=self.chose_this_ability,
-                    args=cid,
+                        _(button_text),
+                        _(button_text),
+                        int(len(button_text) * 2),
+                        cmd_func=self.chose_this_ability,
+                        args=cid,
                     )
                     button_draw.draw()
                     return_list.append(button_draw.return_text)
@@ -455,7 +449,7 @@ class Fridge_Panel:
                 character_data = cache.character_data[character_id]
                 character_name = character_data.name
                 character_milk = cache.rhodes_island.milk_in_fridge[character_id]
-                draw_text = ("  [{0}]{1}：{2}ml").format(str(character_data.adv).rjust(4,'0'), character_name, character_milk)
+                draw_text = ("  [{0}]{1}：{2}ml").format(str(character_data.adv).rjust(4, "0"), character_name, character_milk)
                 draw_text = draw_text.ljust(20, "　")
                 now_draw.text = draw_text
                 now_draw.draw()
@@ -464,10 +458,10 @@ class Fridge_Panel:
                 button_draw = draw.CenterButton(
                     _(button_text),
                     _(button_text + f"_{character_id}"),
-                    len(button_text)*2,
+                    len(button_text) * 2,
                     cmd_func=self.take_milk,
                     args=character_id,
-                    )
+                )
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
                 # 转化按钮
@@ -475,10 +469,10 @@ class Fridge_Panel:
                 button_draw = draw.CenterButton(
                     _(button_text),
                     _(button_text + f"_{character_id}"),
-                    len(button_text)*2,
+                    len(button_text) * 2,
                     cmd_func=self.turn_milk,
                     args=character_id,
-                    )
+                )
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
                 line_feed.draw()
@@ -566,7 +560,7 @@ class Order_Hotel_Room_Panel:
 
             # 如果未预订房间的话直接输出按钮
             if cache.rhodes_island.love_hotel_room_lv == 0:
-                room_text_list = [_("标间(2粉红凭证)"),_("情趣主题房(10粉红凭证)"),_("顶级套房(100粉红凭证)")]
+                room_text_list = [_("标间(2粉红凭证)"), _("情趣主题房(10粉红凭证)"), _("顶级套房(100粉红凭证)")]
                 # 遍历房间类型并输出按钮
                 for i in range(len(room_text_list)):
                     room_text = room_text_list[i]
@@ -576,13 +570,13 @@ class Order_Hotel_Room_Panel:
                         self.width,
                         cmd_func=self.order_room,
                         args=(i,),
-                        )
+                    )
                     return_list.append(button_draw.return_text)
                     button_draw.draw()
                     line_feed.draw()
             # 已预订房间则输出提示信息
             else:
-                room_name = [_("标间"),_("情趣主题房"),_("顶级套房")]
+                room_name = [_("标间"), _("情趣主题房"), _("顶级套房")]
                 draw_text = _("当前已预订{0}，退房时间为{1}日12点\n").format(room_name[cache.rhodes_island.love_hotel_room_lv - 1], cache.character_data[0].action_info.check_out_time.day)
                 info_draw.text = draw_text
                 info_draw.draw()
@@ -600,7 +594,7 @@ class Order_Hotel_Room_Panel:
     def order_room(self, room_id):
         """预订房间"""
         room_price = [2, 10, 100]
-        room_name = [_("标间"),_("情趣主题房"),_("顶级套房")]
+        room_name = [_("标间"), _("情趣主题房"), _("顶级套房")]
         # 判断粉红凭证是否足够
         if cache.rhodes_island.materials_resouce[4] < room_price[room_id]:
             now_draw = draw.WaitDraw()
@@ -660,13 +654,13 @@ class TALK_QUICK_TEST:
             info_draw.draw()
 
             button_text = _("[001]刷新口上文件后测试")
-            button1_draw = draw.LeftButton(button_text, button_text, len(button_text)*2, cmd_func=self.refresh_talk_file)
+            button1_draw = draw.LeftButton(button_text, button_text, len(button_text) * 2, cmd_func=self.refresh_talk_file)
             button1_draw.draw()
             return_list.append(button1_draw.return_text)
             line_feed.draw()
 
             button_text = _("[002]直接开始测试")
-            button2_draw = draw.LeftButton(button_text, button_text, len(button_text)*2, cmd_func=self.nothing)
+            button2_draw = draw.LeftButton(button_text, button_text, len(button_text) * 2, cmd_func=self.nothing)
             button2_draw.draw()
             return_list.append(button2_draw.return_text)
             line_feed.draw()
@@ -710,7 +704,7 @@ class TALK_QUICK_TEST:
             change_value_panel.set(_("请输入口上id"), 100)
             talk_id = int(change_value_panel.draw())
             # 在chara_adv_id在前面补零为4位数
-            full_adv_id = str(chara_adv_id).rjust(4, '0')
+            full_adv_id = str(chara_adv_id).rjust(4, "0")
             chara_name = target_character_data.name
             full_talk_id = f"chara_{full_adv_id}_{chara_name}{talk_id}"
             # 获取口上数据
@@ -809,7 +803,6 @@ class TALK_QUICK_TEST:
             now_draw.text = draw_text
             now_draw.draw()
 
-
             line_feed.draw()
             back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
             back_draw.draw()
@@ -819,7 +812,6 @@ class TALK_QUICK_TEST:
             if yrn == back_draw.return_text:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
-
 
     def refresh_talk_file(self):
         """刷新口上文件"""
@@ -839,6 +831,7 @@ class TALK_QUICK_TEST:
 
         import importlib
         import auto_build_config
+
         # 重新加载模块
         importlib.reload(auto_build_config)
 
@@ -867,6 +860,7 @@ class TALK_QUICK_TEST:
     def nothing(self):
         pass
 
+
 class CommonSelectNPCButtonList:
     """
     通用的从列表中选择目标干员的面板
@@ -878,9 +872,7 @@ class CommonSelectNPCButtonList:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, chara_info: list, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, chara_info: list, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.chara_id: int = chara_info[0]
@@ -903,15 +895,13 @@ class CommonSelectNPCButtonList:
         character_data: game_type.Character = cache.character_data[self.chara_id]
         button_text = f"[{str(character_data.adv).rjust(4,'0')}]：{character_data.name}"
 
-        draw_style = 'standard'
+        draw_style = "standard"
         # 如果当前角色已经被选择，则更改按钮样式
         if self.chara_id in self.chara_id_list:
-            draw_style = 'gold_enrod'
+            draw_style = "gold_enrod"
 
         # 按钮绘制
-        name_draw = draw.LeftButton(
-            button_text, character_data.name, self.width, normal_style=draw_style, cmd_func=self.source_func, args=(self.chara_id,)
-        )
+        name_draw = draw.LeftButton(button_text, character_data.name, self.width, normal_style=draw_style, cmd_func=self.source_func, args=(self.chara_id,))
         self.button_return = name_draw.return_text
         """ 绘制的对象 """
         self.now_draw = name_draw

@@ -1,16 +1,4 @@
-from PySide6.QtWidgets import (
-    QHBoxLayout,
-    QDialog,
-    QTreeWidget,
-    QTreeWidgetItem,
-    QAbstractItemView,
-    QPushButton,
-    QComboBox,
-    QTextEdit,
-    QVBoxLayout,
-    QMenu,
-    QLabel
-)
+from PySide6.QtWidgets import QHBoxLayout, QDialog, QTreeWidget, QTreeWidgetItem, QAbstractItemView, QPushButton, QComboBox, QTextEdit, QVBoxLayout, QMenu, QLabel
 from PySide6.QtGui import QFont, Qt
 import cache_control
 import function
@@ -18,6 +6,7 @@ import function
 font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
+
 
 class TreeItem(QTreeWidgetItem):
     """树选框对象"""
@@ -27,6 +16,7 @@ class TreeItem(QTreeWidgetItem):
         super(TreeItem, self).__init__(any)
         self.cid = ""
         """ 对象配表id """
+
 
 class PremiseMenu(QDialog):
     """前提选择对象"""
@@ -40,7 +30,7 @@ class PremiseMenu(QDialog):
             self.setWindowTitle(cache_control.now_talk_data[cache_control.now_select_id].text)
         self.font = font
         self.layout: QVBoxLayout = QVBoxLayout()
-        self.resize(1000,1000)
+        self.resize(1000, 1000)
         # 增加一个搜索框，确定键，重置键，三个合在一起，放在最上面作为一个横向的搜索栏
         self.search_text = QTextEdit()
         self.search_text.setFont(self.font)
@@ -61,7 +51,7 @@ class PremiseMenu(QDialog):
         all_type_list = sorted(list(cache_control.premise_type_data.keys()))
         range_index = int(len(all_type_list) / 2) + 1
         range_a = all_type_list[:range_index]
-        range_b = all_type_list[range_index :]
+        range_b = all_type_list[range_index:]
         range_list = [range_a, range_b]
         index = 1
         self.tree_list = []
@@ -97,7 +87,7 @@ class PremiseMenu(QDialog):
                         if premise_cid != now_premise_group_list[-1]:
                             now_premise_group_all_name += "&"
                     premise_group_node.setText(0, now_premise_group_all_name)
-                    premise_group_node.setToolTip(0,premise_group_node.text(0))
+                    premise_group_node.setToolTip(0, premise_group_node.text(0))
                     if cache_control.now_edit_type_flag == 1:
                         if premise_group in cache_control.now_event_data[cache_control.now_select_id].premise:
                             premise_group_node.setCheckState(0, Qt.Checked)
@@ -119,7 +109,7 @@ class PremiseMenu(QDialog):
                     premise_node = TreeItem(now_root)
                     premise_node.cid = premise
                     premise_node.setText(0, cache_control.premise_data[premise])
-                    premise_node.setToolTip(0,premise_node.text(0))
+                    premise_node.setToolTip(0, premise_node.text(0))
                     if cache_control.now_edit_type_flag == 1:
                         if premise in cache_control.now_event_data[cache_control.now_select_id].premise:
                             premise_node.setCheckState(0, Qt.Checked)
@@ -216,7 +206,6 @@ class PremiseMenu(QDialog):
                     child = root.child(child_index)
                     child.setHidden(False)
 
-
     # def contextMenuEvent(self, event):
     #     """右键菜单"""
     #     menu = QMenu(self)
@@ -257,7 +246,7 @@ class CVPMenu(QDialog):
         self.font = font
         self.layout: QVBoxLayout = QVBoxLayout()
         self.ABCD_button_layout = QHBoxLayout()
-        self.resize(1000,50)
+        self.resize(1000, 50)
 
         # 一段说明文字，用来介绍各个功能，位置在最上面的第一行
         self.cvp_text = QLabel("用于实现数值方面的综合型万用前提")
@@ -280,7 +269,7 @@ class CVPMenu(QDialog):
 
         # B数值为属性，A能力,T素质,J宝珠,E经验,S状态,F好感度,X信赖
         self.cvp_b1 = QComboBox()
-        self.cvp_b1.addItems(["待选择", "好感", "信赖", "能力", "素质", "宝珠", "经验", "状态", "攻略程度", "时间", "口上用flag", "前指令", "嵌套子事件", "其他角色在场","部位污浊"])
+        self.cvp_b1.addItems(["待选择", "好感", "信赖", "能力", "素质", "宝珠", "经验", "状态", "攻略程度", "时间", "口上用flag", "前指令", "嵌套子事件", "其他角色在场", "部位污浊"])
         self.cvp_b1.setCurrentIndex(0)
         self.cvp_b1.setFont(self.font)
         self.ABCD_button_layout.addWidget(self.cvp_b1)
@@ -339,7 +328,7 @@ class CVPMenu(QDialog):
         if len(self.cvp_b2.currentText().split("|")) == 2:
             cvp_b2 = self.cvp_b2.currentText().split("|")[1]
         elif len(self.cvp_b2.currentText().split("|")) == 1:
-            cvp_b2 = self.cvp_b2.currentText().split('|')[0]
+            cvp_b2 = self.cvp_b2.currentText().split("|")[0]
         else:
             cvp_b2 = ""
         if cvp_b1 == "待选择":
@@ -473,7 +462,9 @@ class CVPMenu(QDialog):
             self.cvp_text.setText("状态值的1~10级分别为：100，500，3000，10000，30000，60000，100000，150000，500000，999999，此处使用的为状态值的具体数值，不是等级")
         elif index == 8:
             self.cvp_b2.setVisible(False)
-            self.cvp_text.setText("攻略有正数的【爱情系】和负数的【隶属系】两种路线\n爱情系的1~4分别为思慕、恋慕、恋人、爱侣，隶属系的-1~-4分别为屈从、驯服、宠物、奴隶\n备注：数值不会到0，如，当选择爱情系的≤2时，只会有2的恋慕和1的思慕，而不会到0或者负数的隶属系，其他情况同理\n同时，也因为数值不到0，如果需要有/没有陷落素质，请前往[整体修改]-[属性]-[素质]")
+            self.cvp_text.setText(
+                "攻略有正数的【爱情系】和负数的【隶属系】两种路线\n爱情系的1~4分别为思慕、恋慕、恋人、爱侣，隶属系的-1~-4分别为屈从、驯服、宠物、奴隶\n备注：数值不会到0，如，当选择爱情系的≤2时，只会有2的恋慕和1的思慕，而不会到0或者负数的隶属系，其他情况同理\n同时，也因为数值不到0，如果需要有/没有陷落素质，请前往[整体修改]-[属性]-[素质]"
+            )
         elif index == 9:
             self.cvp_b2.setVisible(False)
             self.cvp_text.setText("时间为一天24小时制，如果要定起止时间的话，可以搭配使用【时间大于等于A】和【时间小于等于B】的两个前提来实现")
@@ -482,7 +473,9 @@ class CVPMenu(QDialog):
             # b2提供一个文本框，用来输入flag的编号，最多支持10个flag
             for i in range(50):
                 self.cvp_b2.addItem(str(i))
-            self.cvp_text.setText("口上用flag是用来实现供口上作者自定义的数据变量，可以用来实现一些特殊的前提\n口上用flag的数据类型为int，默认值为0，最多支持50个flag（即编号为0~49）\n口上用flag无法独立使用，需要用编辑器的事件中的结算来进行修改\n如【用flag0来记录触发某个指令或某句口上的次数】，【用flag1来记录自己设定的某种攻略的阶段】，【用flag2来衡量自己设定的角色对玩家的某种感情】等等")
+            self.cvp_text.setText(
+                "口上用flag是用来实现供口上作者自定义的数据变量，可以用来实现一些特殊的前提\n口上用flag的数据类型为int，默认值为0，最多支持50个flag（即编号为0~49）\n口上用flag无法独立使用，需要用编辑器的事件中的结算来进行修改\n如【用flag0来记录触发某个指令或某句口上的次数】，【用flag1来记录自己设定的某种攻略的阶段】，【用flag2来衡量自己设定的角色对玩家的某种感情】等等"
+            )
         elif index == 11:
             self.cvp_a.setVisible(False)
             self.cvp_b2.clear()
@@ -506,7 +499,9 @@ class CVPMenu(QDialog):
                 self.cvp_b2.addItem(str(i))
             self.cvp_c.clear()
             self.cvp_c.addItems(["等于"])
-            self.cvp_text.setText("嵌套子事件，用于在事件编辑中展开多层嵌套父子事件\n\n①如果仅需要单层的父子选项事件请使用[整体修改]-[系统状态]\n②本前提需要配合[综合数值结算]中的[嵌套父事件]使用\n③同数字的父事件会展开同数字的子事件，如，序号0的嵌套父事件会检索序号0的嵌套子事件，以此类推\n④子事件除本前提外，还可以拥有父事件之外的独立前提。若设置了独立前提，满足时则正常显示，不满足时不显示该子事件的选项\n\n例子：父事件A1（嵌套父事件=0）\n  一级子事件B1（嵌套子事件=0↔A1，嵌套父事件=1）、B2（嵌套子事件=0↔A1，嵌套父事件=2）\n  二级子事件C1（嵌套子事件=1↔B1），C2（嵌套子事件=1↔B1），C3（嵌套子事件=2↔B2），C4（嵌套子事件=2↔B2）\n")
+            self.cvp_text.setText(
+                "嵌套子事件，用于在事件编辑中展开多层嵌套父子事件\n\n①如果仅需要单层的父子选项事件请使用[整体修改]-[系统状态]\n②本前提需要配合[综合数值结算]中的[嵌套父事件]使用\n③同数字的父事件会展开同数字的子事件，如，序号0的嵌套父事件会检索序号0的嵌套子事件，以此类推\n④子事件除本前提外，还可以拥有父事件之外的独立前提。若设置了独立前提，满足时则正常显示，不满足时不显示该子事件的选项\n\n例子：父事件A1（嵌套父事件=0）\n  一级子事件B1（嵌套子事件=0↔A1，嵌套父事件=1）、B2（嵌套子事件=0↔A1，嵌套父事件=2）\n  二级子事件C1（嵌套子事件=1↔B1），C2（嵌套子事件=1↔B1），C3（嵌套子事件=2↔B2），C4（嵌套子事件=2↔B2）\n"
+            )
         elif index == 13:
             self.cvp_a.clear()
             self.cvp_a.addItems(["角色id为"])

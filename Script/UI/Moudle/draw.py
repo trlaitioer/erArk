@@ -162,7 +162,7 @@ class BarDraw:
         if self.width > 0:
             proportion = 0
             if self.width > 1:
-                value = min(value, max_value) # 强制令长度不会超过100%
+                value = min(value, max_value)  # 强制令长度不会超过100%
                 proportion = int(value / max_value * self.width)
             fix_bar = int(self.width - proportion)
             # print("bar_id =",bar_id)
@@ -374,13 +374,13 @@ class Button:
     """
 
     def __init__(
-            self,
-            text: str,
-            return_text: str,
-            normal_style="standard",
-            on_mouse_style="onbutton",
-            cmd_func=None,
-            args=(),
+        self,
+        text: str,
+        return_text: str,
+        normal_style="standard",
+        on_mouse_style="onbutton",
+        cmd_func=None,
+        args=(),
     ):
         """初始化绘制对象"""
         self.text: str = text
@@ -457,12 +457,12 @@ class ImageButton:
     """
 
     def __init__(
-            self,
-            text: str,
-            return_text: str,
-            width: int,
-            cmd_func=None,
-            args=(),
+        self,
+        text: str,
+        return_text: str,
+        width: int,
+        cmd_func=None,
+        args=(),
     ):
         """初始化绘制对象"""
         self.text: str = text
@@ -504,15 +504,15 @@ class CenterButton:
     """
 
     def __init__(
-            self,
-            text: str,
-            return_text: str,
-            width: int,
-            fix_text=" ",
-            normal_style="standard",
-            on_mouse_style="onbutton",
-            cmd_func: FunctionType = None,
-            args=(),
+        self,
+        text: str,
+        return_text: str,
+        width: int,
+        fix_text=" ",
+        normal_style="standard",
+        on_mouse_style="onbutton",
+        cmd_func: FunctionType = None,
+        args=(),
     ):
         """初始化绘制对象"""
         self.text: str = text
@@ -665,14 +665,14 @@ class TitleLineDraw:
     """
 
     def __init__(
-            self,
-            title: str,
-            width: int,
-            line: str = "=",
-            frame="口",
-            style="standard",
-            title_style="littletitle",
-            frame_style="littletitle",
+        self,
+        title: str,
+        width: int,
+        line: str = "=",
+        frame="口",
+        style="standard",
+        title_style="littletitle",
+        frame_style="littletitle",
     ):
         """初始化绘制对象"""
         self.title = title
@@ -969,6 +969,7 @@ class ExpLevelDraw:
     def __init__(self, experience: int):
         """初始化绘制对象"""
         from Script.Design import attr_calculation
+
         grade = attr_calculation.judge_grade(experience)
         style = f"level{grade.lower()}"
         now_draw = NormalDraw()

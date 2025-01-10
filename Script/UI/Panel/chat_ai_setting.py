@@ -44,12 +44,12 @@ def judge_use_text_ai(character_id: int, behavior_id: int, original_text: str, t
     # 如果没有输入模型名，则返回原文本
     if not model:
         return original_text
-    if 'gpt' in model:
-        now_key_type = 'OPENAI_API_KEY'
-    elif 'gemini' in model:
-        now_key_type = 'GEMINI_API_KEY'
+    if "gpt" in model:
+        now_key_type = "OPENAI_API_KEY"
+    elif "gemini" in model:
+        now_key_type = "GEMINI_API_KEY"
     else:
-        now_key_type = 'OPENAI_API_KEY'
+        now_key_type = "OPENAI_API_KEY"
     if now_key_type not in cache.ai_setting.ai_chat_api_key:
         return original_text
     # 判断是否设置了指令类型
@@ -93,7 +93,7 @@ def judge_use_text_ai(character_id: int, behavior_id: int, original_text: str, t
         if not os.path.exists(save_path):
             # 如果文件不存在，创建文件夹和文件
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
-            with open(save_path, 'w', encoding='utf-8') as f:
+            with open(save_path, "w", encoding="utf-8") as f:
                 f.write("cid,behavior_id,adv_id,premise,context\n")
                 f.write("口上id,触发口上的行为id,口上限定的剧情npcid,前提id,口上内容\n")
                 f.write("str,int,int,str,str\n")
@@ -101,7 +101,7 @@ def judge_use_text_ai(character_id: int, behavior_id: int, original_text: str, t
                 f.write("口上配置数据,,,,\n")
 
         # 读取save_path文件的最后一行，获取其cid，然后加1
-        with open(save_path, "r", encoding='utf-8') as f:
+        with open(save_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
             last_line = lines[-1]
             last_cid = last_line.split(",")[0]
@@ -117,10 +117,10 @@ def judge_use_text_ai(character_id: int, behavior_id: int, original_text: str, t
         TargetNickName = target_character_data.name
         # 查找是否存在该角色名称，如果存在的话，将其还原回代码
         if Name in ai_gererate_text:
-            ai_gererate_text = ai_gererate_text.replace(Name, '{Name}')
+            ai_gererate_text = ai_gererate_text.replace(Name, "{Name}")
         if character_id != 0 or character_data.target_character_id != 0:
             if TargetNickName in ai_gererate_text:
-                ai_gererate_text = ai_gererate_text.replace(TargetNickName, '{TargetName}')
+                ai_gererate_text = ai_gererate_text.replace(TargetNickName, "{TargetName}")
 
         # 前提文本
         premise_text = "generate_by_ai"
@@ -136,10 +136,11 @@ def judge_use_text_ai(character_id: int, behavior_id: int, original_text: str, t
             premise_text += "&sys_5"
 
         # 保存数据
-        with open(save_path, "a", encoding='utf-8') as f:
+        with open(save_path, "a", encoding="utf-8") as f:
             f.write(f"{new_cid},{behavior_id},0,{premise_text},{ai_gererate_text}\n")
 
     return fanal_text
+
 
 def text_ai(character_id: int, behavior_id: int, original_text: str, translator: bool = False) -> str:
     """
@@ -165,18 +166,18 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
 
     # 模型与密钥
     model = cache.ai_setting.ai_chat_setting[5]
-    if 'gpt' in model:
-        now_key_type = 'OPENAI_API_KEY'
-    elif 'gemini' in model:
-        now_key_type = 'GEMINI_API_KEY'
+    if "gpt" in model:
+        now_key_type = "OPENAI_API_KEY"
+    elif "gemini" in model:
+        now_key_type = "GEMINI_API_KEY"
     else:
-        now_key_type = 'OPENAI_API_KEY'
+        now_key_type = "OPENAI_API_KEY"
     API_KEY = cache.ai_setting.ai_chat_api_key[now_key_type]
 
     # 系统提示词
-    system_promote = ''
-    for system_promote_cid in game_config.ui_text_data['text_ai_system_promote']:
-        system_promote_text = game_config.ui_text_data['text_ai_system_promote'][system_promote_cid]
+    system_promote = ""
+    for system_promote_cid in game_config.ui_text_data["text_ai_system_promote"]:
+        system_promote_text = game_config.ui_text_data["text_ai_system_promote"][system_promote_cid]
         # 对生成数量的替换处理
         if "{talk_num}" in system_promote_text:
             system_promote_text = system_promote_text.replace("{talk_num}", str(talk_num))
@@ -184,7 +185,7 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
     # print(system_promote)
     # 生成模式
     if not translator:
-        user_prompt = _('请根据以下条件，描写两个角色的互动场景：')
+        user_prompt = _("请根据以下条件，描写两个角色的互动场景：")
         # 有交互对象时
         if character_id != 0 or character_data.target_character_id != 0:
             if character_id == 0:
@@ -204,7 +205,9 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
             # 动作
             user_prompt += _("{0}正在对{1}进行的动作是{2}。你要弄清楚是谁对谁做了什么，{0}是做这个动作的人，{1}是被做了这个动作的人。").format(Name, TargetNickName, Behavior_Name)
             user_prompt += _("你需要仅描述这个动作，包括角色的肢体动作、角色的台词、角色的心理活动、角色与场景中的物体的交互等。你不要描述动作之前的剧情，或者动作之后的剧情，只描述这个动作的过程。")
-            user_prompt += _("以下是一些额外提供的参考信息，信息里包括了两个人的详细信息，你可以这些信息中挑选一部分来丰富对本次动作的描述，你只能直接使用这些信息本身，不能从这些信息中联想或者猜测其他的信息：")
+            user_prompt += _(
+                "以下是一些额外提供的参考信息，信息里包括了两个人的详细信息，你可以这些信息中挑选一部分来丰富对本次动作的描述，你只能直接使用这些信息本身，不能从这些信息中联想或者猜测其他的信息："
+            )
             # 地点
             user_prompt += _("场景发生的地点是{0}。").format(Location)
             # 时间
@@ -217,11 +220,15 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
             ave_lv = int((favorability_lv + trust_lv) / 2)
             user_prompt += _("如果用数字等级来表示关系好坏，0是第一次见面的陌生人，8是托付人生的亲密伴侣，那{0}和{1}的关系大概是{2}。").format(Name, TargetNickName, ave_lv)
             # 陷落
-            fall_lv = attr_calculation.get_character_fall_level(npc_character_id, minus_flag = True)
+            fall_lv = attr_calculation.get_character_fall_level(npc_character_id, minus_flag=True)
             if fall_lv > 0:
-                user_prompt += _("{0}和{1}是正常的爱情关系。如果用数字等级来表示爱情的程度，1是有些懵懂的好感，4是至死不渝的爱人，那{0}和{1}的关系大概是{4}。").format(Name, TargetNickName, Name, TargetNickName, fall_lv)
+                user_prompt += _("{0}和{1}是正常的爱情关系。如果用数字等级来表示爱情的程度，1是有些懵懂的好感，4是至死不渝的爱人，那{0}和{1}的关系大概是{4}。").format(
+                    Name, TargetNickName, Name, TargetNickName, fall_lv
+                )
             elif fall_lv < 0:
-                user_prompt += _("{0}和{1}是扭曲的服从和支配的关系。如果用数字等级来表示服从的程度，1是有些讨好和有些卑微，4是无比的尊敬和彻底的服从，那{2}对{3}的服从的等级大概是{4}。").format(Name, TargetNickName, npc_name, pl_name, fall_lv)
+                user_prompt += _("{0}和{1}是扭曲的服从和支配的关系。如果用数字等级来表示服从的程度，1是有些讨好和有些卑微，4是无比的尊敬和彻底的服从，那{2}对{3}的服从的等级大概是{4}。").format(
+                    Name, TargetNickName, npc_name, pl_name, fall_lv
+                )
 
             # 基础状态
             # 年龄素质
@@ -229,7 +236,7 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
             user_prompt += _("{0}的年龄是{1}。").format(npc_name, age_text)
             # 睡眠、疲劳、困倦
             if handle_premise.handle_action_sleep(npc_character_id) or handle_premise.handle_unconscious_flag_1(npc_character_id):
-                tem,sleep_name = attr_calculation.get_sleep_level(npc_character_data.sleep_point)
+                tem, sleep_name = attr_calculation.get_sleep_level(npc_character_data.sleep_point)
                 user_prompt += _("{0}正在睡觉，睡眠的深度是{1}。").format(npc_name, sleep_name)
             else:
                 # 疲劳与困倦
@@ -314,9 +321,9 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
             user_prompt += _("当前的季节是{0}，当前的时间是{1}。").format(Season, time)
     # 翻译模式
     else:
-        user_prompt = _('你需要将一段文本翻译为')
+        user_prompt = _("你需要将一段文本翻译为")
         user_prompt += normal_config.config_normal.language
-        user_prompt += _('语言。如果文本中有有\{\}括起来的字符，请原样保留。请原样保留文本中的换行符。以下是需要翻译的文本：')
+        user_prompt += _("语言。如果文本中有有\{\}括起来的字符，请原样保留。请原样保留文本中的换行符。以下是需要翻译的文本：")
         user_prompt += original_text
     # print(f'user_prompt = {user_prompt}')
     # 开始调用AI
@@ -333,16 +340,12 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
             if len(cache.ai_setting.now_ai_chat_proxy[1]) == 0:
                 client = client.with_options(http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0]))
             else:
-                client = client.with_options(http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0], transport=httpx.HTTPTransport(local_address=cache.ai_setting.now_ai_chat_proxy[1])))
+                client = client.with_options(
+                    http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0], transport=httpx.HTTPTransport(local_address=cache.ai_setting.now_ai_chat_proxy[1]))
+                )
         try:
             # 发送请求
-            completion = client.chat.completions.create(
-                model=cache.ai_setting.ai_chat_setting[5],
-                messages=[
-                    {"role": "system", "content": system_promote},
-                    {"role": "user", "content": user_prompt}
-                ]
-            )
+            completion = client.chat.completions.create(model=cache.ai_setting.ai_chat_setting[5], messages=[{"role": "system", "content": system_promote}, {"role": "user", "content": user_prompt}])
             # 获取返回的文本
             ai_gererate_text = completion.choices[0].message.content
         except Exception as e:
@@ -354,8 +357,8 @@ def text_ai(character_id: int, behavior_id: int, original_text: str, translator:
         genai.configure(api_key=API_KEY)
         # gemini的传输协议改为rest
         if cache.ai_setting.ai_chat_setting[12] == 1:
-            genai.configure(api_key=API_KEY, transport='rest')
-        client = genai.GenerativeModel(model, system_instruction = system_promote)
+            genai.configure(api_key=API_KEY, transport="rest")
+        client = genai.GenerativeModel(model, system_instruction=system_promote)
         try:
             # 发送请求
             completion = client.generate_content(user_prompt)
@@ -413,7 +416,9 @@ class Chat_Ai_Setting_Panel:
 
                 # 输出提示信息
                 now_draw = draw.NormalDraw()
-                info_text = _(" \n ○文本生成AI是一个试验性的功能，存在相当多的风险，所以需要您确认以下所有免责事项才可以使用\n\n\n 1.该功能需要您自行准备好OpenAI/Gemini的API密钥，并保证电脑的网络环境可以正常访问该API，本游戏不会为您提供相关的获取方法，请自行准备\n\n\n   2.文本生成AI以及网络环境的使用会产生一定的费用，该费用需自己承担，与开发者没有任何关系\n\n\n 3.文本生成AI的使用可能会产生一定的风险，包括但不限于：聊天内容不当、聊天内容不符合社会规范等，开发者不对生成的内容负责，也不代表开发者同意或反对其中的任何观点\n\n\n 4.不恰当的使用过程或生成内容有可能会导致模型提供商对您的api和相关账号提出警告或进一步的停止服务等举措，请牢记该风险，相关的直接或间接损失均需您自己承担，与开发者无关\n\n\n 5.本声明的解释权归开发者所有，且在版本更新中声明内容可能有所变更，请以最新版本为准。\n\n\n 6.基于以上又叠了这么多层buff，明确知道自己在做什么，并且愿意承担费用和风险的人再来点击下一步吧\n\n\n")
+                info_text = _(
+                    " \n ○文本生成AI是一个试验性的功能，存在相当多的风险，所以需要您确认以下所有免责事项才可以使用\n\n\n 1.该功能需要您自行准备好OpenAI/Gemini的API密钥，并保证电脑的网络环境可以正常访问该API，本游戏不会为您提供相关的获取方法，请自行准备\n\n\n   2.文本生成AI以及网络环境的使用会产生一定的费用，该费用需自己承担，与开发者没有任何关系\n\n\n 3.文本生成AI的使用可能会产生一定的风险，包括但不限于：聊天内容不当、聊天内容不符合社会规范等，开发者不对生成的内容负责，也不代表开发者同意或反对其中的任何观点\n\n\n 4.不恰当的使用过程或生成内容有可能会导致模型提供商对您的api和相关账号提出警告或进一步的停止服务等举措，请牢记该风险，相关的直接或间接损失均需您自己承担，与开发者无关\n\n\n 5.本声明的解释权归开发者所有，且在版本更新中声明内容可能有所变更，请以最新版本为准。\n\n\n 6.基于以上又叠了这么多层buff，明确知道自己在做什么，并且愿意承担费用和风险的人再来点击下一步吧\n\n\n"
+                )
                 now_draw.text = info_text
                 now_draw.width = self.width
                 now_draw.draw()
@@ -445,8 +450,8 @@ class Chat_Ai_Setting_Panel:
             now_draw = draw.NormalDraw()
             info_text = _(" \n ○点击[选项标题]显示[选项介绍]，点击[选项本身]即可[改变该选项]\n")
             info_text += _("   开启本功能后，受网络连接速度和模型的文本生成速度影响，在生成文本时会有明显的延迟\n")
-            info_text += _('   系统提示词文件路径为 data/ui_text/text_ai_system_promote.csv ，可以根据自己的需要进行调整，调整后需重启游戏\n')
-            info_text += _('   包含调用、输送数据在内的完整代码，见游戏源码文件路径 Script/UI/Panel/chat_ai_setting.py ，可以根据自己的需要进行调整，调整后需自行打包\n')
+            info_text += _("   系统提示词文件路径为 data/ui_text/text_ai_system_promote.csv ，可以根据自己的需要进行调整，调整后需重启游戏\n")
+            info_text += _("   包含调用、输送数据在内的完整代码，见游戏源码文件路径 Script/UI/Panel/chat_ai_setting.py ，可以根据自己的需要进行调整，调整后需自行打包\n")
             now_draw.text = info_text
             now_draw.width = self.width
             now_draw.draw()
@@ -468,8 +473,8 @@ class Chat_Ai_Setting_Panel:
                 # 如果没有该键，则创建一个，并置为0
                 if cid not in cache.ai_setting.ai_chat_setting:
                     cache.ai_setting.ai_chat_setting[cid] = 0
-                now_setting_flag = cache.ai_setting.ai_chat_setting[cid] # 当前设置的值
-                option_len = len(game_config.config_ai_chat_setting_option[cid]) # 选项的长度
+                now_setting_flag = cache.ai_setting.ai_chat_setting[cid]  # 当前设置的值
+                option_len = len(game_config.config_ai_chat_setting_option[cid])  # 选项的长度
 
                 # 当前选择的选项的名字
                 # 自定义模型的名字
@@ -517,7 +522,7 @@ class Chat_Ai_Setting_Panel:
 
                 # 查看当前目录下是否有api密钥文件
                 try:
-                    with open("ai_chat_api_key.csv", "r", encoding='utf-8') as f:
+                    with open("ai_chat_api_key.csv", "r", encoding="utf-8") as f:
                         reader = csv.reader(f)
                         for row in reader:
                             if row[0] == "OPENAI_API_KEY":
@@ -627,7 +632,7 @@ class Chat_Ai_Setting_Panel:
             ask_panel.set(ask_text, 99)
             new_model = ask_panel.draw()
             cache.ai_setting.ai_chat_setting[cid] = new_model
-            self.test_flag = 0 # 重置测试标志
+            self.test_flag = 0  # 重置测试标志
         # 调整生成文本数量的选项单独处理
         elif cid == 9:
             line_feed.draw()
@@ -748,7 +753,7 @@ class Chat_Ai_Setting_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == yes_draw.return_text:
                 cache.ai_setting.ai_chat_api_key[key_type] = ask_text
-                self.test_flag = 0 # 重置测试标志
+                self.test_flag = 0  # 重置测试标志
                 # 调用保存函数
                 self.update_or_add_key("ai_chat_api_key.csv", key_type, API_KEY)
                 break
@@ -762,11 +767,11 @@ class Chat_Ai_Setting_Panel:
 
         # 检查文件是否存在，如果不存在则创建文件
         if not os.path.exists(file_path):
-            with open(file_path, "w", newline='', encoding='utf-8') as f:
+            with open(file_path, "w", newline="", encoding="utf-8") as f:
                 pass  # 创建一个空文件
 
         # 读取文件内容
-        with open(file_path, "r", newline='', encoding='utf-8') as f:
+        with open(file_path, "r", newline="", encoding="utf-8") as f:
             reader = csv.reader(f)
             for row in reader:
                 if row[0] == key_type:
@@ -779,7 +784,7 @@ class Chat_Ai_Setting_Panel:
             rows.append([key_type, new_api_key])
 
         # 写回文件
-        with open(file_path, "w", newline='', encoding='utf-8') as f:
+        with open(file_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerows(rows)
 
@@ -788,12 +793,12 @@ class Chat_Ai_Setting_Panel:
 
         # 判断在调用哪个api
         model = cache.ai_setting.ai_chat_setting[5]
-        if 'gpt' in model:
-            now_key_type = 'OPENAI_API_KEY'
-        elif 'gemini' in model:
-            now_key_type = 'GEMINI_API_KEY'
+        if "gpt" in model:
+            now_key_type = "OPENAI_API_KEY"
+        elif "gemini" in model:
+            now_key_type = "GEMINI_API_KEY"
         else:
-            now_key_type = 'OPENAI_API_KEY'
+            now_key_type = "OPENAI_API_KEY"
             info_draw = draw.NormalDraw()
             info_draw.text = _(" \n  未识别到gpt或gemini字符，将默认为openAI格式的模型\n")
             info_draw.width = self.width
@@ -820,12 +825,14 @@ class Chat_Ai_Setting_Panel:
                 if len(cache.ai_setting.now_ai_chat_proxy[1]) == 0:
                     client = client.with_options(http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0]))
                 else:
-                    client = client.with_options(http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0], transport=httpx.HTTPTransport(local_address=cache.ai_setting.now_ai_chat_proxy[1])))
+                    client = client.with_options(
+                        http_client=openai.DefaultHttpxClient(proxies=cache.ai_setting.now_ai_chat_proxy[0], transport=httpx.HTTPTransport(local_address=cache.ai_setting.now_ai_chat_proxy[1]))
+                    )
         elif now_key_type == "GEMINI_API_KEY":
             genai.configure(api_key=API_KEY)
             # gemini的传输协议改为rest
             if cache.ai_setting.ai_chat_setting[12] == 1:
-                genai.configure(api_key=API_KEY, transport='rest')
+                genai.configure(api_key=API_KEY, transport="rest")
             client = genai.GenerativeModel(model)
 
         # 测试AI，在30秒内如果没有返回结果，则认为测试不通过
@@ -852,19 +859,6 @@ class Chat_Ai_Setting_Panel:
     def get_completion(self, client, key_type):
 
         if key_type == "OPENAI_API_KEY":
-            return client.chat.completions.create(
-                model=cache.ai_setting.ai_chat_setting[5],
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": "测试消息"
-                            }
-                        ]
-                    }
-                ]
-            )
+            return client.chat.completions.create(model=cache.ai_setting.ai_chat_setting[5], messages=[{"role": "user", "content": [{"type": "text", "text": "测试消息"}]}])
         elif key_type == "GEMINI_API_KEY":
             return client.generate_content("测试消息")

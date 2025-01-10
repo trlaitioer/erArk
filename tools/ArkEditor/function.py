@@ -8,6 +8,7 @@ font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
 
+
 def read_CVP(cvp_value_str: str):
     """读取CVP字符串 A能力,T素质,J宝珠,E经验,S状态,F好感度,X信赖"""
     cvp_str_list = cvp_value_str.split("_")
@@ -140,7 +141,7 @@ def read_CVE(cve_value_str: str):
 
 
 def read_CSE(cse_value_str: str):
-    """读取CSE字符串 """
+    """读取CSE字符串"""
     cse_str_list = cse_value_str.split("_")
     # print(f"cse_str_list = {cse_str_list}")
     cse_str_list[0] = cse_str_list[0].replace("CSE", "综合指令状态结算 玩家对")
@@ -180,7 +181,6 @@ def save_data():
             save_talk_data()
 
 
-
 def save_talk_data():
     """保存口上文件"""
     if len(cache_control.now_file_path):
@@ -207,9 +207,10 @@ def save_talk_data():
             out_data += f",{now_talk.text}\n"
 
         # 写入文件
-        with open(cache_control.now_file_path, "w",encoding="utf-8") as f:
+        with open(cache_control.now_file_path, "w", encoding="utf-8") as f:
             f.write(out_data)
             f.close()
+
 
 def show_talk_introduce():
     """显示口上的说明对话框"""
@@ -241,7 +242,7 @@ def show_talk_introduce():
     text_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # 设置大小策略
     font_metrics = QFontMetrics(text_edit.font())
     text_edit.setFixedWidth(1000)
-    line_count = text.count('\n') + 1
+    line_count = text.count("\n") + 1
     text_edit.setFixedHeight(font_metrics.lineSpacing() * line_count * 1.2)
 
     scroll_area = QScrollArea()  # 创建滚动区域
@@ -277,7 +278,7 @@ def show_event_introduce():
     text_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # 设置大小策略
     font_metrics = QFontMetrics(text_edit.font())
     text_edit.setFixedWidth(1000)
-    line_count = text.count('\n') + 1
+    line_count = text.count("\n") + 1
     text_edit.setFixedHeight(font_metrics.lineSpacing() * line_count * 1.5)
 
     layout = QVBoxLayout(dialog)
@@ -302,7 +303,7 @@ def show_chara_introduce():
     text_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
     font_metrics = QFontMetrics(text_edit.font())
     text_edit.setFixedWidth(1000)
-    line_count = text.count('\n') + 1
+    line_count = text.count("\n") + 1
     text_edit.setFixedHeight(font_metrics.lineSpacing() * line_count * 1.5)
 
     layout = QVBoxLayout(dialog)

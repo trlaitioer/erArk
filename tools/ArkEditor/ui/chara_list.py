@@ -54,8 +54,12 @@ class CharaList(QWidget):
 
         # 新增介绍文本
         intro_labels_text = []
-        intro_labels_text.append("角色编号：prts的wiki里，干员页面里右上角的[查看源代码]，干员id里的数字\nHP（体力）基础1500，可上下浮动最多1000\nMP（气力）基础1000，可上下浮动最多1000\n初始宿舍默认为无，自动分配到宿舍，有特殊需求的请联系作者\n字体颜色为16进制颜色代码，如#ffffff为白色\n角色立绘：将150*300像素，PNG格式的角色立绘图片放在 image 文件夹中")
-        intro_labels_text.append("能力最高为8级，除极端人设外，一般初始能力最高不超过3级\n每1经验对应1次相应指令，除极端人设外，一般初始经验最高不超过200\n默认都有的基础素质是处女、A处女和无接吻经验，必选的素质有年龄素质，以及胸部、屁股、腿、脚四个部位的素质\n单个部位的服装可以有多个\n胸衣和内裤如果空缺则每日随机生成，非空缺则固定为该服装")
+        intro_labels_text.append(
+            "角色编号：prts的wiki里，干员页面里右上角的[查看源代码]，干员id里的数字\nHP（体力）基础1500，可上下浮动最多1000\nMP（气力）基础1000，可上下浮动最多1000\n初始宿舍默认为无，自动分配到宿舍，有特殊需求的请联系作者\n字体颜色为16进制颜色代码，如#ffffff为白色\n角色立绘：将150*300像素，PNG格式的角色立绘图片放在 image 文件夹中"
+        )
+        intro_labels_text.append(
+            "能力最高为8级，除极端人设外，一般初始能力最高不超过3级\n每1经验对应1次相应指令，除极端人设外，一般初始经验最高不超过200\n默认都有的基础素质是处女、A处女和无接吻经验，必选的素质有年龄素质，以及胸部、屁股、腿、脚四个部位的素质\n单个部位的服装可以有多个\n胸衣和内裤如果空缺则每日随机生成，非空缺则固定为该服装"
+        )
         intro_labels = [self.create_label(text, 700) for text in intro_labels_text]
 
         self.chara_id_text_edit = self.create_text_edit("0")
@@ -63,8 +67,8 @@ class CharaList(QWidget):
         self.chara_hp_text_edit = self.create_text_edit("0")
         self.chara_mp_text_edit = self.create_text_edit("0")
         self.chara_dormitory_text_edit = self.create_text_edit("0")
-        self.chara_token_text_edit = self.create_text_edit("0",height = 100)
-        self.chara_introduce_text_edit = self.create_text_edit("0",height = 250)
+        self.chara_token_text_edit = self.create_text_edit("0", height=100)
+        self.chara_introduce_text_edit = self.create_text_edit("0", height=250)
         self.chara_textcolor_text_edit = self.create_text_edit("0")
 
         self.chara_sex_combo_box = self.create_qcombo_box(["女"])
@@ -73,10 +77,10 @@ class CharaList(QWidget):
         self.nation_combo_box = self.create_qcombo_box([cache_control.nation_data[i] for i in cache_control.nation_data])
         self.birthplace_combo_box = self.create_qcombo_box([cache_control.birthplace_data[i] for i in cache_control.birthplace_data])
 
-        self.ability_widget = MenuWidget(type_flag = 0)
-        self.exprience_widget = MenuWidget(type_flag = 1)
-        self.talent_widget = MenuWidget(type_flag = 2)
-        self.clothing_widget = MenuWidget(type_flag = 3)
+        self.ability_widget = MenuWidget(type_flag=0)
+        self.exprience_widget = MenuWidget(type_flag=1)
+        self.talent_widget = MenuWidget(type_flag=2)
+        self.clothing_widget = MenuWidget(type_flag=3)
         # self.ability_widget.addItems()
         # self.exprience_widget.addItems()
         # self.talent_widget.addItems()
@@ -149,21 +153,20 @@ class CharaList(QWidget):
         self.layout.addWidget(self.apply_button)
         self.layout.addWidget(self.reset_button)
 
-
     def resizeEvent(self, event):
         super(CharaList, self).resizeEvent(event)
 
         width = self.width() / 2
         self.splitter.setSizes([width, width])
 
-    def create_label(self, text, width = 100):
+    def create_label(self, text, width=100):
         """创建一个带有固定宽度和大小策略的标签"""
         label = QLabel(text)
         label.setFixedWidth(width)  # 设置固定宽度
         label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)  # 设置大小策略
         return label
 
-    def create_text_edit(self, initial_text, width = 400, height = 32):
+    def create_text_edit(self, initial_text, width=400, height=32):
         """创建一个文本编辑框"""
         text_edit = QTextEdit(initial_text)
         text_edit.setFixedHeight(height)
@@ -205,7 +208,7 @@ class CharaList(QWidget):
         """保存csv文件"""
         # 如果是使用的模板，那就新建一个文件
         if cache_control.now_file_path == "999_模板人物属性文件.csv":
-            chara_id =  cache_control.now_chara_data.AdvNpc
+            chara_id = cache_control.now_chara_data.AdvNpc
             chara_name = cache_control.now_chara_data.Name
             cache_control.now_file_path = f"{chara_id}_{chara_name}.csv"
 
@@ -253,7 +256,6 @@ class CharaList(QWidget):
             print(f"debug 保存了文件{cache_control.now_file_path}")
         else:
             print(f"debug 未保存文件")
-
 
     def reset_values(self):
         """重置值"""
@@ -317,7 +319,7 @@ class CharaList(QWidget):
         # 检测换行符，换成"\n"，防止csv文件解析出错
         now_chara_token = now_chara_token.replace("\n", "\\n")
         # 检测英文双引号，直接删除，防止csv文件解析出错
-        now_chara_token = now_chara_token.replace("\"", "")
+        now_chara_token = now_chara_token.replace('"', "")
         cache_control.now_chara_data.Token = now_chara_token
 
     def update_chara_introduce(self):
@@ -328,7 +330,7 @@ class CharaList(QWidget):
         # 检测换行符，换成"\n"，防止csv文件解析出错
         now_chara_introduce = now_chara_introduce.replace("\n", "\\n")
         # 检测英文双引号，直接删除，防止csv文件解析出错
-        now_chara_introduce = now_chara_introduce.replace("\"", "")
+        now_chara_introduce = now_chara_introduce.replace('"', "")
         cache_control.now_chara_data.Introduce_1 = now_chara_introduce
 
     def update_chara_textcolor(self):
@@ -465,7 +467,7 @@ class CharaList(QWidget):
         self.clothing_widget.items = []
         for key in now_clothing_dict:
             # 跳过默认服装
-            if key in [5999,8999]:
+            if key in [5999, 8999]:
                 continue
             # 只有单个物品时直接显示
             if len(now_clothing_dict[key]) == 1:
@@ -483,7 +485,7 @@ class CharaList(QWidget):
 
 
 class MenuWidget(QWidget):
-    def __init__(self, type_flag = 0):
+    def __init__(self, type_flag=0):
         super().__init__()
 
         self.mainLayout = QVBoxLayout(self)
