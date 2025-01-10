@@ -507,7 +507,7 @@ def settle_income():
     cache.rhodes_island.materials_resouce[1] += today_all_income
 
     # 刷新新病人数量，已治愈病人数量和治疗收入归零
-    cache.rhodes_island.patient_now = random.randint(cache.rhodes_island.patient_max / 2, cache.rhodes_island.patient_max)
+    cache.rhodes_island.patient_now = random.randint(cache.rhodes_island.patient_max // 2, cache.rhodes_island.patient_max)
     cache.rhodes_island.patient_cured = 0
     cache.rhodes_island.cure_income = 0
     cache.rhodes_island.all_income = 0
