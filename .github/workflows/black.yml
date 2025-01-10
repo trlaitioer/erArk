@@ -1,6 +1,6 @@
 name: Lint
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   lint:
@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: psf/black@stable
         with:
-          options: "-l 200"
+          options: "--check --diff -l 200"
