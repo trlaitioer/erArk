@@ -46,3 +46,7 @@ image/断面图/原图
 
 # 错误log
 error.log
+
+**/__pycache__
+.vscode
+.idea
