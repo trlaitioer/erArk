@@ -36,7 +36,7 @@ class HItemShopPanel:
         scene_position_str = map_handle.get_map_system_path_str_for_list(scene_position)
         # scene_name = cache.scene_data[scene_position_str].scene_name
         title_draw = draw.TitleLineDraw(_("成人用品商店"), self.width)
-        now_level = cache.rhodes_island.facility_level[11] # 获取设施等级
+        now_level = cache.rhodes_island.facility_level[11]  # 获取设施等级
 
         # 按类别统计全部道具
         item_list_all = []
@@ -46,7 +46,7 @@ class HItemShopPanel:
         item_list_H_Drug = []
         item_list_H_Machine = []
         item_list_SM = []
-        item_list_type = [_("药品"),_("机器"),_("消耗品"),_("H药品"),_("H用机器"),_("SM器具")]
+        item_list_type = [_("药品"), _("机器"), _("消耗品"), _("H药品"), _("H用机器"), _("SM器具")]
         item_list = [i for i in game_config.config_item]
         for i in item_list:
             # 跳过等级高于设施等级的道具
@@ -158,7 +158,7 @@ class BuyItemByItemNameDraw:
         # print("debug self.text in self.character_data.item",self.text in self.character_data.item)
 
         # 判断是否是消耗品、是否已达99个堆叠上限，是否已拥有
-        flag_consumables = item_config.type in ["Drug","H_Drug","Consumables"]
+        flag_consumables = item_config.type in ["Drug", "H_Drug", "Consumables"]
         flag_not_max = self.character_data.item[self.text] < 99
         flag_have = self.character_data.item[self.text] > 0
 
@@ -176,9 +176,7 @@ class BuyItemByItemNameDraw:
                         draw_style = "dark_green"
                 else:
                     button_text += _("(未持有)")
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, normal_style = draw_style, cmd_func=self.show_item_info
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, normal_style=draw_style, cmd_func=self.show_item_info)
             self.draw_text = button_text
         else:
             name_draw = draw.LeftDraw()
@@ -213,7 +211,7 @@ class BuyItemByItemNameDraw:
         while 1:
             return_list = []
             line_feed.draw()
-            if item_config.type in ["Drug","H_Drug","Consumables"]:
+            if item_config.type in ["Drug", "H_Drug", "Consumables"]:
                 buy_one_draw = draw.CenterButton(_("[购买一个]"), _("[购买一个]"), window_width / 3, cmd_func=self.buy_item)
                 buy_one_draw.draw()
                 return_list.append(buy_one_draw.return_text)

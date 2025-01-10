@@ -54,6 +54,7 @@ def title_panel():
     elif now_key == now_list[2]:
         os._exit(0)
 
+
 def draw_logo():
     """绘制logo"""
     logo_text = []

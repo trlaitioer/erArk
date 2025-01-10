@@ -52,19 +52,19 @@ def init_character(character_id: int, character_tem: game_type.NpcTem):
     # 检测基础干员并加入已有干员列表
     if now_character.name in constant.first_NPC_name_set:
         cache.npc_id_got.add(character_id)
-    cache.npc_name_data.add(now_character.name) # 加入到已有干员姓名中
+    cache.npc_name_data.add(now_character.name)  # 加入到已有干员姓名中
     now_character.sex = character_tem.Sex
-    now_character.profession= character_tem.Profession
-    now_character.race= character_tem.Race
-    now_character.relationship.nation= character_tem.Nation
-    now_character.relationship.birthplace= character_tem.Birthplace
+    now_character.profession = character_tem.Profession
+    now_character.race = character_tem.Race
+    now_character.relationship.nation = character_tem.Nation
+    now_character.relationship.birthplace = character_tem.Birthplace
     # 如果有母亲的话则加上亲子关系
     if character_tem.Mother_id:
         now_character.relationship.father_id = 0
         now_character.relationship.mother_id = character_tem.Mother_id
     now_character.adv = character_tem.AdvNpc
     now_character.target_character_id = character_id
-    now_character.favorability = {0:0}
+    now_character.favorability = {0: 0}
     now_character.trust = 0
     now_character.ability = character_tem.Ability
     now_character.experience = character_tem.Experience
@@ -112,7 +112,7 @@ def first_NPC_work():
         character_data = cache.character_data[character_id]
         if character_data.name in {"可露希尔"}:
             character_data.work.work_type = 21
-        elif character_data.name in {"凯尔希","华法琳"}:
+        elif character_data.name in {"凯尔希", "华法琳"}:
             character_data.work.work_type = 61
         elif character_data.name in {"特蕾西娅"}:
             character_data.work.work_type = 71
@@ -125,9 +125,9 @@ def init_character_tem():
     """
     初始化角色模板数据
     """
-    #init_random_npc_data()
-    #npc_data = cache.random_npc_list
-    #numpy.random.shuffle(npc_data)
+    # init_random_npc_data()
+    # npc_data = cache.random_npc_list
+    # numpy.random.shuffle(npc_data)
     # print("初始化角色模板数据")
     cache.npc_tem_data = character_config.character_tem_list
 
@@ -148,23 +148,23 @@ def create_empty_character_tem():
     return now_tem
 
 
-def born_new_character(mother_id,child_name):
+def born_new_character(mother_id, child_name):
     """
     生成新的小孩模板数据
     """
-    #init_random_npc_data()
-    #npc_data = cache.random_npc_list
-    #numpy.random.shuffle(npc_data)
+    # init_random_npc_data()
+    # npc_data = cache.random_npc_list
+    # numpy.random.shuffle(npc_data)
     # print("初始化角色模板数据")
     mom_character_data: game_type.Character = cache.character_data[mother_id]
     now_tem = create_empty_character_tem()
     now_tem.Name = child_name
-    now_tem.Profession = random.randint(0,8)
+    now_tem.Profession = random.randint(0, 8)
     now_tem.Race = mom_character_data.race
     now_tem.Mother_id = mother_id
-    now_tem.AdvNpc = random.randint(9000,9999)
+    now_tem.AdvNpc = random.randint(9000, 9999)
     # 基础的素质
-    now_tem.Talent = {0:1,1:1,2:1,3:1,4:1,6:1,7:1,101:1,121:1,126:1,129:1,131:1,451:1}
+    now_tem.Talent = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 6: 1, 7: 1, 101: 1, 121: 1, 126: 1, 129: 1, 131: 1, 451: 1}
     # 遗传母亲的可遗传素质
     for talent_id in game_config.config_talent:
         if game_config.config_talent[talent_id].heredity and mom_character_data.talent[talent_id]:
@@ -173,15 +173,16 @@ def born_new_character(mother_id,child_name):
                 continue
             now_tem.Talent[talent_id] = 1
     now_tem.Talent[121] = 1
-    now_tem.Hp = random.randint(1000,2000)
-    now_tem.Mp = random.randint(1000,2000)
+    now_tem.Hp = random.randint(1000, 2000)
+    now_tem.Mp = random.randint(1000, 2000)
     cache.npc_tem_data.append(now_tem)
-    now_id  = len(cache.npc_tem_data)
+    now_id = len(cache.npc_tem_data)
     # 给父母加上该孩子的社会关系
     cache.character_data[0].relationship.child_id_list.append(now_id)
     mom_character_data.relationship.child_id_list.append(now_id)
     # cache.npc_id_got.add(now_id)
     init_character(now_id, cache.npc_tem_data[-1])
+
 
 # random_npc_max = normal_config.config_normal.random_npc_max
 # random_teacher_proportion = normal_config.config_normal.proportion_teacher
@@ -247,18 +248,10 @@ def init_character_dormitory():
     分配角色宿舍
     角色分配到csv里所写的宿舍名所对应的房间坐标
     """
-    dormitory = {
-        key: constant.place_data[key] for key in constant.place_data if "Dormitory" in key
-    }
-    dormitory = {
-        x: 0 for j in [k[1] for k in sorted(dormitory.items(), key=lambda x: x[0])] for x in j
-    }
-    special_dormitory = {
-        key: constant.place_data[key] for key in constant.place_data if "Special_Dormitory" in key
-    }
-    special_dormitory = {
-        x: 0 for j in [k[1] for k in sorted(special_dormitory.items(), key=lambda x: x[0])] for x in j
-    }
+    dormitory = {key: constant.place_data[key] for key in constant.place_data if "Dormitory" in key}
+    dormitory = {x: 0 for j in [k[1] for k in sorted(dormitory.items(), key=lambda x: x[0])] for x in j}
+    special_dormitory = {key: constant.place_data[key] for key in constant.place_data if "Special_Dormitory" in key}
+    special_dormitory = {x: 0 for j in [k[1] for k in sorted(special_dormitory.items(), key=lambda x: x[0])] for x in j}
     # print("dormitory :",dormitory)
     # print("cache.scene_data[list(Dr_room.keys())[0]].scene_name :",cache.scene_data[list(Dr_room.keys())[0]].scene_name)
     npc_count = 0
@@ -314,19 +307,15 @@ def new_character_get_dormitory(character_id: int):
     character_data = cache.character_data[character_id]
     # 分为访客和普通干员
     if character_id in cache.rhodes_island.visitor_info:
-        guest_room = {
-            key: constant.place_data[key] for key in constant.place_data if "Guest_Room" in key
-        }
-        guest_room = {
-            x: 0 for j in [k[1] for k in sorted(guest_room.items(), key=lambda x: x[0])] for x in j
-        }
+        guest_room = {key: constant.place_data[key] for key in constant.place_data if "Guest_Room" in key}
+        guest_room = {x: 0 for j in [k[1] for k in sorted(guest_room.items(), key=lambda x: x[0])] for x in j}
         final_room_list = []
         for room_id in game_config.config_facility_open:
             # 跳过非客房和未开放的客房
             if _("客房") not in game_config.config_facility_open[room_id].name:
                 continue
             # 跳过未开放的客房
-            cache.rhodes_island.facility_open.setdefault(room_id,False)
+            cache.rhodes_island.facility_open.setdefault(room_id, False)
             if not cache.rhodes_island.facility_open[room_id]:
                 continue
             # 遍历检查是否有同名客房
@@ -343,12 +332,8 @@ def new_character_get_dormitory(character_id: int):
         now_room = final_room_list[n]
         character_data.dormitory = now_room
     else:
-        dormitory = {
-            key: constant.place_data[key] for key in constant.place_data if "Dormitory" in key
-        }
-        dormitory = {
-            x: 0 for j in [k[1] for k in sorted(dormitory.items(), key=lambda x: x[0])] for x in j
-        }
+        dormitory = {key: constant.place_data[key] for key in constant.place_data if "Dormitory" in key}
+        dormitory = {x: 0 for j in [k[1] for k in sorted(dormitory.items(), key=lambda x: x[0])] for x in j}
         npc_count = 0
         for now_character_id in cache.npc_id_got:
             now_character_data = cache.character_data[now_character_id]
@@ -371,7 +356,7 @@ def init_character_position():
         # print("character_dormitory = ",character_dormitory)
         map_handle.character_move_scene(character_position, character_dormitory_str, character_id)
     character_position = cache.character_data[0].position
-    map_handle.character_move_scene(["0","0"], character_position, 0)
+    map_handle.character_move_scene(["0", "0"], character_position, 0)
 
 
 def init_character_entertainment():
@@ -407,7 +392,7 @@ def get_new_character(character_id: int, visitor_flag: bool = False):
     from Script.UI.Panel import invite_visitor_panel
 
     # 角色上线
-    default.handle_chara_on_line(character_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+    default.handle_chara_on_line(character_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
 
     character_data = cache.character_data[character_id]
     # 清零全特殊状态flag
@@ -419,7 +404,7 @@ def get_new_character(character_id: int, visitor_flag: bool = False):
         facility_cid = game_config.config_facility_effect_data[_("访客区")][int(now_level)]
         facility_effect = game_config.config_facility_effect[facility_cid].effect
         stay_days = facility_effect
-        end_time = game_time.get_sub_date(day = stay_days,old_date = cache.game_time)
+        end_time = game_time.get_sub_date(day=stay_days, old_date=cache.game_time)
         cache.rhodes_island.visitor_info[character_id] = end_time
         # 赋予访客flag
         character_data.sp_flag.vistor = 1
@@ -438,12 +423,10 @@ def get_new_character(character_id: int, visitor_flag: bool = False):
         guest_room_id = invite_visitor_panel.get_empty_guest_room_id()
         if guest_room_id:
             # 全客房列表
-            guest_room_dict = {
-                key: constant.place_data[key] for key in constant.place_data if "Guest_Room" in key
-            }
+            guest_room_dict = {key: constant.place_data[key] for key in constant.place_data if "Guest_Room" in key}
             # 遍历到同名客房
             for guest_room_full_path in guest_room_dict:
-                guest_room_name = guest_room_full_path.split('\\')
+                guest_room_name = guest_room_full_path.split("\\")
                 now_room = game_config.config_facility_open[guest_room_id].name
                 if now_room == guest_room_name[-1]:
                     character_data.dormitory = guest_room_full_path
@@ -453,7 +436,7 @@ def get_new_character(character_id: int, visitor_flag: bool = False):
 
     # 初始化新角色位置
     character_position = character_data.position
-    office_postion = ['中枢', '博士办公室']
+    office_postion = ["中枢", "博士办公室"]
     map_handle.character_move_scene(character_position, office_postion, character_id)
 
     # 初始化新角色娱乐
@@ -543,7 +526,7 @@ def handle_character_setting():
         character_data = cache.character_data[character_id]
         # 萝莉化
         if cache.world_setting[1]:
-            for talent_id in {104,105,106,107}:
+            for talent_id in {104, 105, 106, 107}:
                 if character_data.talent[talent_id]:
                     character_data.talent[talent_id] = 0
                     character_data.talent[103] = 1

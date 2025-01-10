@@ -88,20 +88,20 @@ class Make_food_Panel:
                 if self.now_panel == _("咖啡") and seasoning_cid <= 10:
                     continue
                 if seasoning_cid == 0:
-                    button_width = self.width/16
+                    button_width = self.width / 16
                     now_draw = draw.NormalDraw()
                     now_draw.text = _("\n  基础:    ")
                     now_draw.width = 1
                     now_draw.draw()
                 # 精液或下药则换行并加长文本宽度
                 if seasoning_cid == 11:
-                    button_width = self.width/4
+                    button_width = self.width / 4
                     now_draw = draw.NormalDraw()
                     now_draw.text = _("\n  精液:    ")
                     now_draw.width = 1
                     now_draw.draw()
                 elif seasoning_cid == 102:
-                    button_width = self.width/8
+                    button_width = self.width / 8
                     now_draw = draw.NormalDraw()
                     now_draw.text = _("\n  药物:    ")
                     now_draw.width = 1
@@ -118,28 +118,24 @@ class Make_food_Panel:
                     button_width,
                     cmd_func=self.choice_seasoning,
                     args=(seasoning_cid,),
-                    )
+                )
                 return_list.append(button_draw.return_text)
                 button_draw.draw()
             line_feed.draw()
             line_feed.draw()
-
 
             # 食物面板
             now_draw = draw.NormalDraw()
             now_draw.text = _("○选择要制作的食物：\n")
             now_draw.width = 1
             now_draw.draw()
-            food_name_list = list(
-                cooking.get_cook_from_makefood_data_by_food_type(self.now_panel).items()
-            )
+            food_name_list = list(cooking.get_cook_from_makefood_data_by_food_type(self.now_panel).items())
             # 将调味增加进去
             food_name_list = [(x[0], x[1], self.special_seasoning) for x in food_name_list]
-            
+
             self.handle_panel.text_list = food_name_list
             self.handle_panel.update()
             self.handle_panel.draw()
-
 
             return_list.extend(self.handle_panel.return_list)
             back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
@@ -159,15 +155,11 @@ class Make_food_Panel:
         """
         self.now_panel = food_type
 
-        food_name_list = list(
-            cooking.get_cook_from_makefood_data_by_food_type(self.now_panel).items()
-        )
+        food_name_list = list(cooking.get_cook_from_makefood_data_by_food_type(self.now_panel).items())
         # 将调味增加进去
         food_name_list = [(x[0], x[1], self.special_seasoning) for x in food_name_list]
 
-        self.handle_panel = panel.PageHandlePanel(
-            food_name_list, SeeFoodListByFoodNameDraw, 50, 5, self.width, 1, 1, 0
-        )
+        self.handle_panel = panel.PageHandlePanel(food_name_list, SeeFoodListByFoodNameDraw, 50, 5, self.width, 1, 1, 0)
 
     def choice_seasoning(self, seasoning_cid):
         """选择味道"""
@@ -186,7 +178,12 @@ class SeeFoodListByFoodNameDraw:
     """
 
     def __init__(
-        self, text: Tuple[str, UUID, int], width: int, is_button: bool, num_button: bool, button_id: int,
+        self,
+        text: Tuple[str, UUID, int],
+        width: int,
+        is_button: bool,
+        num_button: bool,
+        button_id: int,
     ):
         """初始化绘制对象"""
         self.cid: str = text[0]
@@ -240,14 +237,10 @@ class SeeFoodListByFoodNameDraw:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = f"{index_text}{self.food_name}"
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, cmd_func=self.make_food_for_sure
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.make_food_for_sure)
             else:
                 button_text = f"[{self.food_name}]"
-                name_draw = draw.CenterButton(
-                    button_text, self.text, self.width, cmd_func=self.make_food_for_sure
-                )
+                name_draw = draw.CenterButton(button_text, self.text, self.width, cmd_func=self.make_food_for_sure)
             self.button_return = name_draw.return_text
             self.draw_text = button_text
         else:
@@ -270,13 +263,7 @@ class SeeFoodListByFoodNameDraw:
         seasoning_name = game_config.config_seasoning[self.special_seasoning].name
 
         # 输出食物的名字、预计制作耗时、介绍、调味，询问是否确认
-        confirm_text = _(
-            f"食物名字: {food_name}\n"
-            f"菜谱难度: {food_diffucty}\n"
-            f"预计耗时: {make_food_time} 分钟\n"
-            f"当前调味: {seasoning_name}\n"
-            "是否确认制作该食物？"
-        )
+        confirm_text = _(f"食物名字: {food_name}\n" f"菜谱难度: {food_diffucty}\n" f"预计耗时: {make_food_time} 分钟\n" f"当前调味: {seasoning_name}\n" "是否确认制作该食物？")
 
         info_draw = draw.NormalDraw()
         info_draw.text = confirm_text
@@ -295,7 +282,6 @@ class SeeFoodListByFoodNameDraw:
         if yrn == confirm_draw.return_text:
             self.make_food()
 
-
     def make_food(self):
         """玩家制作食物"""
         character_data: game_type.Character = cache.character_data[0]
@@ -310,7 +296,7 @@ class SeeFoodListByFoodNameDraw:
         # 放到玩家背包里
         character_data.food_bag[self.food_uid] = cache.rhodes_island.makefood_data[self.food_cid][self.food_uid]
         # 精液调味则将精液量加到食物数据里
-        if self.special_seasoning in {11,12} :
+        if self.special_seasoning in {11, 12}:
             semen_text, semen_count = ejaculation_panel.common_ejaculation()
             cache.rhodes_island.makefood_data[self.food_cid][self.food_uid].special_seasoning_amount = semen_count
         # 烹饪行为
@@ -325,4 +311,3 @@ class SeeFoodListByFoodNameDraw:
     def draw(self):
         """绘制对象"""
         self.now_draw.draw()
-

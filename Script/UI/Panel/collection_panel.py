@@ -3,7 +3,7 @@ from typing import Tuple, List
 from types import FunctionType
 from uuid import UUID
 from Script.Core import cache_control, game_type, get_text, flow_handle, text_handle, constant, py_cmd
-from Script.Design import map_handle,attr_text,attr_calculation
+from Script.Design import map_handle, attr_text, attr_calculation
 from Script.UI.Moudle import draw, panel
 from Script.Config import game_config, normal_config
 
@@ -17,6 +17,7 @@ line_feed.text = "\n"
 line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
+
 
 def refresh_all_bonus():
     """
@@ -88,7 +89,6 @@ class Collection_Panel:
             line = draw.LineDraw("+", self.width)
             line.draw()
 
-
             bonus_draw = draw.NormalDraw()
             bonus_text = _("\n收集解锁要素：")
             bonus_draw.text = bonus_text
@@ -101,23 +101,19 @@ class Collection_Panel:
             for cid in game_config.config_collection_bonus_data:
 
                 # 判断是否已经解锁前段奖励
-                un_lock_flag = not (cid in [1,101,201] or character_data.pl_collection.collection_bonus[cid - 1])
+                un_lock_flag = not (cid in [1, 101, 201] or character_data.pl_collection.collection_bonus[cid - 1])
 
                 now_bonus = game_config.config_collection_bonus_data[cid]
                 bonus_text = ""
                 draw_flag = False
 
                 # 创建一个映射字典
-                bonus_type_text = {
-                    _("信物"): _("个信物后，"),
-                    _("内裤"): _("条内裤后，"),
-                    _("袜子"): _("双袜子后，")
-                }
+                bonus_type_text = {_("信物"): _("个信物后，"), _("内裤"): _("条内裤后，"), _("袜子"): _("双袜子后，")}
 
                 # 使用循环替代多个if语句
                 for bonus_type, text in bonus_type_text.items():
                     if now_bonus.type == bonus_type and self.now_panel == bonus_type:
-                        bonus_text = _("累积获得{0}{1}").format(str(now_bonus.count).rjust(3,' '), text)
+                        bonus_text = _("累积获得{0}{1}").format(str(now_bonus.count).rjust(3, " "), text)
                         draw_flag = True
                         break
 
@@ -143,7 +139,6 @@ class Collection_Panel:
                         bonus_draw.draw()
                         return_list.append(bonus_draw.return_text)
             line_feed.draw()
-
 
             # 开始绘制收藏品信息
             collection_draw = draw.NormalDraw()
@@ -190,14 +185,12 @@ class Collection_Panel:
                                 pan_counts = {}
                                 for pan in character_data.pl_collection.npc_panties[npc_id]:
                                     pan_counts[pan] = pan_counts.get(pan, 0) + 1
-                                
+
                                 for pan, count in pan_counts.items():
                                     collection_text += f" {pan}({count})"
 
                             collection_text += f"\n"
                 collection_text += _("\n当前共{0}条\n").format(self.pan_count)
-
-
 
             elif self.now_panel == _("袜子"):
 
@@ -230,11 +223,9 @@ class Collection_Panel:
                             collection_text += f"\n"
                 collection_text += _("\n当前共{0}双\n").format(self.sock_count)
 
-
             collection_draw.text = collection_text
             collection_draw.width = self.width
             collection_draw.draw()
-
 
             return_list.extend(handle_panel.return_list)
             back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
@@ -244,7 +235,6 @@ class Collection_Panel:
             if yrn == back_draw.return_text:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
-
 
     def change_panel(self, collection_type: str):
         """
@@ -326,4 +316,3 @@ class collection_Draw:
     def draw(self):
         """绘制对象"""
         self.now_draw.draw()
-

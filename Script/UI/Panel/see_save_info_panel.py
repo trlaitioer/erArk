@@ -40,9 +40,7 @@ class SeeSaveListPanel:
         self.return_list: List[str] = []
         """ 当前面板监听的按钮列表 """
         now_list = [(i, write_save) for i in range(normal_config.config_normal.max_save)]
-        self.handle_panel = panel.PageHandlePanel(
-            now_list, SaveInfoDraw, normal_config.config_normal.save_page, 1, width, 1, 1, 0, "-"
-        )
+        self.handle_panel = panel.PageHandlePanel(now_list, SaveInfoDraw, normal_config.config_normal.save_page, 1, width, 1, 1, 0, "-")
         """ 页面控制对象 """
 
     def draw(self):
@@ -131,7 +129,7 @@ class SaveInfoDraw:
             game_time_text = _("游戏时间:") + game_time_text
             save_time_text = _("存档时间:") + save_time.strftime("%Y-%m-%d %H:%M")
             save_name = f"No.{self.text} {save_head['game_verson']} {game_time_text}"
-            save_name += _(" {0}博士").format(save_head['character_name'])
+            save_name += _(" {0}博士").format(save_head["character_name"])
             save_name += f" {save_time_text}"
         if is_button:
             if num_button:
@@ -165,9 +163,7 @@ class SaveInfoDraw:
         if self.save_exist_judge:
             now_ask_list = []
             now_id = 0
-            load_save_button = draw.Button(
-                text_handle.id_index(now_id) + _("读取"), str(now_id), cmd_func=self.load_save
-            )
+            load_save_button = draw.Button(text_handle.id_index(now_id) + _("读取"), str(now_id), cmd_func=self.load_save)
             load_save_button.width = self.width
             load_save_button.draw()
             line_feed.draw()
@@ -184,9 +180,7 @@ class SaveInfoDraw:
                 now_ask_list.append(str(now_id))
                 line_feed.draw()
                 now_id += 1
-            delete_save_button = draw.Button(
-                text_handle.id_index(now_id) + _("删除"), str(now_id), cmd_func=self.delete_save
-            )
+            delete_save_button = draw.Button(text_handle.id_index(now_id) + _("删除"), str(now_id), cmd_func=self.delete_save)
             delete_save_button.width = self.width
             delete_save_button.draw()
             now_ask_list.append(str(now_id))

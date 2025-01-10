@@ -38,9 +38,7 @@ def get_rich_text_print(text_message: str, default_style: str) -> list:
             input_text_style_size = text_message.find(">", i) + 1
             input_text_style = text_message[i + 1 : input_text_style_size - 1]
             # print(f"debug input_text_style = {input_text_style}")
-            if text_message[i] == "<" and (
-                (input_text_style in style_name_list) or (input_text_style[1:] in style_name_list)
-            ):
+            if text_message[i] == "<" and ((input_text_style in style_name_list) or (input_text_style[1:] in style_name_list)):
                 style_last_index = i
                 style_max_index = input_text_style_size
                 if input_text_style[0] == "/":

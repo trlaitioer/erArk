@@ -34,7 +34,7 @@ def change_npc_work_out(width):
 
         # 遍历创建全部门的面板
         department_panels = []
-        for department_name in range(len(department_names)+1):
+        for department_name in range(len(department_names) + 1):
             if normal_config.config_normal.language == "zh_CN":
                 department_panels.append(panel.PageHandlePanel([], ChangeWorkButtonList, 999, 8, width, 1, 0, 0))
             else:
@@ -117,7 +117,7 @@ class Manage_Basement_Panel:
         """ 当前绘制的页面 """
         self.draw_list: List[draw.NormalDraw] = []
         """ 绘制的文本列表 """
-        self.show_resource_type_dict: Dict = {_("货币"): True,_("材料"): False, _("药剂"): False, _("乳制品"): False, _("香水"): False}
+        self.show_resource_type_dict: Dict = {_("货币"): True, _("材料"): False, _("药剂"): False, _("乳制品"): False, _("香水"): False}
 
     def draw(self):
         """绘制对象"""
@@ -125,15 +125,15 @@ class Manage_Basement_Panel:
         title_text = _("管理罗德岛")
         panel_list = [(_("罗德岛资源总览")), (_("各部门工作概况")), (_("全干员一览"))]
         department_son_panel_button_dict = {
-            _("工程部"):[_("[基建系统]")],
-            _("制造加工区"):[_("[生产系统]")],
-            _("图书馆"):[_("[图书馆管理系统]")],
-            _("贸易区"):[_("[资源交易系统]")],
-            _("文职部"):[_("[招募系统]")],
-            _("访客区"):[_("[势力外交系统]"), _("[邀请访客系统]")],
-            _("机库"):[_("[外勤委托系统]"), _("[载具管理系统]")],
-            _("疗养庭院"):[_("[农业系统]")],
-            }
+            _("工程部"): [_("[基建系统]")],
+            _("制造加工区"): [_("[生产系统]")],
+            _("图书馆"): [_("[图书馆管理系统]")],
+            _("贸易区"): [_("[资源交易系统]")],
+            _("文职部"): [_("[招募系统]")],
+            _("访客区"): [_("[势力外交系统]"), _("[邀请访客系统]")],
+            _("机库"): [_("[外勤委托系统]"), _("[载具管理系统]")],
+            _("疗养庭院"): [_("[农业系统]")],
+        }
 
         title_draw = draw.TitleLineDraw(title_text, self.width)
 
@@ -187,13 +187,7 @@ class Manage_Basement_Panel:
                         draw_text = f" ▼[{resouce}]"
                     else:
                         draw_text = f" ▶[{resouce}]"
-                    button_draw = draw.LeftButton(
-                    f"{draw_text}",
-                    f"{resouce}",
-                    len(draw_text) * 2,
-                    cmd_func=self.settle_show_resource_type,
-                    args=(resouce)
-                    )
+                    button_draw = draw.LeftButton(f"{draw_text}", f"{resouce}", len(draw_text) * 2, cmd_func=self.settle_show_resource_type, args=(resouce))
                     button_draw.draw()
                     return_list.append(button_draw.return_text)
                     line_feed.draw()
@@ -207,7 +201,7 @@ class Manage_Basement_Panel:
                     all_info_draw.width = self.width
                     all_info_draw.text = ""
                     for material_id in cache.rhodes_island.materials_resouce:
-                        material_data  = game_config.config_resouce[material_id]
+                        material_data = game_config.config_resouce[material_id]
                         if material_data.type == resouce:
                             all_info_draw.text += f"\n  {material_data.name}：{cache.rhodes_island.materials_resouce[material_id]}"
                     all_info_draw.text += "\n"
@@ -227,7 +221,7 @@ class Manage_Basement_Panel:
                 all_info_draw = draw.NormalDraw()
 
                 # 统计各部门岗位的工作干员数量
-                work_people_now,people_max = cache.rhodes_island.work_people_now,len(cache.npc_id_got)
+                work_people_now, people_max = cache.rhodes_island.work_people_now, len(cache.npc_id_got)
 
                 all_info_draw.text = _("\n 当前工作中干员/总干员：{0}/{1}").format(work_people_now, people_max)
                 all_info_draw.text += _("\n ↓点击[部门名]或[系统名]可查看对应详情，没有系统也没有工作位的部门是未实装的空白部门\n\n")
@@ -254,13 +248,7 @@ class Manage_Basement_Panel:
                     # 如果该部门有子系统的话，绘制子系统按钮
                     if department in department_son_panel_button_dict:
                         for button_text in department_son_panel_button_dict[department]:
-                            button_draw = draw.CenterButton(
-                                button_text,
-                                f"\n{button_text}",
-                                len(button_text) * 2,
-                                cmd_func=self.jump_to_son_panel,
-                                args=(button_text)
-                            )
+                            button_draw = draw.CenterButton(button_text, f"\n{button_text}", len(button_text) * 2, cmd_func=self.jump_to_son_panel, args=(button_text))
                             button_draw.draw()
                             return_list.append(button_draw.return_text)
 
@@ -287,13 +275,7 @@ class Manage_Basement_Panel:
                 all_info_draw.width = self.width
                 all_info_draw.draw()
 
-                button_draw = draw.LeftButton(
-                    _("[001]调整干员岗位"),
-                    f"\n1",
-                    self.width ,
-                    cmd_func=change_npc_work_out,
-                    args=self.width
-                )
+                button_draw = draw.LeftButton(_("[001]调整干员岗位"), f"\n1", self.width, cmd_func=change_npc_work_out, args=self.width)
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
 
@@ -303,13 +285,11 @@ class Manage_Basement_Panel:
                 for character_id in cache.npc_id_got:
                     character_data = cache.character_data[character_id]
                     name = character_data.name
-                    id = str(character_data.adv).rjust(4,'0')
+                    id = str(character_data.adv).rjust(4, "0")
                     draw_width = self.width / 6
                     # 输出干员名字
                     now_draw_text = f"[{id}]{name}"
-                    name_draw = draw.LeftButton(
-                        now_draw_text, name, draw_width, cmd_func=self.see_attr, args=(character_id,)
-                    )
+                    name_draw = draw.LeftButton(now_draw_text, name, draw_width, cmd_func=self.see_attr, args=(character_id,))
                     name_draw.draw()
                     return_list.append(name_draw.return_text)
                     chara_count += 1
@@ -342,7 +322,18 @@ class Manage_Basement_Panel:
         panel -- 要切换的面板类型
         """
 
-        from Script.UI.Panel import building_panel, manage_assembly_line_panel, manage_library, resource_exchange_panel, recruit_panel, nation_diplomacy_panel, invite_visitor_panel, agriculture_production_panel, field_commission_panel, manage_vehicle_panel
+        from Script.UI.Panel import (
+            building_panel,
+            manage_assembly_line_panel,
+            manage_library,
+            resource_exchange_panel,
+            recruit_panel,
+            nation_diplomacy_panel,
+            invite_visitor_panel,
+            agriculture_production_panel,
+            field_commission_panel,
+            manage_vehicle_panel,
+        )
 
         if _("基建系统") in son_panel:
             now_panel = building_panel.Building_Panel(self.width)
@@ -353,7 +344,7 @@ class Manage_Basement_Panel:
         elif _("资源交易系统") in son_panel:
             now_panel = resource_exchange_panel.Resource_Exchange_Line_Panel(self.width)
         elif _("招募系统") in son_panel:
-                now_panel =recruit_panel.Recruit_Panel(self.width)
+            now_panel = recruit_panel.Recruit_Panel(self.width)
         elif _("势力外交系统") in son_panel:
             now_panel = nation_diplomacy_panel.Nation_Diplomacy_Panel(self.width)
         elif _("邀请访客系统") in son_panel:
@@ -383,7 +374,7 @@ class Manage_Basement_Panel:
             for all_cid in game_config.config_work_type:
                 work_data = game_config.config_work_type[all_cid]
                 if work_data.department == department:
-                    now_text+= _("\n  当前正在工作的{0}：").format(work_data.name)
+                    now_text += _("\n  当前正在工作的{0}：").format(work_data.name)
                     if len(cache.rhodes_island.all_work_npc_set[all_cid]):
                         for npc_id in cache.rhodes_island.all_work_npc_set[all_cid]:
                             npc_name = cache.character_data[npc_id].name
@@ -421,7 +412,7 @@ class Manage_Basement_Panel:
                 now_text += npc_and_place_text
 
             elif department == _("医疗部"):
-                patient_cured,patient_now = str(cache.rhodes_island.patient_cured),str(cache.rhodes_island.patient_now)
+                patient_cured, patient_now = str(cache.rhodes_island.patient_cured), str(cache.rhodes_island.patient_now)
                 now_text += _("\n  今日已治疗患者数/排队中患者数：{0}/{1}").format(patient_cured, patient_now)
                 cure_income = str(cache.rhodes_island.cure_income)
                 now_text += _("\n  截至目前为止，今日医疗部门龙门币总收入为：{0}\n").format(cure_income)
@@ -431,9 +422,9 @@ class Manage_Basement_Panel:
                     now_text += _("\n  当前已招募未确认干员人数为：{0}人，请前往博士办公室确认").format(len(cache.rhodes_island.recruited_id))
                 else:
                     now_text += _("\n  当前没有已招募干员，请等待招募完成")
-                for i in {0,1,2,3}:
+                for i in {0, 1, 2, 3}:
                     if i in cache.rhodes_island.recruit_line:
-                        now_text += _("\n  {0}号招募位进度：{1}%/100%").format(i+1, round(cache.rhodes_island.recruit_line[i][0],1))
+                        now_text += _("\n  {0}号招募位进度：{1}%/100%").format(i + 1, round(cache.rhodes_island.recruit_line[i][0], 1))
 
             elif department == _("图书馆"):
                 reader_count = cache.rhodes_island.reader_now
@@ -444,13 +435,13 @@ class Manage_Basement_Panel:
                 now_text += _("\n  干员总数/宿舍容量：{0}/{1}").format(npc_count, cache.rhodes_island.people_max)
                 now_text += _("\n  具体居住情况：\n")
                 live_npc_id_set = cache.npc_id_got.copy()
-                Dormitory_all = constant.place_data["Dormitory"] + constant.place_data["Special_Dormitory"] # 合并普通和特殊宿舍
+                Dormitory_all = constant.place_data["Dormitory"] + constant.place_data["Special_Dormitory"]  # 合并普通和特殊宿舍
                 # 遍历所有宿舍
-                dormitory_count = 0 # 用来计数宿舍总数量
-                pre_dormitory_name = "100" # 用来保存上一个宿舍名字
+                dormitory_count = 0  # 用来计数宿舍总数量
+                pre_dormitory_name = "100"  # 用来保存上一个宿舍名字
                 for dormitory_place in Dormitory_all:
                     count = 0
-                    tem_remove_id_set = set() # 用来保存需要删除id的临时set
+                    tem_remove_id_set = set()  # 用来保存需要删除id的临时set
                     dormitory_name = dormitory_place.split("\\")[-1]
                     dormitory_son_text = f"    [{dormitory_name}]："
                     # 遍历角色id
@@ -468,7 +459,7 @@ class Manage_Basement_Panel:
                         # 宿舍满2人则中断循环
                         if count >= 2:
                             break
-                    dormitory_son_text += f"{str(dormitory_npc_name).ljust(15,'　')}" # 对齐为15个全角字符
+                    dormitory_son_text += f"{str(dormitory_npc_name).ljust(15,'　')}"  # 对齐为15个全角字符
                     # 在id集合中删掉本次已经出现过的id
                     for npc_id in tem_remove_id_set:
                         live_npc_id_set.discard(npc_id)
@@ -478,12 +469,12 @@ class Manage_Basement_Panel:
                         if dormitory_name[0] != pre_dormitory_name[0]:
                             now_text += "\n"
                             dormitory_count = 0
-                            if dormitory_name[0] not in {"梅","莱"}:
+                            if dormitory_name[0] not in {"梅", "莱"}:
                                 now_text += "\n"
                         # 每5个宿舍换行
                         elif dormitory_count % 5 == 0:
                             now_text += "\n"
-                        pre_dormitory_name = dormitory_name # 更新上一个宿舍名字
+                        pre_dormitory_name = dormitory_name  # 更新上一个宿舍名字
                         now_text += dormitory_son_text
                         dormitory_count += 1
                 now_text += "\n"
@@ -505,9 +496,7 @@ class Manage_Basement_Panel:
         self.show_resource_type_dict[resouce_type] = not self.show_resource_type_dict[resouce_type]
 
     def see_attr(self, character_id: int):
-        now_draw = see_character_info_panel.SeeCharacterInfoInScenePanel(
-            character_id, self.width
-        )
+        now_draw = see_character_info_panel.SeeCharacterInfoInScenePanel(character_id, self.width)
         now_draw.draw()
 
 
@@ -522,9 +511,7 @@ class ChangeWorkButtonList:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, NPC_id: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.NPC_id: int = NPC_id
@@ -546,15 +533,12 @@ class ChangeWorkButtonList:
 
         # 按钮绘制
 
-        name_draw = draw.LeftButton(
-            button_text, self.button_return, self.width, cmd_func=self.button_0
-        )
+        name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.button_0)
         self.now_draw = name_draw
         self.draw_text = button_text
 
         """ 绘制的对象 """
         self.now_draw = name_draw
-
 
     def button_0(self):
         """选项1"""
@@ -593,7 +577,7 @@ class ChangeWorkButtonList:
                     if "&" not in need_data_all:
                         need_data_list = [need_data_all]
                     else:
-                        need_data_list = need_data_all.split('&')
+                        need_data_list = need_data_all.split("&")
                     judge, reason = attr_calculation.judge_require(need_data_list, self.NPC_id)
                     if not judge:
                         flag_open = False
@@ -620,13 +604,7 @@ class ChangeWorkButtonList:
                     work_text = f"{work_text_before.ljust(18,'　')}：{work_describe}"
                     # 正常工作直接显示
                     if work_tag in {0, 2}:
-                        button_draw = draw.LeftButton(
-                            work_text,
-                            f"\n{work_cid}",
-                            window_width ,
-                            cmd_func=self.select_new_work,
-                            args=work_cid
-                        )
+                        button_draw = draw.LeftButton(work_text, f"\n{work_cid}", window_width, cmd_func=self.select_new_work, args=work_cid)
                         # 特殊工作则高亮显示
                         if work_tag == 2:
                             button_draw.normal_style = "gold_enrod"
@@ -654,13 +632,13 @@ class ChangeWorkButtonList:
         """绘制对象"""
         self.now_draw.draw()
 
-    def select_new_work(self,work_id: int):
+    def select_new_work(self, work_id: int):
         """赋予新的工作id"""
         target_data: game_type.Character = cache.character_data[self.NPC_id]
         # 如果原工作是性爱练习生的话，则重置性爱练习
         if target_data.work.work_type == 193:
             for i in target_data.body_manage:
-                if i in range(30,40) and target_data.body_manage[i]:
+                if i in range(30, 40) and target_data.body_manage[i]:
                     target_data.body_manage[i] = 0
         # 赋予新工作
         target_data.work.work_type = work_id

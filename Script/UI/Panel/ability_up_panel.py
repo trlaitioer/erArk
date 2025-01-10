@@ -28,6 +28,7 @@ line_feed.width = 1
 window_width = normal_config.config_normal.text_width
 """ 屏幕宽度 """
 
+
 class Characterabi_show_Text:
     """
     角色能力升级显示面板
@@ -87,11 +88,7 @@ class Characterabi_show_Text:
                 button_text += " "
                 button_text += str(now_exp)
                 now_abi_up_panel = Characterabi_cmd_Text(self.character_id, self.width, ability_id)
-                button_draw = draw.LeftButton(
-                    _(button_text),
-                    _(game_config.config_ability[ability_id].name),
-                    self.width / 10,
-                    cmd_func=now_abi_up_panel.draw)
+                button_draw = draw.LeftButton(_(button_text), _(game_config.config_ability[ability_id].name), self.width / 10, cmd_func=now_abi_up_panel.draw)
                 self.return_list.append(button_draw.return_text)
                 button_draw.draw()
                 # py_cmd.clr_cmd()
@@ -149,9 +146,9 @@ class Characterabi_cmd_Text:
             # 遍历升级需求，并输出信息
             for need_text in need_list:
                 # print(f"debug need_text = {need_text}")
-                need_type = need_text.split('|')[0][0]
-                need_type_id = int(need_text.split('|')[0][1:])
-                need_value = int(need_text.split('|')[1])
+                need_type = need_text.split("|")[0][0]
+                need_type_id = int(need_text.split("|")[0][1:])
+                need_value = int(need_text.split("|")[1])
                 if need_type == "A":
                     abi_name = game_config.config_ability[need_type_id].name
                     button_text = _("需要能力 : ") + abi_name + _(" 至少为") + str(need_value) + "\n"
@@ -270,11 +267,11 @@ class Character_talent_show_Text:
         text_draw_introduce.draw()
 
         # 检测是哪个路线
-        next_love_id,next_obey_id = 0,0
-        for talent_id in {201,202,203,204}:
+        next_love_id, next_obey_id = 0, 0
+        for talent_id in {201, 202, 203, 204}:
             if self.character_data.talent[talent_id]:
                 next_love_id = talent_id + 1
-        for talent_id in {211,212,213,214}:
+        for talent_id in {211, 212, 213, 214}:
             if self.character_data.talent[talent_id]:
                 next_obey_id = talent_id + 1
 
@@ -366,7 +363,6 @@ class Character_talent_show_Text:
                 else:
                     self.show_gain_need(next_obey_id, obey_judge)
 
-
     def show_gain_need(self, talent_id, judge):
         """具体显示需要什么"""
 
@@ -383,14 +379,14 @@ class Character_talent_show_Text:
             need_list = []
             need_list.append(need_all.gain_need)
         else:
-            need_list = need_all.gain_need.split('&')
+            need_list = need_all.gain_need.split("&")
 
         # 遍历升级需求，并输出信息
         for need_text in need_list:
-            need_type = need_text.split('|')[0][0]
-            if len(need_text.split('|')[0]) >= 2:
-                need_type_id = int(need_text.split('|')[0][1:])
-            need_value = int(need_text.split('|')[1])
+            need_type = need_text.split("|")[0][0]
+            if len(need_text.split("|")[0]) >= 2:
+                need_type_id = int(need_text.split("|")[0][1:])
+            need_value = int(need_text.split("|")[1])
             # print(f"debug need_type = {need_type},need_type_id = {need_type_id},need_value = {need_value}")
             if need_type == "A":
                 abi_name = game_config.config_ability[need_type_id].name
@@ -425,14 +421,14 @@ class Character_talent_show_Text:
             now_draw.text = button_text
             now_draw.draw()
 
-        if talent_id in {201,211}:
+        if talent_id in {201, 211}:
             line_feed.draw()
             if judge:
                 now_draw_succed = draw.NormalDraw()
                 now_draw_succed.text = _("满足条件，确定选择此路线吗？\n")
                 now_draw_succed.draw()
 
-                yes_draw = draw.CenterButton(_("[确定]"), _("确定") + "_" + str(talent_id), self.width / 3, cmd_func=self.level_up, args = talent_id)
+                yes_draw = draw.CenterButton(_("[确定]"), _("确定") + "_" + str(talent_id), self.width / 3, cmd_func=self.level_up, args=talent_id)
                 yes_draw.draw()
                 self.return_list.append(yes_draw.return_text)
                 line_feed.draw()
@@ -459,7 +455,7 @@ class Character_talent_show_Text:
             now_draw_succed.text = _("\n满足条件，确定要现在获得该素质吗（也可以在过夜时自动获得）\n")
             now_draw_succed.draw()
 
-            yes_draw = draw.CenterButton(_("[确定]"), _("确定") + "_" + str(talent_id), self.width / 3, cmd_func=self.level_up, args = talent_id)
+            yes_draw = draw.CenterButton(_("[确定]"), _("确定") + "_" + str(talent_id), self.width / 3, cmd_func=self.level_up, args=talent_id)
             yes_draw.draw()
             self.return_list.append(yes_draw.return_text)
             line_feed.draw()

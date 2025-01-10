@@ -72,11 +72,7 @@ def handle_player_come_scene(character_id: int) -> int:
     if character_id == 0:
         return 0
     pl_character_data: game_type.Character = cache.character_data[0]
-    if (
-        len(pl_character_data.behavior.move_src) and
-        len(pl_character_data.behavior.move_target) and
-        pl_character_data.behavior.move_src != pl_character_data.behavior.move_target
-    ):
+    if len(pl_character_data.behavior.move_src) and len(pl_character_data.behavior.move_target) and pl_character_data.behavior.move_src != pl_character_data.behavior.move_target:
         scene_path_str = map_handle.get_map_system_path_str_for_list(pl_character_data.position)
         scene_data: game_type.Scene = cache.scene_data[scene_path_str]
         if character_id > 0 and character_id in scene_data.character_list:
@@ -98,9 +94,9 @@ def handle_player_leave_scene(character_id: int) -> int:
     pl_character_data: game_type.Character = cache.character_data[0]
     now_character_data: game_type.Character = cache.character_data[character_id]
     if (
-            pl_character_data.behavior.move_src == now_character_data.position
-            and pl_character_data.behavior.move_target != now_character_data.position
-            # and pl_character_data.position != target_data.position
+        pl_character_data.behavior.move_src == now_character_data.position
+        and pl_character_data.behavior.move_target != now_character_data.position
+        # and pl_character_data.position != target_data.position
     ):
         return 1
     return 0
@@ -120,9 +116,9 @@ def handle_target_come_scene(character_id: int) -> int:
     pl_character_data: game_type.Character = cache.character_data[0]
     now_character_data: game_type.Character = cache.character_data[character_id]
     if (
-            now_character_data.behavior.move_src != pl_character_data.position
-            and now_character_data.behavior.move_target == pl_character_data.position
-            and now_character_data.position == pl_character_data.position
+        now_character_data.behavior.move_src != pl_character_data.position
+        and now_character_data.behavior.move_target == pl_character_data.position
+        and now_character_data.position == pl_character_data.position
     ):
         return 1
     return 0
@@ -141,9 +137,9 @@ def handle_target_leave_scene(character_id: int) -> int:
         return 0
     now_character_data: game_type.Character = cache.character_data[character_id]
     if (
-            now_character_data.behavior.move_src == cache.character_data[0].position
-            and now_character_data.behavior.move_target != cache.character_data[0].position
-            and now_character_data.position != cache.character_data[0].position
+        now_character_data.behavior.move_src == cache.character_data[0].position
+        and now_character_data.behavior.move_target != cache.character_data[0].position
+        and now_character_data.position != cache.character_data[0].position
     ):
         return 1
     return 0
@@ -222,10 +218,7 @@ def handle_move_to_same_target_with_pl(character_id: int) -> int:
         return 0
     pl_character_data: game_type.Character = cache.character_data[0]
     now_character_data: game_type.Character = cache.character_data[character_id]
-    if (
-            now_character_data.behavior.move_final_target == pl_character_data.behavior.move_final_target
-            or now_character_data.behavior.move_target == pl_character_data.behavior.move_target
-    ):
+    if now_character_data.behavior.move_final_target == pl_character_data.behavior.move_final_target or now_character_data.behavior.move_target == pl_character_data.behavior.move_target:
         return 1
     return 0
 
@@ -526,10 +519,7 @@ def handle_teacher_teaching_in_classroom(character_id: int) -> int:
     for character_id in cache.npc_id_got:
         character_data: game_type.Character = cache.character_data[character_id]
         # 首先需要是老师，然后正在授课
-        if (
-            character_data.work.work_type == 151
-            and character_data.state == constant.CharacterStatus.STATUS_TEACH
-        ):
+        if character_data.work.work_type == 151 and character_data.state == constant.CharacterStatus.STATUS_TEACH:
             # 接着需要地点在教室里
             now_position = character_data.position
             now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
@@ -583,7 +573,6 @@ def handle_scene_someone_not_massage_therapist(character_id: int) -> int:
                 if other_character_data.work.work_type != 171:
                     return 1
     return 0
-
 
 
 @add_premise(constant_promise.Premise.PLACE_EXPOSED)
@@ -823,7 +812,7 @@ def handle_dr_office_not_full(character_id: int) -> int:
     Return arguments:
     int -- 权重
     """
-    now_position = ['中枢', '博士办公室']
+    now_position = ["中枢", "博士办公室"]
     now_position_str = map_handle.get_map_system_path_str_for_list(now_position)
     if map_handle.judge_scene_is_full(now_position_str):
         return 0
@@ -1380,6 +1369,7 @@ def handle_not_in_moden_music_room(character_id: int) -> int:
         return 0
     return 1
 
+
 @add_premise(constant_promise.Premise.IN_MULTIMEDIA_ROOM)
 def handle_in_multimedia_room(character_id: int) -> int:
     """
@@ -1397,6 +1387,7 @@ def handle_in_multimedia_room(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_MULTIMEDIA_ROOM)
 def handle_not_in_multimedia_room(character_id: int) -> int:
     """
@@ -1409,6 +1400,7 @@ def handle_not_in_multimedia_room(character_id: int) -> int:
     if handle_in_multimedia_room(character_id):
         return 0
     return 1
+
 
 @add_premise(constant_promise.Premise.IN_PHOTOGRAPHY_STUDIO)
 def handle_in_photography_studio(character_id: int) -> int:
@@ -1427,6 +1419,7 @@ def handle_in_photography_studio(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_PHOTOGRAPHY_STUDIO)
 def handle_not_in_photography_studio(character_id: int) -> int:
     """
@@ -1439,6 +1432,7 @@ def handle_not_in_photography_studio(character_id: int) -> int:
     if handle_in_photography_studio(character_id):
         return 0
     return 1
+
 
 @add_premise(constant_promise.Premise.IN_AQUAPIT_EXPERIENTORIUM)
 def handle_in_aquapit_experientorium(character_id: int) -> int:
@@ -1457,6 +1451,7 @@ def handle_in_aquapit_experientorium(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_AQUAPIT_EXPERIENTORIUM)
 def handle_not_in_aquapit_experientorium(character_id: int) -> int:
     """
@@ -1469,6 +1464,7 @@ def handle_not_in_aquapit_experientorium(character_id: int) -> int:
     if handle_in_aquapit_experientorium(character_id):
         return 0
     return 1
+
 
 @add_premise(constant_promise.Premise.IN_BOARD_GAMES_ROOM)
 def handle_in_board_games_room(character_id: int) -> int:
@@ -1487,6 +1483,7 @@ def handle_in_board_games_room(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_BOARD_GAMES_ROOM)
 def handle_not_in_board_games_room(character_id: int) -> int:
     """
@@ -1499,6 +1496,7 @@ def handle_not_in_board_games_room(character_id: int) -> int:
     if handle_in_board_games_room(character_id):
         return 0
     return 1
+
 
 @add_premise(constant_promise.Premise.IN_FAIRY_BANQUET)
 def handle_in_fairy_banquet(character_id: int) -> int:
@@ -1516,6 +1514,7 @@ def handle_in_fairy_banquet(character_id: int) -> int:
     if "Fairy_Banquet" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_FAIRY_BANQUET)
 def handle_not_in_fairy_banquet(character_id: int) -> int:
@@ -1580,6 +1579,7 @@ def handle_in_avant_garde_arcade(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_AVANT_GARDE_ARCADE)
 def handle_not_in_avant_garde_arcade(character_id: int) -> int:
     """
@@ -1592,6 +1592,7 @@ def handle_not_in_avant_garde_arcade(character_id: int) -> int:
     if handle_in_avant_garde_arcade(character_id):
         return 0
     return 1
+
 
 @add_premise(constant_promise.Premise.IN_SWIMMING_POOL)
 def handle_in_swimming_pool(character_id: int) -> int:
@@ -1609,6 +1610,7 @@ def handle_in_swimming_pool(character_id: int) -> int:
     if "Swimming_Pool" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_SWIMMING_POOL)
 def handle_not_in_swimming_pool(character_id: int) -> int:
@@ -1641,6 +1643,7 @@ def handle_in_bar(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_BAR)
 def handle_not_in_bar(character_id: int) -> int:
     """
@@ -1671,6 +1674,7 @@ def handle_in_hair_salon(character_id: int) -> int:
     if "Hair_Salon" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_HAIR_SALON)
 def handle_not_in_hair_salon(character_id: int) -> int:
@@ -1703,6 +1707,7 @@ def handle_in_styling_studio(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_STYLING_STUDIO)
 def handle_not_in_styling_studio(character_id: int) -> int:
     """
@@ -1733,6 +1738,7 @@ def handle_in_walyria_cake_shop(character_id: int) -> int:
     if "Walyria_Cake_Shop" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_WALYRIA_CAKE_SHOP)
 def handle_not_in_walyria_cake_shop(character_id: int) -> int:
@@ -1797,6 +1803,7 @@ def handle_in_seven_cities_restaurant(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_SEVEN_CITIES_RESTAURANT)
 def handle_not_in_seven_cities_restaurant(character_id: int) -> int:
     """
@@ -1827,6 +1834,7 @@ def handle_in_golden_game_room(character_id: int) -> int:
     if "Golden_Game_Room" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_GOLDEN_GAME_ROOM)
 def handle_not_in_golden_game_room(character_id: int) -> int:
@@ -1859,6 +1867,7 @@ def handle_in_teahouse(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_TEAHOUSE)
 def handle_not_in_teahouse(character_id: int) -> int:
     """
@@ -1889,6 +1898,7 @@ def handle_in_burger_joint(character_id: int) -> int:
     if "Burger" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_BURGER)
 def handle_not_in_burger_joint(character_id: int) -> int:
@@ -1921,6 +1931,7 @@ def handle_in_healthy_diner(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_HEALTHY_DINER)
 def handle_not_in_healthy_diner(character_id: int) -> int:
     """
@@ -1951,6 +1962,7 @@ def handle_in_lungmen_eatery(character_id: int) -> int:
     if "Lungmen_Eatery" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_LUNGMEN_EATERY)
 def handle_not_in_lungmen_eatery(character_id: int) -> int:
@@ -1983,6 +1995,7 @@ def handle_in_pizzeria(character_id: int) -> int:
         return 1
     return 0
 
+
 @add_premise(constant_promise.Premise.NOT_IN_PIZZERIA)
 def handle_not_in_pizzeria(character_id: int) -> int:
     """
@@ -2013,6 +2026,7 @@ def handle_in_café(character_id: int) -> int:
     if "Café" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.NOT_IN_CAFÉ)
 def handle_not_in_café(character_id: int) -> int:
@@ -2239,6 +2253,7 @@ def handle_in_building_room(character_id: int) -> int:
     if "Building_Room" in now_scene_data.scene_tag:
         return 1
     return 0
+
 
 @add_premise(constant_promise.Premise.IN_SERVER_ROOM)
 def handle_in_server_room(character_id: int) -> int:
@@ -2999,7 +3014,7 @@ def handle_not_in_love_hotel(character_id: int) -> int:
 def handle_in_production_workshop(character_id: int) -> int:
     """
     校验角色是否在生产车间
-    Keyword arguments:  
+    Keyword arguments:
     character_id -- 角色id
     Return arguments:
     int -- 权重
@@ -3420,6 +3435,7 @@ def handle_in_bolivar(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 2
 
+
 @add_premise(constant_promise.Premise.IN_HIGASHI)
 def handle_in_higashi(character_id: int) -> int:
     """
@@ -3431,6 +3447,7 @@ def handle_in_higashi(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 3
+
 
 @add_premise(constant_promise.Premise.IN_COLUMBIA)
 def handle_in_columbia(character_id: int) -> int:
@@ -3444,6 +3461,7 @@ def handle_in_columbia(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 4
 
+
 @add_premise(constant_promise.Premise.IN_KAZIMIERZ)
 def handle_in_kazimierz(character_id: int) -> int:
     """
@@ -3455,6 +3473,7 @@ def handle_in_kazimierz(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 5
+
 
 @add_premise(constant_promise.Premise.IN_KAZDEL)
 def handle_in_kazdel(character_id: int) -> int:
@@ -3468,6 +3487,7 @@ def handle_in_kazdel(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 6
 
+
 @add_premise(constant_promise.Premise.IN_LATERANO)
 def handle_in_laterano(character_id: int) -> int:
     """
@@ -3479,6 +3499,7 @@ def handle_in_laterano(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 7
+
 
 @add_premise(constant_promise.Premise.IN_LEITHANIEN)
 def handle_in_leithanien(character_id: int) -> int:
@@ -3492,6 +3513,7 @@ def handle_in_leithanien(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 8
 
+
 @add_premise(constant_promise.Premise.IN_RIM_BILLITON)
 def handle_in_rim_billiton(character_id: int) -> int:
     """
@@ -3503,6 +3525,7 @@ def handle_in_rim_billiton(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 9
+
 
 @add_premise(constant_promise.Premise.IN_MINOS)
 def handle_in_minos(character_id: int) -> int:
@@ -3516,6 +3539,7 @@ def handle_in_minos(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 10
 
+
 @add_premise(constant_promise.Premise.IN_SARGON)
 def handle_in_sargon(character_id: int) -> int:
     """
@@ -3527,6 +3551,7 @@ def handle_in_sargon(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 11
+
 
 @add_premise(constant_promise.Premise.IN_SAMI)
 def handle_in_sami(character_id: int) -> int:
@@ -3540,6 +3565,7 @@ def handle_in_sami(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 12
 
+
 @add_premise(constant_promise.Premise.IN_VICTORIA)
 def handle_in_victoria(character_id: int) -> int:
     """
@@ -3551,6 +3577,7 @@ def handle_in_victoria(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 13
+
 
 @add_premise(constant_promise.Premise.IN_URSUS)
 def handle_in_ursus(character_id: int) -> int:
@@ -3564,6 +3591,7 @@ def handle_in_ursus(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 14
 
+
 @add_premise(constant_promise.Premise.IN_KJERAG)
 def handle_in_kjerag(character_id: int) -> int:
     """
@@ -3575,6 +3603,7 @@ def handle_in_kjerag(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 15
+
 
 @add_premise(constant_promise.Premise.IN_SIRACUSA)
 def handle_in_siracusa(character_id: int) -> int:
@@ -3588,6 +3617,7 @@ def handle_in_siracusa(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 16
 
+
 @add_premise(constant_promise.Premise.IN_YAN)
 def handle_in_yan(character_id: int) -> int:
     """
@@ -3599,6 +3629,7 @@ def handle_in_yan(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 17
+
 
 @add_premise(constant_promise.Premise.IN_IBERIA)
 def handle_in_iberia(character_id: int) -> int:
@@ -3612,6 +3643,7 @@ def handle_in_iberia(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 18
 
+
 @add_premise(constant_promise.Premise.IN_DURIN)
 def handle_in_durin(character_id: int) -> int:
     """
@@ -3623,6 +3655,7 @@ def handle_in_durin(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 19
+
 
 @add_premise(constant_promise.Premise.IN_SIESTA)
 def handle_in_siesta(character_id: int) -> int:
@@ -3636,6 +3669,7 @@ def handle_in_siesta(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 20
 
+
 @add_premise(constant_promise.Premise.IN_NORTHERN)
 def handle_in_northern(character_id: int) -> int:
     """
@@ -3647,6 +3681,7 @@ def handle_in_northern(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 21
+
 
 @add_premise(constant_promise.Premise.IN_FOEHN_HOTLANDS)
 def handle_in_foehn_hotlands(character_id: int) -> int:
@@ -3660,6 +3695,7 @@ def handle_in_foehn_hotlands(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 22
 
+
 @add_premise(constant_promise.Premise.IN_KARLAN)
 def handle_in_karlan(character_id: int) -> int:
     """
@@ -3671,6 +3707,7 @@ def handle_in_karlan(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 23
+
 
 @add_premise(constant_promise.Premise.IN_DAN)
 def handle_in_dan(character_id: int) -> int:
@@ -3684,6 +3721,7 @@ def handle_in_dan(character_id: int) -> int:
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 24
 
+
 @add_premise(constant_promise.Premise.IN_VOUVIRE)
 def handle_in_vouivre(character_id: int) -> int:
     """
@@ -3695,6 +3733,7 @@ def handle_in_vouivre(character_id: int) -> int:
     """
     now_country = cache.rhodes_island.current_location[0]
     return now_country == 25
+
 
 @add_premise(constant_promise.Premise.IN_INFY_ICEFIELD)
 def handle_in_infy_icefield(character_id: int) -> int:
@@ -3722,10 +3761,7 @@ def handle_move_to_toilet_female(character_id: int) -> int:
     now_position = character_data.position
     now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
     now_scene_data = cache.scene_data[now_scene_str]
-    if (
-            character_data.behavior.move_target == character_data.position
-            and "Toilet_Female" in now_scene_data.scene_tag
-    ):
+    if character_data.behavior.move_target == character_data.position and "Toilet_Female" in now_scene_data.scene_tag:
         return 1
     return 0
 
@@ -3743,10 +3779,7 @@ def handle_move_to_locker_room(character_id: int) -> int:
     now_position = character_data.position
     now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
     now_scene_data = cache.scene_data[now_scene_str]
-    if (
-            character_data.behavior.move_target == character_data.position
-            and "Locker_Room" in now_scene_data.scene_tag
-    ):
+    if character_data.behavior.move_target == character_data.position and "Locker_Room" in now_scene_data.scene_tag:
         return 1
     return 0
 
@@ -3764,10 +3797,7 @@ def handle_move_to_dormitory(character_id: int) -> int:
     now_position = character_data.position
     now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
     now_scene_data = cache.scene_data[now_scene_str]
-    if (
-            character_data.behavior.move_target == character_data.position
-            and "Dormitory" in now_scene_data.scene_tag
-    ):
+    if character_data.behavior.move_target == character_data.position and "Dormitory" in now_scene_data.scene_tag:
         return 1
     return 0
 
@@ -3805,10 +3835,7 @@ def handle_move_to_ladies_only(character_id: int) -> int:
     now_position = character_data.position
     now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
     now_scene_data = cache.scene_data[now_scene_str]
-    if (
-            character_data.behavior.move_target == character_data.position
-            and "Ladies_Only" in now_scene_data.scene_tag
-    ):
+    if character_data.behavior.move_target == character_data.position and "Ladies_Only" in now_scene_data.scene_tag:
         return 1
     return 0
 
@@ -3826,10 +3853,7 @@ def handle_move_to_someone_masturebate(character_id: int) -> int:
     now_position = character_data.position
     now_scene_str = map_handle.get_map_system_path_str_for_list(now_position)
     now_scene_data = cache.scene_data[now_scene_str]
-    if (
-        character_data.behavior.move_target == character_data.position and
-        len(now_scene_data.character_list) >= 2
-    ):
+    if character_data.behavior.move_target == character_data.position and len(now_scene_data.character_list) >= 2:
         # 遍历当前角色列表
         for chara_id in now_scene_data.character_list:
             # 遍历非自己且非玩家的角色

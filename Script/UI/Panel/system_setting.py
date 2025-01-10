@@ -66,8 +66,8 @@ class System_Setting_Panel:
                 # 如果没有该键，则创建一个，并置为0
                 if cid not in cache.system_setting:
                     cache.system_setting[cid] = 0
-                now_setting_flag = cache.system_setting[cid] # 当前设置的值
-                option_len = len(game_config.config_system_setting_option[cid]) # 选项的长度
+                now_setting_flag = cache.system_setting[cid]  # 当前设置的值
+                option_len = len(game_config.config_system_setting_option[cid])  # 选项的长度
 
                 # 当前选择的选项的名字
                 button_text = f" [{game_config.config_system_setting_option[cid][now_setting_flag]}] "
@@ -129,7 +129,7 @@ class System_Setting_Panel:
             title_draw = draw.TitleLineDraw(title_text, self.width)
             title_draw.draw()
             line_feed.draw()
-            npc_count = 0 # 计数
+            npc_count = 0  # 计数
             # 遍历全部干员
             for npc_id in cache.character_data:
                 # 跳过玩家
@@ -138,11 +138,11 @@ class System_Setting_Panel:
                 npc_data = cache.character_data[npc_id]
                 button_text = f"[{str(npc_data.adv).rjust(4,'0')}]：{npc_data.name}"
                 # 已禁止的干员显示为灰色，其他显示为白色
-                draw_style = 'standard'
+                draw_style = "standard"
                 if npc_id in now_set:
-                    draw_style = 'deep_gray'
+                    draw_style = "deep_gray"
                 # 绘制按钮
-                button_draw = draw.LeftButton(button_text, str(npc_id), self.width/6,normal_style=draw_style, cmd_func=self.change_ban_list_cmd, args=(npc_id))
+                button_draw = draw.LeftButton(button_text, str(npc_id), self.width / 6, normal_style=draw_style, cmd_func=self.change_ban_list_cmd, args=(npc_id))
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
                 # 每行显示6个干员
@@ -162,13 +162,14 @@ class System_Setting_Panel:
     def change_ban_list_cmd(self, npc_id):
         """修改已禁止干员列表"""
         from Script.Settle import default
+
         if npc_id in cache.forbidden_npc_id:
             cache.forbidden_npc_id.remove(npc_id)
         else:
             cache.forbidden_npc_id.add(npc_id)
             # 如果该干员已被招募，则离岛
             if npc_id in cache.npc_id_got:
-                default.handle_chara_off_line(npc_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                default.handle_chara_off_line(npc_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
                 # 输出提示信息
                 now_draw = draw.NormalDraw()
                 info_text = _("\n\n{0}干员已离岛\n\n").format(cache.character_data[npc_id].name)

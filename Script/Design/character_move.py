@@ -35,8 +35,8 @@ def own_charcter_move(target_scene: list):
                 now_target_position,
                 now_need_time,
             ) = character_move(0, target_scene)
-            break_list = ["null","wait_open","door_lock"]
-            if move_now in break_list :
+            break_list = ["null", "wait_open", "door_lock"]
+            if move_now in break_list:
                 break
             character_data.behavior.behavior_id = constant.Behavior.MOVE
             character_data.behavior.move_target = now_target_position
@@ -52,7 +52,7 @@ def own_charcter_move(target_scene: list):
             move_now = "end"
             break
     cache.character_data[0].target_character_id = 0
-    if move_now in ["Null","wait_open","door_lock"]:
+    if move_now in ["Null", "wait_open", "door_lock"]:
         cache.now_panel_id = constant.Panel.SEE_MAP
     else:
         cache.now_panel_id = constant.Panel.IN_SCENE
@@ -82,16 +82,13 @@ def character_move(character_id: int, target_scene: list) -> (str, list, list, i
     # target_scene_data = cache.scene_data[target_scene_str]
     # if character_data.name == "阿米娅":
     #     print(f"debug 阿米娅，now_position_str = {now_position_str},target_scene_str = {target_scene_str}")
-    if (
-        now_position_str not in map_handle.scene_path_edge
-        or target_scene_str not in map_handle.scene_path_edge[now_position_str]
-    ):
+    if now_position_str not in map_handle.scene_path_edge or target_scene_str not in map_handle.scene_path_edge[now_position_str]:
         return "null", [], [], 0
     now_path_data = map_handle.scene_path_edge[now_position_str][target_scene_str]
     access_type = "open"
     # 如果已经到门前了，则判断目标场景是否可进入，不可进入则输出原因
     if now_path_data[0] == target_scene:
-        access_type = map_handle.judge_scene_accessible(target_scene_str,character_id)
+        access_type = map_handle.judge_scene_accessible(target_scene_str, character_id)
         # 玩家移动，且目标地点锁门时
         if character_id == 0 and access_type == "door_lock":
             now_scene_data = cache.scene_data[target_scene_str]
@@ -104,7 +101,7 @@ def character_move(character_id: int, target_scene: list) -> (str, list, list, i
                 now_scene_data.close_flag = 0
                 access_type = "open"
         # 其他不可进入情况
-        if access_type not in ["open","private"]:
+        if access_type not in ["open", "private"]:
             return access_type, [], [], 0
     return access_type, [], now_path_data[0], now_path_data[1]
 
@@ -120,14 +117,14 @@ def judge_character_move_to_private(character_id: int, move_path: []) -> int:
     wait_flag -- true的话就是等待\n
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    move_flag = True # true的话就是移动
-    wait_flag = False # true的话就是等待
+    move_flag = True  # true的话就是移动
+    wait_flag = False  # true的话就是等待
     # 移动路径为空，直接返回
     if move_path == []:
         return False, True
     # 进行私密跟随判断
     target_scene_str = map_handle.get_map_system_path_str_for_list(move_path)
-    access_type = map_handle.judge_scene_accessible(target_scene_str,character_id)
+    access_type = map_handle.judge_scene_accessible(target_scene_str, character_id)
     if access_type == "private":
         # 超时后取消跟随
         if character_data.chara_setting[0] == 0:

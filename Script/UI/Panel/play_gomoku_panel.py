@@ -38,67 +38,58 @@ BLOCK_ONE = 1
 MAX = 1000000000
 
 config = {
-    'enable_cache': True,  # 是否开启缓存
-    'points_limit': 20,  # 每一层最多搜索节点数
-    'only_in_line': False,  # 是否只搜索一条线上的点位，一种优化方式。
-    'inline_count': 4,  # 最近多少个点位能算作
-    'in_line_distance': 5,  # 判断点位是否在一条线上的最大距离
+    "enable_cache": True,  # 是否开启缓存
+    "points_limit": 20,  # 每一层最多搜索节点数
+    "only_in_line": False,  # 是否只搜索一条线上的点位，一种优化方式。
+    "inline_count": 4,  # 最近多少个点位能算作
+    "in_line_distance": 5,  # 判断点位是否在一条线上的最大距离
 }
 
-ALL_DIRECTIONS = [
-    (0, 1),  # Horizontal
-    (1, 0),  # Vertical
-    (1, 1),  # Diagonal \
-    (1, -1)  # Diagonal /
-]
+ALL_DIRECTIONS = [(0, 1), (1, 0), (1, 1), (1, -1)]  # Horizontal  # Vertical  # Diagonal \  # Diagonal /
 
 PERFORMANCE = {
-    'updateTime': 0,
-    'getPointsTime': 0,
+    "updateTime": 0,
+    "getPointsTime": 0,
 }
 
 # 缓存内容：depth, value, move
-CACHE_HITS = {
-    'search': 0,
-    'total': 0,
-    'hit': 0
-}
+CACHE_HITS = {"search": 0, "total": 0, "hit": 0}
 
 PATTERNS = {
-    'five': re.compile('11111'),
-    'blockfive': re.compile('211111|111112'),
-    'four': re.compile('011110'),
-    'blockFour': re.compile('10111|11011|11101|211110|211101|211011|210111|011112|101112|110112|111012'),
-    'three': re.compile('011100|011010|010110|001110'),
-    'blockThree': re.compile('211100|211010|210110|001112|010112|011012'),
-    'two': re.compile('001100|011000|000110|010100|001010'),
+    "five": re.compile("11111"),
+    "blockfive": re.compile("211111|111112"),
+    "four": re.compile("011110"),
+    "blockFour": re.compile("10111|11011|11101|211110|211101|211011|210111|011112|101112|110112|111012"),
+    "three": re.compile("011100|011010|010110|001110"),
+    "blockThree": re.compile("211100|211010|210110|001112|010112|011012"),
+    "two": re.compile("001100|011000|000110|010100|001010"),
 }
 
 SHAPES = {
-    'FIVE': 5,
-    'BLOCK_FIVE': 50,
-    'FOUR': 4,
-    'FOUR_FOUR': 44,  # 双冲四
-    'FOUR_THREE': 43,  # 冲四活三
-    'THREE_THREE': 33,  # 双三
-    'BLOCK_FOUR': 40,
-    'THREE': 3,
-    'BLOCK_THREE': 30,
-    'TWO_TWO': 22,  # 双活二
-    'TWO': 2,
-    'NONE': 0,
+    "FIVE": 5,
+    "BLOCK_FIVE": 50,
+    "FOUR": 4,
+    "FOUR_FOUR": 44,  # 双冲四
+    "FOUR_THREE": 43,  # 冲四活三
+    "THREE_THREE": 33,  # 双三
+    "BLOCK_FOUR": 40,
+    "THREE": 3,
+    "BLOCK_THREE": 30,
+    "TWO_TWO": 22,  # 双活二
+    "TWO": 2,
+    "NONE": 0,
 }
 
 PERFORMANCE_SHAPE = {
-    'five': 0,
-    'blockFive': 0,
-    'four': 0,
-    'blockFour': 0,
-    'three': 0,
-    'blockThree': 0,
-    'two': 0,
-    'none': 0,
-    'total': 0,
+    "five": 0,
+    "blockFive": 0,
+    "four": 0,
+    "blockFour": 0,
+    "three": 0,
+    "blockThree": 0,
+    "two": 0,
+    "none": 0,
+    "total": 0,
 }
 
 only_three_threshold = 6
@@ -112,13 +103,13 @@ class Gomoku_Cache:
 
     # 获取一个键的值
     def get(self, key):
-        if not config['enable_cache']:
+        if not config["enable_cache"]:
             return False
         return self.map.get(key, None)
 
     # 设置或插入一个值
     def put(self, key, value):
-        if not config['enable_cache']:
+        if not config["enable_cache"]:
             return False
         if len(self.gomoku_cache) >= self.capacity:
             oldest_key = self.gomoku_cache.popleft()  # 移除最老的键
@@ -130,9 +121,10 @@ class Gomoku_Cache:
 
     # 检查缓存中是否存在某个键
     def has(self, key):
-        if not config['enable_cache']:
+        if not config["enable_cache"]:
             return False
         return key in self.map
+
 
 class Gomoku_Board:
     def __init__(self, size=15, first_role=1):
@@ -174,9 +166,9 @@ class Gomoku_Board:
                     continue
                 for direction in directions:
                     count = 0
-                    while (0 <= i + direction[0] * count < self.size and
-                           0 <= j + direction[1] * count < self.size and
-                           self.board[i + direction[0] * count, j + direction[1] * count] == self.board[i, j]):
+                    while (
+                        0 <= i + direction[0] * count < self.size and 0 <= j + direction[1] * count < self.size and self.board[i + direction[0] * count, j + direction[1] * count] == self.board[i, j]
+                    ):
                         count += 1
                     if count >= 5:
                         self.winner_cache.put(hash_value, self.board[i, j])
@@ -226,41 +218,35 @@ class Gomoku_Board:
     def get_valuable_moves(self, role, depth=0, only_three=False, only_four=False):
         hash_value = self.hash()
         prev = self.valuable_moves_cache.get(hash_value)
-        if prev and prev['role'] == role and prev['depth'] == depth and prev['only_three'] == only_three and prev['only_four'] == only_four:
-            return prev['moves']
+        if prev and prev["role"] == role and prev["depth"] == depth and prev["only_three"] == only_three and prev["only_four"] == only_four:
+            return prev["moves"]
         moves = self.evaluator.get_moves(role, depth, only_three, only_four)
         # Handle a special case where the center point is not occupied, add the center point by default
         if not only_three and not only_four:
             center = self.size // 2
             if self.board[center, center] == 0:
                 moves.append((center, center))
-        self.valuable_moves_cache.put(hash_value, {
-            'role': role,
-            'moves': moves,
-            'depth': depth,
-            'only_three': only_three,
-            'only_four': only_four
-        })
+        self.valuable_moves_cache.put(hash_value, {"role": role, "moves": moves, "depth": depth, "only_three": only_three, "only_four": only_four})
         return moves
 
     def display(self, extra_points=[]):
         extra_positions = [self.coordinate2position(point) for point in extra_points]
-        result = '  ' + ' '.join(f'{i:2}' for i in range(self.size)) + '\n'  # 顶部列标注
+        result = "  " + " ".join(f"{i:2}" for i in range(self.size)) + "\n"  # 顶部列标注
         for i in range(self.size):
-            result += f'{i:2} '  # 左侧行标注
+            result += f"{i:2} "  # 左侧行标注
             for j in range(self.size):
                 position = self.coordinate2position((i, j))
                 if position in extra_positions:
-                    result += ' ? '
+                    result += " ? "
                     continue
                 if self.board[i, j] == 1:
-                    result += ' O '
+                    result += " O "
                 elif self.board[i, j] == -1:
-                    result += ' X '
+                    result += " X "
                 else:
-                    result += ' - '
-            result += f' {i:2}\n'  # 右侧行标注
-        result += '  ' + ' '.join(f'{i:2}' for i in range(self.size)) + '\n'  # 底部列标注
+                    result += " - "
+            result += f" {i:2}\n"  # 右侧行标注
+        result += "  " + " ".join(f"{i:2}" for i in range(self.size)) + "\n"  # 底部列标注
         return result
 
     def hash(self):
@@ -269,14 +255,14 @@ class Gomoku_Board:
     def evaluate(self, role):
         hash_value = self.hash()
         prev = self.evaluate_cache.get(hash_value)
-        if prev and prev['role'] == role:
-            return prev['score']
+        if prev and prev["role"] == role:
+            return prev["score"]
         winner = self.get_winner()
         if winner != 0:
             score = FIVE * winner * role
         else:
             score = self.evaluator.evaluate(role)
-        self.evaluate_cache.put(hash_value, {'role': role, 'score': score})
+        self.evaluate_cache.put(hash_value, {"role": role, "score": score})
         return score
 
     def reverse(self):
@@ -286,7 +272,7 @@ class Gomoku_Board:
         return new_board
 
     def __str__(self):
-        return '\n'.join(''.join(str(cell) for cell in row) for row in self.board)
+        return "\n".join("".join(str(cell) for cell in row) for row in self.board)
 
     # def play_game(self, ai_difficulty=4):
     #     player_role = 1  # 玩家执黑棋
@@ -316,7 +302,7 @@ class Gomoku_Board:
         while True:
             try:
                 move = input(f"Player {self.role} move (row,col): ")
-                i, j = map(int, move.split(','))
+                i, j = map(int, move.split(","))
                 return i, j
             except ValueError:
                 print("Invalid input. Please enter row and column separated by a comma.")
@@ -333,15 +319,12 @@ class ZobristCache:
         for i in range(size):
             row = []
             for j in range(size):
-                row.append({
-                    1: self.random_bit_string(64),  # black
-                    -1: self.random_bit_string(64)  # white
-                })
+                row.append({1: self.random_bit_string(64), -1: self.random_bit_string(64)})  # black  # white
             table.append(row)
         return table
 
     def random_bit_string(self, length):
-        return int(''.join(str(random.randint(0, 1)) for _ in range(length)), 2)
+        return int("".join(str(random.randint(0, 1)) for _ in range(length)), 2)
 
     def toggle_piece(self, x, y, role):
         self.hash ^= self.zobrist_table[x][y][role]
@@ -381,7 +364,7 @@ class Evaluate:
     def init_points(self):
         # 缓存每个点位的分数，避免重复计算
         # 结构： [role][direction][x][y] = shape
-        self.shape_cache = defaultdict(lambda: defaultdict(lambda: np.full((self.size, self.size), SHAPES['NONE'], dtype=int)))
+        self.shape_cache = defaultdict(lambda: defaultdict(lambda: np.full((self.size, self.size), SHAPES["NONE"], dtype=int)))
         # 缓存每个形状对应的点位
         # 结构： points_cache[role][shape] = Set(direction1, direction2);
         self.points_cache = defaultdict(lambda: defaultdict(set))
@@ -389,14 +372,14 @@ class Evaluate:
     def get_points_in_line(self, role):
         points_in_line = defaultdict(set)  # 在一条线上的点位
         has_points_in_line = False
-        last2_points = [position for position, _ in self.history[-config['inline_count']:]]
+        last2_points = [position for position, _ in self.history[-config["inline_count"] :]]
         processed = {}  # 已经处理过的点位
         for r in [role, -role]:
             for point in last2_points:
                 x, y = position2coordinate(point, self.size)
                 for ox, oy in ALL_DIRECTIONS:
                     for sign in [1, -1]:  # -1 for negative direction, 1 for positive direction
-                        for step in range(1, config['in_line_distance'] + 1):
+                        for step in range(1, config["in_line_distance"] + 1):
                             nx, ny = x + sign * step * ox, y + sign * step * oy
                             position = coordinate2position(nx, ny, self.size)
                             if nx < 0 or nx >= self.size or ny < 0 or ny >= self.size:
@@ -417,11 +400,11 @@ class Evaluate:
 
     def get_points(self, role, depth, vct, vcf):
         first = role if depth % 2 == 0 else -role  # 先手
-        start = PERFORMANCE['getPointsTime']
-        if config['only_in_line'] and len(self.history) >= config['inline_count']:
+        start = PERFORMANCE["getPointsTime"]
+        if config["only_in_line"] and len(self.history) >= config["inline_count"]:
             points_in_line = self.get_points_in_line(role)
             if points_in_line:
-                PERFORMANCE['getPointsTime'] += PERFORMANCE['getPointsTime'] - start
+                PERFORMANCE["getPointsTime"] += PERFORMANCE["getPointsTime"] - start
                 return points_in_line
 
         points = defaultdict(set)  # 全部点位
@@ -442,54 +425,54 @@ class Evaluate:
                             if depth % 2 == 0:
                                 if depth == 0 and r != first:
                                     continue
-                                if shape != SHAPES['THREE'] and not is_four(shape) and not is_five(shape):
+                                if shape != SHAPES["THREE"] and not is_four(shape) and not is_five(shape):
                                     continue
-                                if shape == SHAPES['THREE'] and r != first:
+                                if shape == SHAPES["THREE"] and r != first:
                                     continue
                                 if depth == 0 and r != first:
                                     continue
                                 if depth > 0:
-                                    if shape == SHAPES['THREE'] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
+                                    if shape == SHAPES["THREE"] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
                                         continue
-                                    if shape == SHAPES['BLOCK_FOUR'] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
+                                    if shape == SHAPES["BLOCK_FOUR"] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
                                         continue
                             else:
-                                if shape != SHAPES['THREE'] and not is_four(shape) and not is_five(shape):
+                                if shape != SHAPES["THREE"] and not is_four(shape) and not is_five(shape):
                                     continue
-                                if shape == SHAPES['THREE'] and r == -first:
+                                if shape == SHAPES["THREE"] and r == -first:
                                     continue
                                 if depth > 1:
-                                    if shape == SHAPES['BLOCK_FOUR'] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
+                                    if shape == SHAPES["BLOCK_FOUR"] and len(get_all_shapes_of_point(self.shape_cache, i, j, r)) == 1:
                                         continue
-                                    if shape == SHAPES['BLOCK_FOUR'] and not has_in_line(point, last_points, self.size):
+                                    if shape == SHAPES["BLOCK_FOUR"] and not has_in_line(point, last_points, self.size):
                                         continue
                         if vcf:
                             if not is_four(shape) and not is_five(shape):
                                 continue
-                        if depth > 2 and (shape == SHAPES['TWO'] or shape == SHAPES['TWO_TWO'] or shape == SHAPES['BLOCK_THREE']) and not has_in_line(point, last_points, self.size):
+                        if depth > 2 and (shape == SHAPES["TWO"] or shape == SHAPES["TWO_TWO"] or shape == SHAPES["BLOCK_THREE"]) and not has_in_line(point, last_points, self.size):
                             continue
                         points[shape].add(point)
-                        if shape == SHAPES['FOUR']:
+                        if shape == SHAPES["FOUR"]:
                             four_count += 1
-                        elif shape == SHAPES['BLOCK_FOUR']:
+                        elif shape == SHAPES["BLOCK_FOUR"]:
                             block_four_count += 1
-                        elif shape == SHAPES['THREE']:
+                        elif shape == SHAPES["THREE"]:
                             three_count += 1
                         union_shape = None
                         if four_count >= 2:
-                            union_shape = SHAPES['FOUR_FOUR']
+                            union_shape = SHAPES["FOUR_FOUR"]
                         elif block_four_count and three_count:
-                            union_shape = SHAPES['FOUR_THREE']
+                            union_shape = SHAPES["FOUR_THREE"]
                         elif three_count >= 2:
-                            union_shape = SHAPES['THREE_THREE']
+                            union_shape = SHAPES["THREE_THREE"]
                         if union_shape:
                             points[union_shape].add(point)
 
-        PERFORMANCE['getPointsTime'] += PERFORMANCE['getPointsTime'] - start
+        PERFORMANCE["getPointsTime"] += PERFORMANCE["getPointsTime"] - start
         return points
 
     def update_point(self, x, y):
-        start = PERFORMANCE['updateTime']
+        start = PERFORMANCE["updateTime"]
         self.update_single_point(x, y, 1)
         self.update_single_point(x, y, -1)
 
@@ -508,7 +491,7 @@ class Evaluate:
                             self.update_single_point(nx - 1, ny - 1, role, (sign * ox, sign * oy))
                     if reach_edge:
                         break
-        PERFORMANCE['updateTime'] += PERFORMANCE['updateTime'] - start
+        PERFORMANCE["updateTime"] += PERFORMANCE["updateTime"] - start
 
     def update_single_point(self, x, y, role, direction=None):
         if self.board[x + 1, y + 1] != 0:
@@ -520,19 +503,19 @@ class Evaluate:
         shape_cache = self.shape_cache[role]
 
         for ox, oy in directions:
-            shape_cache[direction2index(ox, oy)][x][y] = SHAPES['NONE']
+            shape_cache[direction2index(ox, oy)][x][y] = SHAPES["NONE"]
 
         score = 0
         block_four_count = three_count = two_count = 0
         for int_direction in range(4):
             shape = shape_cache[int_direction][x][y]
-            if shape > SHAPES['NONE']:
+            if shape > SHAPES["NONE"]:
                 score += get_real_shape_score(shape)
-                if shape == SHAPES['BLOCK_FOUR']:
+                if shape == SHAPES["BLOCK_FOUR"]:
                     block_four_count += 1
-                if shape == SHAPES['THREE']:
+                if shape == SHAPES["THREE"]:
                     three_count += 1
-                if shape == SHAPES['TWO']:
+                if shape == SHAPES["TWO"]:
                     two_count += 1
 
         for ox, oy in directions:
@@ -541,20 +524,20 @@ class Evaluate:
             if not shape:
                 continue
             shape_cache[int_direction][x][y] = shape
-            if shape == SHAPES['BLOCK_FOUR']:
+            if shape == SHAPES["BLOCK_FOUR"]:
                 block_four_count += 1
-            if shape == SHAPES['THREE']:
+            if shape == SHAPES["THREE"]:
                 three_count += 1
-            if shape == SHAPES['TWO']:
+            if shape == SHAPES["TWO"]:
                 two_count += 1
             if block_four_count >= 2:
-                shape = SHAPES['FOUR_FOUR']
+                shape = SHAPES["FOUR_FOUR"]
             elif block_four_count and three_count:
-                shape = SHAPES['FOUR_THREE']
+                shape = SHAPES["FOUR_THREE"]
             elif three_count >= 2:
-                shape = SHAPES['THREE_THREE']
+                shape = SHAPES["THREE_THREE"]
             elif two_count >= 2:
-                shape = SHAPES['TWO_TWO']
+                shape = SHAPES["TWO_TWO"]
             score += get_real_shape_score(shape)
 
         self.board[x + 1, y + 1] = 0
@@ -578,44 +561,45 @@ class Evaluate:
 
     def _get_moves(self, role, depth, only_three=False, only_four=False):
         points = self.get_points(role, depth, only_three, only_four)
-        fives = points[SHAPES['FIVE']]
-        block_fives = points[SHAPES['BLOCK_FIVE']]
+        fives = points[SHAPES["FIVE"]]
+        block_fives = points[SHAPES["BLOCK_FIVE"]]
         if fives or block_fives:
             return set(fives | block_fives)
-        fours = points[SHAPES['FOUR']]
-        block_fours = points[SHAPES['BLOCK_FOUR']]
+        fours = points[SHAPES["FOUR"]]
+        block_fours = points[SHAPES["BLOCK_FOUR"]]
         if only_four or fours:
             return set(fours | block_fours)
-        four_fours = points[SHAPES['FOUR_FOUR']]
+        four_fours = points[SHAPES["FOUR_FOUR"]]
         if four_fours:
             return set(four_fours | block_fours)
-        threes = points[SHAPES['THREE']]
-        four_threes = points[SHAPES['FOUR_THREE']]
+        threes = points[SHAPES["THREE"]]
+        four_threes = points[SHAPES["FOUR_THREE"]]
         if four_threes:
             return set(four_threes | block_fours | threes)
-        three_threes = points[SHAPES['THREE_THREE']]
+        three_threes = points[SHAPES["THREE_THREE"]]
         if three_threes:
             return set(three_threes | block_fours | threes)
         if only_three:
             return set(block_fours | threes)
-        block_threes = points[SHAPES['BLOCK_THREE']]
-        two_twos = points[SHAPES['TWO_TWO']]
-        twos = points[SHAPES['TWO']]
-        res = set(list(block_fours | threes | block_threes | two_twos | twos)[:config['points_limit']])
+        block_threes = points[SHAPES["BLOCK_THREE"]]
+        two_twos = points[SHAPES["TWO_TWO"]]
+        twos = points[SHAPES["TWO"]]
+        res = set(list(block_fours | threes | block_threes | two_twos | twos)[: config["points_limit"]])
         return res
 
     def display(self):
-        result = ''
+        result = ""
         for i in range(1, self.size + 1):
             for j in range(1, self.size + 1):
                 if self.board[i, j] == 1:
-                    result += 'O '
+                    result += "O "
                 elif self.board[i, j] == -1:
-                    result += 'X '
+                    result += "X "
                 else:
-                    result += '- '
-            result += '\n'
+                    result += "- "
+            result += "\n"
         print(result)
+
 
 def check_winner(list, COLUMN, ROW):
     # 检查是否有五子连珠
@@ -631,32 +615,34 @@ def check_winner(list, COLUMN, ROW):
                 return True
     return False
 
+
 # 形状转换分数，注意这里的分数是当前位置还没有落子的分数
 def get_real_shape_score(shape):
-    if shape == SHAPES['FIVE']:
+    if shape == SHAPES["FIVE"]:
         return FOUR
-    elif shape == SHAPES['BLOCK_FIVE']:
+    elif shape == SHAPES["BLOCK_FIVE"]:
         return BLOCK_FOUR
-    elif shape == SHAPES['FOUR']:
+    elif shape == SHAPES["FOUR"]:
         return THREE
-    elif shape == SHAPES['FOUR_FOUR']:
+    elif shape == SHAPES["FOUR_FOUR"]:
         return THREE
-    elif shape == SHAPES['FOUR_THREE']:
+    elif shape == SHAPES["FOUR_THREE"]:
         return THREE
-    elif shape == SHAPES['BLOCK_FOUR']:
+    elif shape == SHAPES["BLOCK_FOUR"]:
         return BLOCK_THREE
-    elif shape == SHAPES['THREE']:
+    elif shape == SHAPES["THREE"]:
         return TWO
-    elif shape == SHAPES['THREE_THREE']:
+    elif shape == SHAPES["THREE_THREE"]:
         return THREE_THREE / 10
-    elif shape == SHAPES['BLOCK_THREE']:
+    elif shape == SHAPES["BLOCK_THREE"]:
         return BLOCK_TWO
-    elif shape == SHAPES['TWO']:
+    elif shape == SHAPES["TWO"]:
         return ONE
-    elif shape == SHAPES['TWO_TWO']:
+    elif shape == SHAPES["TWO_TWO"]:
         return TWO_TWO / 10
     else:
         return 0
+
 
 def direction2index(ox, oy):
     if ox == 0:
@@ -668,23 +654,23 @@ def direction2index(ox, oy):
     if ox != oy:
         return 3  # /
 
+
 # 坐标转换函数
 def position2coordinate(position, size):
     return [position // size, position % size]
 
+
 def coordinate2position(x, y, size):
     return x * size + y
 
+
 # a和b是否在一条直线上，且距离小于maxDistance
 def is_line(a, b, size):
-    max_distance = config['in_line_distance']
+    max_distance = config["in_line_distance"]
     x1, y1 = position2coordinate(a, size)
     x2, y2 = position2coordinate(b, size)
-    return (
-        (x1 == x2 and abs(y1 - y2) < max_distance) or
-        (y1 == y2 and abs(x1 - x2) < max_distance) or
-        (abs(x1 - x2) == abs(y1 - y2) and abs(x1 - x2) < max_distance)
-    )
+    return (x1 == x2 and abs(y1 - y2) < max_distance) or (y1 == y2 and abs(x1 - x2) < max_distance) or (abs(x1 - x2) == abs(y1 - y2) and abs(x1 - x2) < max_distance)
+
 
 def is_all_in_line(p, arr, size):
     for i in range(len(arr)):
@@ -692,11 +678,13 @@ def is_all_in_line(p, arr, size):
             return False
     return True
 
+
 def has_in_line(p, arr, size):
     for i in range(len(arr)):
         if is_line(p, arr[i], size):
             return True
     return False
+
 
 # 使用字符串匹配的方式实现的形状检测，速度较慢，但逻辑比较容易理解
 def get_shape(board, x, y, offsetX, offsetY, role):
@@ -704,14 +692,16 @@ def get_shape(board, x, y, offsetX, offsetY, role):
     empty_count = 0
     self_count = 1
     opponent_count = 0
-    shape = SHAPES['NONE']
+    shape = SHAPES["NONE"]
 
     # 跳过为空的节点
-    if (board[x + offsetX + 1][y + offsetY + 1] == 0 and
-        board[x - offsetX + 1][y - offsetY + 1] == 0 and
-        board[x + 2 * offsetX + 1][y + 2 * offsetY + 1] == 0 and
-        board[x - 2 * offsetX + 1][y - 2 * offsetY + 1] == 0):
-        return [SHAPES['NONE'], self_count, opponent_count, empty_count]
+    if (
+        board[x + offsetX + 1][y + offsetY + 1] == 0
+        and board[x - offsetX + 1][y - offsetY + 1] == 0
+        and board[x + 2 * offsetX + 1][y + 2 * offsetY + 1] == 0
+        and board[x - 2 * offsetX + 1][y - 2 * offsetY + 1] == 0
+    ):
+        return [SHAPES["NONE"], self_count, opponent_count, empty_count]
 
     # two 类型占比超过一半，做一下优化
     # 活二是不需要判断特别严谨的
@@ -730,9 +720,9 @@ def get_shape(board, x, y, offsetX, offsetY, role):
             empty_count += 1
     if self_count == 2:
         if not opponent_count:
-            return [SHAPES['TWO'], self_count, opponent_count, empty_count]
+            return [SHAPES["TWO"], self_count, opponent_count, empty_count]
         else:
-            return [SHAPES['NONE'], self_count, opponent_count, empty_count]
+            return [SHAPES["NONE"], self_count, opponent_count, empty_count]
     # two 类型优化结束，不需要的话可以在直接删除这一段代码不影响功能
 
     # three类型大约占比有20%，也优化一下
@@ -740,17 +730,17 @@ def get_shape(board, x, y, offsetX, offsetY, role):
     empty_count = 0
     self_count = 1
     opponent_count = 0
-    result_string = '1'
+    result_string = "1"
 
     for i in range(1, 6):
         nx, ny = x + i * offsetX + 1, y + i * offsetY + 1
         current_role = board[nx][ny]
         if current_role == 2:
-            result_string += '2'
+            result_string += "2"
         elif current_role == 0:
-            result_string += '0'
+            result_string += "0"
         else:
-            result_string += '1' if current_role == role else '2'
+            result_string += "1" if current_role == role else "2"
         if current_role == 2 or current_role == opponent:
             opponent_count += 1
             break
@@ -762,11 +752,11 @@ def get_shape(board, x, y, offsetX, offsetY, role):
         nx, ny = x - i * offsetX + 1, y - i * offsetY + 1
         current_role = board[nx][ny]
         if current_role == 2:
-            result_string = '2' + result_string
+            result_string = "2" + result_string
         elif current_role == 0:
-            result_string = '0' + result_string
+            result_string = "0" + result_string
         else:
-            result_string = ('1' if current_role == role else '2') + result_string
+            result_string = ("1" if current_role == role else "2") + result_string
         if current_role == 2 or current_role == opponent:
             opponent_count += 1
             break
@@ -774,35 +764,36 @@ def get_shape(board, x, y, offsetX, offsetY, role):
             empty_count += 1
         if current_role == role:
             self_count += 1
-    if PATTERNS['five'].search(result_string):
-        shape = SHAPES['FIVE']
-        PERFORMANCE_SHAPE['five'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
-    elif PATTERNS['four'].search(result_string):
-        shape = SHAPES['FOUR']
-        PERFORMANCE_SHAPE['four'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
-    elif PATTERNS['blockFour'].search(result_string):
-        shape = SHAPES['BLOCK_FOUR']
-        PERFORMANCE_SHAPE['blockFour'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
-    elif PATTERNS['three'].search(result_string):
-        shape = SHAPES['THREE']
-        PERFORMANCE_SHAPE['three'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
-    elif PATTERNS['blockThree'].search(result_string):
-        shape = SHAPES['BLOCK_THREE']
-        PERFORMANCE_SHAPE['blockThree'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
-    elif PATTERNS['two'].search(result_string):
-        shape = SHAPES['TWO']
-        PERFORMANCE_SHAPE['two'] += 1
-        PERFORMANCE_SHAPE['total'] += 1
+    if PATTERNS["five"].search(result_string):
+        shape = SHAPES["FIVE"]
+        PERFORMANCE_SHAPE["five"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
+    elif PATTERNS["four"].search(result_string):
+        shape = SHAPES["FOUR"]
+        PERFORMANCE_SHAPE["four"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
+    elif PATTERNS["blockFour"].search(result_string):
+        shape = SHAPES["BLOCK_FOUR"]
+        PERFORMANCE_SHAPE["blockFour"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
+    elif PATTERNS["three"].search(result_string):
+        shape = SHAPES["THREE"]
+        PERFORMANCE_SHAPE["three"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
+    elif PATTERNS["blockThree"].search(result_string):
+        shape = SHAPES["BLOCK_THREE"]
+        PERFORMANCE_SHAPE["blockThree"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
+    elif PATTERNS["two"].search(result_string):
+        shape = SHAPES["TWO"]
+        PERFORMANCE_SHAPE["two"] += 1
+        PERFORMANCE_SHAPE["total"] += 1
     # 尽量减少多余字符串生成
     if self_count <= 1 or len(result_string) < 5:
         return [shape, self_count, opponent_count, empty_count]
 
     return [shape, self_count, opponent_count, empty_count]
+
 
 def count_shape(board, x, y, offsetX, offsetY, role):
     opponent = -role
@@ -842,26 +833,29 @@ def count_shape(board, x, y, offsetX, offsetY, role):
     if not inner_empty_count:
         one_empty_self_count = 0
     return {
-        'self_count': self_count,
-        'total_length': total_length,
-        'no_empty_self_count': no_empty_self_count,
-        'one_empty_self_count': one_empty_self_count,
-        'inner_empty_count': inner_empty_count,
-        'side_empty_count': side_empty_count
+        "self_count": self_count,
+        "total_length": total_length,
+        "no_empty_self_count": no_empty_self_count,
+        "one_empty_self_count": one_empty_self_count,
+        "inner_empty_count": inner_empty_count,
+        "side_empty_count": side_empty_count,
     }
+
 
 # 使用遍历位置的方式实现的形状检测，速度较快，大约是字符串速度的2倍 但理解起来会稍微复杂一些
 def get_shape_fast(board, x, y, offsetX, offsetY, role):
     # 有一点点优化效果：跳过为空的节点
-    if (board[x + offsetX + 1][y + offsetY + 1] == 0 and
-        board[x - offsetX + 1][y - offsetY + 1] == 0 and
-        board[x + 2 * offsetX + 1][y + 2 * offsetY + 1] == 0 and
-        board[x - 2 * offsetX + 1][y - 2 * offsetY + 1] == 0):
-        return [SHAPES['NONE'], 1]
+    if (
+        board[x + offsetX + 1][y + offsetY + 1] == 0
+        and board[x - offsetX + 1][y - offsetY + 1] == 0
+        and board[x + 2 * offsetX + 1][y + 2 * offsetY + 1] == 0
+        and board[x - 2 * offsetX + 1][y - 2 * offsetY + 1] == 0
+    ):
+        return [SHAPES["NONE"], 1]
 
     self_count = 1
     total_length = 1
-    shape = SHAPES['NONE']
+    shape = SHAPES["NONE"]
 
     left_empty = 0
     right_empty = 0  # 左右边上的空位
@@ -871,51 +865,53 @@ def get_shape_fast(board, x, y, offsetX, offsetY, role):
     left = count_shape(board, x, y, -offsetX, -offsetY, role)
     right = count_shape(board, x, y, offsetX, offsetY, role)
 
-    self_count = left['self_count'] + right['self_count'] + 1
-    total_length = left['total_length'] + right['total_length'] + 1
-    no_empty_self_count = left['no_empty_self_count'] + right['no_empty_self_count'] + 1
-    one_empty_self_count = max(left['one_empty_self_count'] + right['no_empty_self_count'], left['no_empty_self_count'] + right['one_empty_self_count']) + 1
-    right_empty = right['side_empty_count']
-    left_empty = left['side_empty_count']
+    self_count = left["self_count"] + right["self_count"] + 1
+    total_length = left["total_length"] + right["total_length"] + 1
+    no_empty_self_count = left["no_empty_self_count"] + right["no_empty_self_count"] + 1
+    one_empty_self_count = max(left["one_empty_self_count"] + right["no_empty_self_count"], left["no_empty_self_count"] + right["one_empty_self_count"]) + 1
+    right_empty = right["side_empty_count"]
+    left_empty = left["side_empty_count"]
 
     if total_length < 5:
         return [shape, self_count]
-    # five 
+    # five
     if no_empty_self_count >= 5:
         if right_empty > 0 and left_empty > 0:
-            return [SHAPES['FIVE'], self_count]
+            return [SHAPES["FIVE"], self_count]
         else:
-            return [SHAPES['BLOCK_FIVE'], self_count]
+            return [SHAPES["BLOCK_FIVE"], self_count]
     if no_empty_self_count == 4:
         # 注意这里的空位判断条件， 右边有有两种，分别是 XX空 和 XX空X,第二种情况下，虽然 right_empty 可能不是true，也是符合的，通过 one_empty_self_count > no_empty_self_count 来判断
-        if ((right_empty >= 1 or right['one_empty_self_count'] > right['no_empty_self_count']) and
-            (left_empty >= 1 or left['one_empty_self_count'] > left['no_empty_self_count'])):  # four
-            return [SHAPES['FOUR'], self_count]
+        if (right_empty >= 1 or right["one_empty_self_count"] > right["no_empty_self_count"]) and (left_empty >= 1 or left["one_empty_self_count"] > left["no_empty_self_count"]):  # four
+            return [SHAPES["FOUR"], self_count]
         elif not (right_empty == 0 and left_empty == 0):  # block four
-            return [SHAPES['BLOCK_FOUR'], self_count]
+            return [SHAPES["BLOCK_FOUR"], self_count]
     if one_empty_self_count == 4:
-        return [SHAPES['BLOCK_FOUR'], self_count]
+        return [SHAPES["BLOCK_FOUR"], self_count]
     # three
     if no_empty_self_count == 3:
         if (right_empty >= 2 and left_empty >= 1) or (right_empty >= 1 and left_empty >= 2):
-            return [SHAPES['THREE'], self_count]
+            return [SHAPES["THREE"], self_count]
         else:
-            return [SHAPES['BLOCK_THREE'], self_count]
+            return [SHAPES["BLOCK_THREE"], self_count]
     if one_empty_self_count == 3:
         if right_empty >= 1 and left_empty >= 1:
-            return [SHAPES['THREE'], self_count]
+            return [SHAPES["THREE"], self_count]
         else:
-            return [SHAPES['BLOCK_THREE'], self_count]
+            return [SHAPES["BLOCK_THREE"], self_count]
     if (no_empty_self_count == 2 or one_empty_self_count == 2) and total_length > 5:  # two
-        shape = SHAPES['TWO']
+        shape = SHAPES["TWO"]
 
     return [shape, self_count]
 
+
 def is_five(shape):
-    return shape == SHAPES['FIVE'] or shape == SHAPES['BLOCK_FIVE']
+    return shape == SHAPES["FIVE"] or shape == SHAPES["BLOCK_FIVE"]
+
 
 def is_four(shape):
-    return shape == SHAPES['FOUR'] or shape == SHAPES['BLOCK_FOUR']
+    return shape == SHAPES["FOUR"] or shape == SHAPES["BLOCK_FOUR"]
+
 
 def get_all_shapes_of_point(shape_cache, x, y, role):
     roles = [role] if role else [1, -1]
@@ -939,13 +935,13 @@ class GomokuPanel:
         """初始化绘制对象"""
         self.width: int = width
         """ 绘制的最大宽度 """
-        self.board_draw = [['┼' for _ in range(15)] for _ in range(15)]
+        self.board_draw = [["┼" for _ in range(15)] for _ in range(15)]
         """ 棋盘绘制 """
         self.selected_row = -1
         """ 选中的行 """
         self.selected_col = -1
         """ 选中的列 """
-        self.current_player = 'O'
+        self.current_player = "O"
         """ 当前玩家 """
         self.game_over = False
         """ 游戏是否结束 """
@@ -967,11 +963,11 @@ class GomokuPanel:
         self.choose_ai_difficulty()
 
         # 初始化AI
-        self._minmax = self.factory() # ai判断
-        self.vct = self.factory(True) # 三连判断
-        self.vcf = self.factory(False, True) # 四连判断
+        self._minmax = self.factory()  # ai判断
+        self.vct = self.factory(True)  # 三连判断
+        self.vcf = self.factory(False, True)  # 四连判断
         self.gomoku_cache = Gomoku_Cache()  # 放在这里，则minmax, vct和vcf会共用同一个缓存
-        self.board_class = Gomoku_Board() # 棋盘类
+        self.board_class = Gomoku_Board()  # 棋盘类
 
     def choose_ai_difficulty(self):
         """选择AI难度"""
@@ -1039,7 +1035,7 @@ class GomokuPanel:
                 col_button = draw.CenterButton(f"[{col:2}]", f"col_{col}", 4, cmd_func=self.select_col, args=(col,))
                 # 选中列高亮
                 if self.selected_col == col:
-                    col_button = draw.CenterButton(f"[{col:2}]", f"col_{col}", 4, cmd_func=self.select_col, args=(col), normal_style='gold_enrod')
+                    col_button = draw.CenterButton(f"[{col:2}]", f"col_{col}", 4, cmd_func=self.select_col, args=(col), normal_style="gold_enrod")
                 col_button.draw()
                 return_list.append(col_button.return_text)
             line_feed.draw()
@@ -1050,12 +1046,12 @@ class GomokuPanel:
                 row_button = draw.LeftButton(f"[{row:2}]", f"row_{row}", 4, cmd_func=self.select_row, args=(row,))
                 # 选中行高亮
                 if self.selected_row == row:
-                    row_button = draw.LeftButton(f"[{row:2}]", f"row_{row}", 4, cmd_func=self.select_row, args=(row), normal_style='gold_enrod')
+                    row_button = draw.LeftButton(f"[{row:2}]", f"row_{row}", 4, cmd_func=self.select_row, args=(row), normal_style="gold_enrod")
                 row_button.draw()
                 return_list.append(row_button.return_text)
 
                 # 绘制棋盘行
-                row_cells = ''
+                row_cells = ""
 
                 row_draw = draw.NormalDraw()
                 for col in range(15):
@@ -1083,7 +1079,7 @@ class GomokuPanel:
             if self.game_over:
                 line_feed.draw()
                 line_feed.draw()
-                if self.current_player == 'O':
+                if self.current_player == "O":
                     winner_name = self.pl_character_data.name
                     self.end_settle(0)
                 else:
@@ -1117,20 +1113,20 @@ class GomokuPanel:
 
         # 结算状态
         if winner == 0:
-            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_PL_WIN_IN_BOARD_GAME, force_taget_wait = True)
+            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_PL_WIN_IN_BOARD_GAME, force_taget_wait=True)
         else:
-            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_PL_LOSE_IN_BOARD_GAME, force_taget_wait = True)
+            handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_PL_LOSE_IN_BOARD_GAME, force_taget_wait=True)
 
     def choose_first_player(self):
         """选择先后手"""
         line_feed.draw()
         while 1:
             return_list = []
-            first_button = draw.CenterButton(_("[玩家先手]"), _("玩家先手"), self.width / 2, cmd_func=self.set_first_player, args=('player',))
+            first_button = draw.CenterButton(_("[玩家先手]"), _("玩家先手"), self.width / 2, cmd_func=self.set_first_player, args=("player",))
             first_button.draw()
             return_list.append(first_button.return_text)
 
-            second_button = draw.CenterButton(_("[AI先手]"), _("AI先手"), self.width / 2, cmd_func=self.set_first_player, args=('ai',))
+            second_button = draw.CenterButton(_("[AI先手]"), _("AI先手"), self.width / 2, cmd_func=self.set_first_player, args=("ai",))
             second_button.draw()
             return_list.append(second_button.return_text)
 
@@ -1140,16 +1136,16 @@ class GomokuPanel:
 
     def set_first_player(self, first_player: str):
         """设置先后手"""
-        if first_player == 'player':
-            self.current_player = 'O'
+        if first_player == "player":
+            self.current_player = "O"
         else:
-            self.current_player = 'X'
+            self.current_player = "X"
             # AI先手，第一步下在(7, 7)
             self.board_draw[7][7] = self.current_player
             self.list1.append((7, 7))
             self.list3.append((7, 7))
             self.last_ai_move = (7, 7)
-            self.current_player = 'O'
+            self.current_player = "O"
 
     def select_row(self, row: int):
         """选择行"""
@@ -1169,8 +1165,8 @@ class GomokuPanel:
 
     def place_piece(self):
         """放置棋子"""
-        if self.board_draw[self.selected_row][self.selected_col] == '┼':
-            piece_type = 1 if self.current_player == 'O' else -1  # 假设'O'为玩家，类型为0；'X'为AI，类型为1
+        if self.board_draw[self.selected_row][self.selected_col] == "┼":
+            piece_type = 1 if self.current_player == "O" else -1  # 假设'O'为玩家，类型为0；'X'为AI，类型为1
             self.board_draw[self.selected_row][self.selected_col] = self.current_player
             self.list2.append((self.selected_row, self.selected_col))
             self.list3.append((self.selected_row, self.selected_col))
@@ -1179,7 +1175,7 @@ class GomokuPanel:
             if self.check_winner(self.list2):
                 self.game_over = True
             else:
-                self.current_player = 'X'
+                self.current_player = "X"
                 self.selected_row = -1
                 self.selected_col = -1
                 # 绘制等待信息
@@ -1196,15 +1192,15 @@ class GomokuPanel:
             # print('depth:', depth, 'c_depth:', c_depth)
             if path is None:
                 path = []
-            CACHE_HITS['search'] += 1
+            CACHE_HITS["search"] += 1
             if c_depth >= depth or board.is_game_over():
                 return [board.evaluate(role), None, path[:]]
             hash_value = board.hash()
             prev = self.gomoku_cache.get(hash_value)
-            if prev and prev['role'] == role:
-                if (abs(prev['value']) >= FIVE or prev['depth'] >= depth - c_depth) and prev['only_three'] == only_three and prev['only_four'] == only_four:
-                    CACHE_HITS['hit'] += 1
-                    return [prev['value'], prev['move'], path + prev['path']]
+            if prev and prev["role"] == role:
+                if (abs(prev["value"]) >= FIVE or prev["depth"] >= depth - c_depth) and prev["only_three"] == only_three and prev["only_four"] == only_four:
+                    CACHE_HITS["hit"] += 1
+                    return [prev["value"], prev["move"], path + prev["path"]]
             value = -MAX
             move = None
             best_path = path[:]  # Copy the current path
@@ -1245,18 +1241,22 @@ class GomokuPanel:
                 if break_all:
                     break
             # 缓存
-            if (c_depth < only_three_threshold or only_three or only_four) and (not prev or prev['depth'] < depth - c_depth):
-                CACHE_HITS['total'] += 1
-                self.gomoku_cache.put(hash_value, {
-                    'depth': depth - c_depth,  # 剩余搜索深度
-                    'value': value,
-                    'move': move,
-                    'role': role,
-                    'path': best_path[c_depth:],  # 剩余搜索路径
-                    'only_three': only_three,
-                    'only_four': only_four,
-                })
+            if (c_depth < only_three_threshold or only_three or only_four) and (not prev or prev["depth"] < depth - c_depth):
+                CACHE_HITS["total"] += 1
+                self.gomoku_cache.put(
+                    hash_value,
+                    {
+                        "depth": depth - c_depth,  # 剩余搜索深度
+                        "value": value,
+                        "move": move,
+                        "role": role,
+                        "path": best_path[c_depth:],  # 剩余搜索路径
+                        "only_three": only_three,
+                        "only_four": only_four,
+                    },
+                )
             return [value, move, best_path]
+
         return helper
 
     def minmax(self, board, role, depth=4, enable_vct=True):
@@ -1297,7 +1297,6 @@ class GomokuPanel:
                     move = valid_moves[0]
             return [value, move, best_path]
 
-
     def ai_move(self):
         """AI 使用算法选择棋子位置"""
         x, y = self.ai()
@@ -1305,13 +1304,13 @@ class GomokuPanel:
         self.list1.append((x, y))
         self.list3.append((x, y))
         self.last_ai_move = (x, y)
-        piece_type = 1 if self.current_player == 'O' else -1  # 假设'O'为玩家，类型为1；'X'为AI，类型为-1
+        piece_type = 1 if self.current_player == "O" else -1  # 假设'O'为玩家，类型为1；'X'为AI，类型为-1
         self.board_class.put(x, y, piece_type)
 
         if self.check_winner(self.list1):
             self.game_over = True
         else:
-            self.current_player = 'O'
+            self.current_player = "O"
 
     def check_winner(self, lst) -> bool:
         """检查是否有玩家获胜"""
@@ -1319,8 +1318,8 @@ class GomokuPanel:
 
     def reset_board(self):
         """重置棋盘"""
-        self.board_draw = [['┼' for _ in range(15)] for _ in range(15)]
-        self.current_player = 'O'
+        self.board_draw = [["┼" for _ in range(15)] for _ in range(15)]
+        self.current_player = "O"
         self.selected_row = -1
         self.selected_col = -1
         self.last_ai_move = None
@@ -1335,7 +1334,7 @@ class GomokuPanel:
 
     def ai(self):
         """AI决策，返回下一步位置"""
-        ai_role = 1 if self.current_player == 'O' else -1  # 假设'O'为玩家，类型为0；'X'为AI，类型为1
+        ai_role = 1 if self.current_player == "O" else -1  # 假设'O'为玩家，类型为0；'X'为AI，类型为1
         _, move, _ = self.minmax(self, ai_role, depth=self.DEPTH)
         # print('move:', move)
         self.next_point[0], self.next_point[1] = move

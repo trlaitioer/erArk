@@ -1,24 +1,25 @@
 import os, glob
 from typing import List
 from types import FunctionType
-from Script.Core import json_handle,game_type,get_text
+from Script.Core import json_handle, game_type, get_text
 from Script.Config import game_config, config_def
 
-character_config_file = os.path.join("data","Character.json")
+character_config_file = os.path.join("data", "Character.json")
 """ 角色模板配置文件路径 """
 character_config_data = {}
 """ 原始角色模板数据 """
-character_tem_list:List[game_type.NpcTem] = []
+character_tem_list: List[game_type.NpcTem] = []
 """ 角色模板数据列表 """
 
 _: FunctionType = get_text._
 """ 翻译api """
 
+
 def init_character_tem_data():
-    """ 初始化预设角色数据 """
+    """初始化预设角色数据"""
     global character_config_data
     character_config_data = json_handle.load_json(character_config_file)
-    directory = 'data/talk/chara'
+    directory = "data/talk/chara"
     for character_name in character_config_data:
         # print(f"debug : character_name = {character_name}")
         now_tem = game_type.NpcTem()
@@ -83,9 +84,10 @@ def init_character_tem_data():
             # print(f"debug name = {find_name}, talk_sizes = {talk_sizes}, now_tem.Talk_Size = {now_tem.Talk_Size}")
         character_tem_list.append(now_tem)
 
+
 def find_files_and_get_size(directory, character):
     # 构造文件路径
-    path = os.path.join(directory, '*')
+    path = os.path.join(directory, "*")
     # 查找文件名包含特定字符的文件
     files = glob.glob(path)
     # print(f"debug files = {files}")
@@ -103,8 +105,8 @@ def find_files_and_get_size(directory, character):
     if len(target_files):
         file_sizes = {file: os.path.getsize(file) for file in target_files}
     # 同理获得查找事件文件的大小
-    event_directory = 'data/event/chara'
-    event_path = os.path.join(event_directory, '*')
+    event_directory = "data/event/chara"
+    event_path = os.path.join(event_directory, "*")
     event_files = glob.glob(event_path)
     all_event_chara_name = [os.path.basename(file).split(".")[0].split("_")[1] for file in event_files]
     target_event_files = []
@@ -118,15 +120,16 @@ def find_files_and_get_size(directory, character):
     file_sizes.update(event_file_sizes)
     return file_sizes
 
+
 def add_cloth_data_to_config_data(cloth_list: List[int], AdvNpc: int, cloth_count: int):
-    """ 将服装数据加入服装模板数据 """
+    """将服装数据加入服装模板数据"""
     # print(f"debug cloth_list = {cloth_list}")
     # 新增服装数据到config_clothing_tem
     name, type = cloth_list[0], cloth_list[1]
     # tag的修正
     if "必带" in name:
         tag = 6
-        name = name.split(" ",1)[0]
+        name = name.split(" ", 1)[0]
     else:
         tag = 0
     # 裤子和裙子的tag修正
@@ -137,18 +140,19 @@ def add_cloth_data_to_config_data(cloth_list: List[int], AdvNpc: int, cloth_coun
             tag = 5
     now_cloth_cid = 10000 + AdvNpc * 50 + cloth_count
     # print(f"debug cloth_count = {cloth_count}, AdvNpc = {AdvNpc}, now_cloth_cid = {now_cloth_cid}")
-    cloth_data = {'cid':now_cloth_cid, 'name':name, 'clothing_type':type, 'npc':AdvNpc, 'tag':tag, 'describe':name + '的服装'}
+    cloth_data = {"cid": now_cloth_cid, "name": name, "clothing_type": type, "npc": AdvNpc, "tag": tag, "describe": name + "的服装"}
     # print(f"debug cloth_data = {cloth_data}")
     now_cloth = config_def.ClothingTem()
     now_cloth.__dict__ = cloth_data
     game_config.config_clothing_tem[now_cloth.cid] = now_cloth
     return now_cloth.cid
 
+
 def add_text_color_data_to_config_data(text_color_list: List[str]):
-    """ 将口上颜色加入角色模板数据 """
+    """将口上颜色加入角色模板数据"""
     character_id, character_name, text_color = text_color_list[0], text_color_list[1], text_color_list[2]
     # 用同Script\Config\game_config.py\load_font_data的方式赋予到config_font
-    tem_data = {'cid':1000 + character_id,'name':_(character_name),'foreground':text_color, 'info': character_name + '的文本颜色'}
+    tem_data = {"cid": 1000 + character_id, "name": _(character_name), "foreground": text_color, "info": character_name + "的文本颜色"}
     now_font = config_def.FontConfig()
     now_font.__dict__ = tem_data
     game_config.config_font[now_font.cid] = now_font

@@ -4,12 +4,13 @@ import polib
 po_dir = os.path.join("data", "po", "en_US", "LC_MESSAGES")
 file_name_list = ["erArk_talk", "erArk_csv", "erArk_py"]
 
+
 def build_po_text(po):
     po = "\n"
-    po += '# SOME DESCRIPTIVE TITLE.\n'
-    po += '# Copyright (C) YEAR Free Software Foundation, Inc.\n'
-    po += '# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n'
-    po += '#\n'
+    po += "# SOME DESCRIPTIVE TITLE.\n"
+    po += "# Copyright (C) YEAR Free Software Foundation, Inc.\n"
+    po += "# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n"
+    po += "#\n"
     po += 'msgid ""\n'
     po += 'msgstr ""\n'
     po += '"Project-Id-Version: PACKAGE VERSION\\n"\n'
@@ -23,6 +24,8 @@ def build_po_text(po):
     po += '"Content-Type: text/plain; charset=UTF-8\\n"\n'
     po += '"Content-Transfer-Encoding: 8bit\\n"\n\n'
     return po
+
+
 """
 # 读取PO文件
 po = polib.pofile(po_path)

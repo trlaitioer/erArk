@@ -17,8 +17,9 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
-unconscious_list = [_("无"),_("睡眠"),_("醉酒"),_("时停"),_("平然催眠"),_("空气催眠"),_("体控催眠"),_("心控催眠")]
+unconscious_list = [_("无"), _("睡眠"), _("醉酒"), _("时停"), _("平然催眠"), _("空气催眠"), _("体控催眠"), _("心控催眠")]
 """ 无意识状态列表 """
+
 
 def calculate_hypnosis_sanity_cost(character_id: int) -> int:
     """
@@ -38,6 +39,7 @@ def calculate_hypnosis_sanity_cost(character_id: int) -> int:
         return base_cost + 15
     else:
         return base_cost + 10
+
 
 def hypnosis_degree_calculation(target_character_id: int) -> float:
     """
@@ -85,6 +87,7 @@ def hypnosis_degree_calculation(target_character_id: int) -> float:
 
     return final_addition
 
+
 def hypnosis_degree_limit_calculation() -> int:
     """
     计算催眠的上限
@@ -103,6 +106,7 @@ def hypnosis_degree_limit_calculation() -> int:
             hypnosis_degree_limit = max(hypnosis_degree_limit, hypnosis_data.max_hypnosis_degree)
 
     return hypnosis_degree_limit
+
 
 def evaluate_hypnosis_completion(character_id: int):
     """
@@ -150,7 +154,9 @@ def evaluate_hypnosis_completion(character_id: int):
     # 未完成催眠
     else:
         now_draw = draw.NormalDraw()
-        draw_text = _("\n{0}的催眠深度未达到{1}%，无法进入{2}催眠状态，需要切换更低的催眠模式或加深催眠程度\n").format(character_data.name, hypnosis_degree_need, game_config.config_hypnosis_type[now_hypnosis_type].name)
+        draw_text = _("\n{0}的催眠深度未达到{1}%，无法进入{2}催眠状态，需要切换更低的催眠模式或加深催眠程度\n").format(
+            character_data.name, hypnosis_degree_need, game_config.config_hypnosis_type[now_hypnosis_type].name
+        )
         now_draw.text = draw_text
         now_draw.draw()
         return 0
@@ -177,7 +183,6 @@ class Originium_Arts_Panel:
     def draw(self):
         """绘制对象"""
 
-
         title_text = _("源石技艺")
         title_draw = draw.TitleLineDraw(title_text, self.width)
         while 1:
@@ -197,19 +202,14 @@ class Originium_Arts_Panel:
 
             DNT_Panel = Down_Negative_Talent_Panel(self.width)
             button1_text = _("[001]消除负面刻印")
-            button1_draw = draw.LeftButton(
-                _(button1_text),
-                _("1"),
-                window_width,
-                cmd_func=DNT_Panel.draw
-                )
+            button1_draw = draw.LeftButton(_(button1_text), _("1"), window_width, cmd_func=DNT_Panel.draw)
             line_feed.draw()
             button1_draw.draw()
             return_list.append(button1_draw.return_text)
 
             if handle_premise.handle_primary_time_stop(0):
                 button2_text = _("[002]时间系能力：")
-                talent_id_list = [316,317,318]
+                talent_id_list = [316, 317, 318]
                 count = 0
                 for talent_id in talent_id_list:
                     if not self.pl_character_data.talent[talent_id]:
@@ -225,7 +225,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.arts_show,
                     args=(2),
-                    )
+                )
                 line_feed.draw()
                 button2_draw.draw()
                 return_list.append(button2_draw.return_text)
@@ -241,7 +241,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.arts_show,
                     args=(3),
-                    )
+                )
                 line_feed.draw()
                 button3_draw.draw()
                 return_list.append(button3_draw.return_text)
@@ -254,7 +254,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.to_do,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button4_draw.draw()
                 return_list.append(button4_draw.return_text)
@@ -262,7 +262,7 @@ class Originium_Arts_Panel:
             if handle_talent.have_hormone_talent():
                 button5_text = _("[005]激素系能力：")
                 # 输出当前开启的激素系能力
-                talent_id_list = [304,305,306]
+                talent_id_list = [304, 305, 306]
                 count = 0
                 for talent_id in talent_id_list:
                     if not self.pl_character_data.talent[talent_id]:
@@ -278,7 +278,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.arts_show,
                     args=(5),
-                    )
+                )
                 line_feed.draw()
                 button5_draw.draw()
                 return_list.append(button5_draw.return_text)
@@ -286,7 +286,7 @@ class Originium_Arts_Panel:
             if handle_talent.have_visual_talent():
                 button6_text = _("[006]视觉系能力：")
                 # 输出当前开启的视觉系能力
-                talent_id_list = [307,308,309]
+                talent_id_list = [307, 308, 309]
                 count = 0
                 for talent_id in talent_id_list:
                     if not self.pl_character_data.talent[talent_id]:
@@ -297,14 +297,14 @@ class Originium_Arts_Panel:
                     button6_text += talent_name
                     count += 1
                 # 输出理智消耗
-                button6_text += _("({0}理智/h)").format(count*5)
+                button6_text += _("({0}理智/h)").format(count * 5)
                 button6_draw = draw.LeftButton(
                     _(button6_text),
                     _("6"),
                     window_width,
                     cmd_func=self.arts_show,
                     args=(6),
-                    )
+                )
                 line_feed.draw()
                 button6_draw.draw()
                 return_list.append(button6_draw.return_text)
@@ -317,7 +317,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.to_do,
                     args=(7),
-                    )
+                )
                 line_feed.draw()
                 button7_draw.draw()
                 return_list.append(button7_draw.return_text)
@@ -330,7 +330,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.gain_and_upgrade_ability,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button11_draw.draw()
                 return_list.append(button11_draw.return_text)
@@ -343,7 +343,7 @@ class Originium_Arts_Panel:
                     window_width,
                     cmd_func=self.new_round_for_sure,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button12_draw.draw()
                 return_list.append(button12_draw.return_text)
@@ -382,14 +382,14 @@ class Originium_Arts_Panel:
 
                 # 激素系
                 if ability_type == 2:
-                    talent_id_list = [316,317,318]
+                    talent_id_list = [316, 317, 318]
                     info_text = _("\n时间系能力（消耗2理智/min）：\n")
                 elif ability_type == 5:
-                    talent_id_list = [304,305,306]
+                    talent_id_list = [304, 305, 306]
                     info_text = _("\n激素系能力（不消耗理智）：\n")
                 # 视觉系
                 elif ability_type == 6:
-                    talent_id_list = [307,308,309]
+                    talent_id_list = [307, 308, 309]
                     info_text = _("\n视觉系能力（每级消耗5理智/h）：\n")
                 info_draw.text = _(info_text)
                 info_draw.draw()
@@ -483,7 +483,7 @@ class Originium_Arts_Panel:
                         window_width,
                         cmd_func=self.gain_and_upgrade_ability_which,
                         args=(cid,),
-                        )
+                    )
                     return_list.append(now_draw.return_text)
                     now_draw.draw()
                     line_feed.draw()
@@ -501,7 +501,9 @@ class Originium_Arts_Panel:
                         if character_data.trust > now_trust_count:
                             now_trust_count = int(character_data.trust)
                     # 绘制
-                    draw_text += _("：需要单干员最高好感度≥{0}（当前{1}），最高信赖度≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_trust_count)
+                    draw_text += _("：需要单干员最高好感度≥{0}（当前{1}），最高信赖度≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_trust_count
+                    )
                     now_contion = now_favorability_count >= talent_of_arts_data.lv_up_value1 and now_trust_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 博士信息素集组
@@ -513,7 +515,9 @@ class Originium_Arts_Panel:
                         character_data = cache.character_data[chara_id]
                         now_favorability_count += int(character_data.favorability[0])
                     # 绘制
-                    draw_text += _("：需要全干员总好感度≥{0}（当前{1}），已进入任意陷落路线的干员人数≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_fall_count)
+                    draw_text += _("：需要全干员总好感度≥{0}（当前{1}），已进入任意陷落路线的干员人数≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_fall_count
+                    )
                     now_contion = now_favorability_count >= talent_of_arts_data.lv_up_value1 and now_fall_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 博士信息素阵列
@@ -528,7 +532,9 @@ class Originium_Arts_Panel:
                                 now_fall_count += 1
                                 break
                     # 绘制
-                    draw_text += _("：需要全干员总好感度≥{0}（当前{1}），陷落程度为[爱侣]或[奴隶]的干员人数≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_fall_count)
+                    draw_text += _("：需要全干员总好感度≥{0}（当前{1}），陷落程度为[爱侣]或[奴隶]的干员人数≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_favorability_count, talent_of_arts_data.lv_up_value2, now_fall_count
+                    )
                     now_contion = now_favorability_count >= talent_of_arts_data.lv_up_value1 and now_fall_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 内衣透视
@@ -547,11 +553,13 @@ class Originium_Arts_Panel:
                     now_semen_count, now_exp_count = 0, 0
                     for chara_id in cache.npc_id_got:
                         character_data = cache.character_data[chara_id]
-                        for part_id in [2,3,6,7,8,9,15]:
+                        for part_id in [2, 3, 6, 7, 8, 9, 15]:
                             now_semen_count += character_data.dirty.body_semen[part_id][3]
                         now_exp_count += character_data.experience[20]
                     # 绘制
-                    draw_text += _("：需要全干员体内被射精总量≥{0}ml（当前{1}ml），全干员总绝顶经验≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_semen_count, talent_of_arts_data.lv_up_value2, now_exp_count)
+                    draw_text += _("：需要全干员体内被射精总量≥{0}ml（当前{1}ml），全干员总绝顶经验≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_semen_count, talent_of_arts_data.lv_up_value2, now_exp_count
+                    )
                     now_contion = now_semen_count >= talent_of_arts_data.lv_up_value1 and now_exp_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 生理透视
@@ -571,7 +579,9 @@ class Originium_Arts_Panel:
                         now_orgasm_exp_count += character_data.experience[78]
                         now_sex_exp_count += character_data.experience[79]
                     # 绘制
-                    draw_text += _("：需要全干员无意识性交经验≥{0}（当前{1}），全干员总无意识绝顶经验≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_sex_exp_count, talent_of_arts_data.lv_up_value2, now_orgasm_exp_count)
+                    draw_text += _("：需要全干员无意识性交经验≥{0}（当前{1}），全干员总无意识绝顶经验≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_sex_exp_count, talent_of_arts_data.lv_up_value2, now_orgasm_exp_count
+                    )
                     now_contion = now_sex_exp_count >= talent_of_arts_data.lv_up_value1 and now_orgasm_exp_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 广域时停
@@ -583,7 +593,9 @@ class Originium_Arts_Panel:
                         character_data = cache.character_data[chara_id]
                         now_orgasm_exp_count += character_data.experience[78]
                     # 绘制
-                    draw_text += _("：需要对干员的时姦经验≥{0}（当前{1}），全干员总无意识绝顶经验≥{2}（当前{3}）").format(talent_of_arts_data.lv_up_value1, now_time_stop_sex_exp_count, talent_of_arts_data.lv_up_value2, now_orgasm_exp_count)
+                    draw_text += _("：需要对干员的时姦经验≥{0}（当前{1}），全干员总无意识绝顶经验≥{2}（当前{3}）").format(
+                        talent_of_arts_data.lv_up_value1, now_time_stop_sex_exp_count, talent_of_arts_data.lv_up_value2, now_orgasm_exp_count
+                    )
                     now_contion = now_time_stop_sex_exp_count >= talent_of_arts_data.lv_up_value1 and now_orgasm_exp_count >= talent_of_arts_data.lv_up_value2
                     return_list = self.draw_lv_up_button(now_contion, draw_text, cid, return_list)
                 # 猥亵催眠
@@ -621,7 +633,7 @@ class Originium_Arts_Panel:
         """改变当前的催眠类型"""
         self.pl_character_data.pl_ability.hypnosis_type = hypnosis_type_cid
 
-    def gain_and_upgrade_ability_which(self, cid, no_cost_flag = False):
+    def gain_and_upgrade_ability_which(self, cid, no_cost_flag=False):
         """获得或升级能力"""
         talent_of_arts_data = game_config.config_talent_of_arts[cid]
         talent_id = talent_of_arts_data.talent_id
@@ -646,6 +658,7 @@ class Originium_Arts_Panel:
     def new_round_for_sure(self):
         """确认开始新的周目"""
         from Script.UI.Panel import new_round
+
         while 1:
             line_draw = draw.LineDraw("-", self.width)
             line_draw.draw()
@@ -690,7 +703,7 @@ class Down_Negative_Talent_Panel:
 
         title_text = _("降低负面素质")
         title_draw = draw.TitleLineDraw(title_text, self.width)
-        self.ability_id_list = [15,17,18]
+        self.ability_id_list = [15, 17, 18]
 
         while 1:
             return_list = []
@@ -721,12 +734,12 @@ class Down_Negative_Talent_Panel:
                             self.width,
                             cmd_func=self.choice_down_which,
                             args=(chara_id,),
-                            )
+                        )
                         # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                         return_list.append(button_draw.return_text)
                         button_draw.draw()
                         line_feed.draw()
-                        break # 单角色满足条件则只出现一次
+                        break  # 单角色满足条件则只出现一次
 
             if not chara_exist_flag:
                 info_draw = draw.NormalDraw()
@@ -776,7 +789,7 @@ class Down_Negative_Talent_Panel:
                         self.width,
                         cmd_func=self.settle_down,
                         args=(ability_id,),
-                        )
+                    )
                     # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                     return_list.append(button_draw.return_text)
                     button_draw.draw()
@@ -789,7 +802,6 @@ class Down_Negative_Talent_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text:
                 break
-
 
     def settle_down(self, ability_id):
         """结算刻印降低"""
@@ -833,7 +845,9 @@ class Down_Negative_Talent_Panel:
             elif ability_id == 18:
                 character_data.status_data[20] = 0
             info_text = _("  随着一阵火焰，5条内裤化为一缕青烟，消散在空中\n")
-            info_text += _("  {0}感觉心里轻松了很多，对{1}的印象有些改观了，{2}下降到了{3}级\n").format(character_data.name, pl_character_data.name, game_config.config_ability[ability_id].name, character_data.ability[ability_id])
+            info_text += _("  {0}感觉心里轻松了很多，对{1}的印象有些改观了，{2}下降到了{3}级\n").format(
+                character_data.name, pl_character_data.name, game_config.config_ability[ability_id].name, character_data.ability[ability_id]
+            )
         else:
             info_text = _("  内裤数量不足\n")
         info_draw.text = info_text
@@ -902,13 +916,9 @@ class Chose_Hypnosis_Type_Panel:
                 draw_text += _("(需要[{0}]，且催眠深度达到{1}%)").format(game_config.config_talent[hypnosis_type_data.talent_id].name, hypnosis_type_data.hypnosis_degree)
                 draw_text += f"：{hypnosis_type_data.introduce}"
                 # 已解锁则绘制按钮，需要已有该能力，且当前没有对象，或有对象且该对象催眠深度达到要求
-                if (
-                    pl_character_data.talent[hypnosis_type_data.talent_id] 
-                    and (
-                        pl_character_data.target_character_id == 0 or 
-                         (pl_character_data.target_character_id > 0 and target_character_data.hypnosis.hypnosis_degree >= hypnosis_type_data.hypnosis_degree)
-                         )
-                    ):
+                if pl_character_data.talent[hypnosis_type_data.talent_id] and (
+                    pl_character_data.target_character_id == 0 or (pl_character_data.target_character_id > 0 and target_character_data.hypnosis.hypnosis_degree >= hypnosis_type_data.hypnosis_degree)
+                ):
                     button_draw = draw.LeftButton(
                         _(draw_text),
                         _(hypnosis_type_data.name),
@@ -974,7 +984,7 @@ class Chose_Hypnosis_Type_Panel:
                     now_draw.draw()
                     self.body_or_mind_control_option(1)
 
-    def body_or_mind_control_option(self, body_or_mind_flag = 0):
+    def body_or_mind_control_option(self, body_or_mind_flag=0):
         """
         身体或心灵的控制选项
         Keyword arguments:
@@ -984,10 +994,10 @@ class Chose_Hypnosis_Type_Panel:
         target_data: game_type.Character = cache.character_data[pl_character_data.target_character_id]
         if body_or_mind_flag == 0:
             type_text = _("身体")
-            range_list = range(920,930)
+            range_list = range(920, 930)
         else:
             type_text = _("心灵")
-            range_list = range(930,940)
+            range_list = range(930, 940)
         while 1:
             return_list = []
             title_draw = draw.TitleLineDraw(_("选择{0}控制选项").format(type_text), self.width)
@@ -1025,6 +1035,7 @@ class Chose_Hypnosis_Type_Panel:
     def son_instruct(self, cid):
         """进行子选项"""
         from Script.Design import handle_instruct
+
         line_draw = draw.LineDraw("-", self.width)
         line_draw.draw()
 
@@ -1038,6 +1049,7 @@ class Chose_Hypnosis_Type_Panel:
                 handle_instruct.chara_handle_instruct_common_settle(cid)
         else:
             handle_instruct.chara_handle_instruct_common_settle(cid)
+
 
 class Chose_Roleplay_Type_Panel:
     """

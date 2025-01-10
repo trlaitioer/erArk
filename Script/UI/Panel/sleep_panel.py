@@ -27,6 +27,7 @@ line_feed.width = 1
 window_width = normal_config.config_normal.text_width
 """ 屏幕宽度 """
 
+
 class Sleep_Panel:
     """
     用于选择睡眠时间的面板
@@ -63,10 +64,10 @@ class Sleep_Panel:
         hpmp_need_time = max(hp_recover_time, mp_recover_time)
         hpmp_need_time = max(hpmp_need_time, 1)
         # 其他回复所需时间，最大为8小时
-        tired_recover_time = math.ceil((self.pl_character_data.tired_point) * 3 / 60) # 疲劳
+        tired_recover_time = math.ceil((self.pl_character_data.tired_point) * 3 / 60)  # 疲劳
         # 理智和精液
-        sanity_recover_time = math.ceil((self.pl_character_data.sanity_point_max - self.pl_character_data.sanity_point) / self.pl_character_data.sanity_point_max / 0.15) # 理智
-        semen_recover_time = math.ceil((self.pl_character_data.semen_point_max - self.pl_character_data.semen_point) / self.pl_character_data.sanity_point_max / 0.15) # 精液
+        sanity_recover_time = math.ceil((self.pl_character_data.sanity_point_max - self.pl_character_data.sanity_point) / self.pl_character_data.sanity_point_max / 0.15)  # 理智
+        semen_recover_time = math.ceil((self.pl_character_data.semen_point_max - self.pl_character_data.semen_point) / self.pl_character_data.sanity_point_max / 0.15)  # 精液
         all_recover_time = max(tired_recover_time, sanity_recover_time, semen_recover_time)
         # 全状态回复所需时间，最大为8小时
         all_recover_time = min(all_recover_time, 8)
@@ -111,7 +112,7 @@ class Sleep_Panel:
 
             # 绘制关门按钮
             button_text = _(" [关门] ") if self.close_door_flag else _(" [不关门] ")
-            button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.close_door_switch)
+            button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.close_door_switch)
             button_draw.draw()
             return_list.append(button_draw.return_text)
 
@@ -128,21 +129,21 @@ class Sleep_Panel:
             now_draw_text = _("\n 睡眠时间选择：")
             now_draw.text = now_draw_text
             now_draw.draw()
-            for i in [1,4,8]:
+            for i in [1, 4, 8]:
                 button_text = _(" [{0}小时] ").format(i)
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.fast_choice_sleep_time, args=i)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.fast_choice_sleep_time, args=i)
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
 
             # 如果已经启用了早安服务，则增加一个睡到早安服务时间的按钮
             if morning_service_flag:
                 button_text = _(" [睡到早安服务时间] ")
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.sleep_to_morning_service)
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.sleep_to_morning_service)
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
 
             button_text = _(" [自定义睡眠时间] ")
-            button_draw = draw.CenterButton(button_text, _("请输入睡眠时间(最小1小时，最大12小时)："), len(button_text)*2, cmd_func=self.input_sleep_time)
+            button_draw = draw.CenterButton(button_text, _("请输入睡眠时间(最小1小时，最大12小时)："), len(button_text) * 2, cmd_func=self.input_sleep_time)
             button_draw.draw()
             return_list.append(button_draw.return_text)
             line_feed.draw()
@@ -150,17 +151,17 @@ class Sleep_Panel:
             now_draw.text = now_draw_text
             now_draw.draw()
             button_text = _(" [记日记] ")
-            diary_draw = draw.CenterButton(button_text, button_text + '\n', len(button_text)*2, cmd_func = self.show_diary)
+            diary_draw = draw.CenterButton(button_text, button_text + "\n", len(button_text) * 2, cmd_func=self.show_diary)
             diary_draw.draw()
             line_feed.draw()
             return_list.append(diary_draw.return_text)
 
             line_feed.draw()
             line_feed.draw()
-            yes_draw = draw.CenterButton(_("[确定]"), _("确定\n\n"), window_width/2)
+            yes_draw = draw.CenterButton(_("[确定]"), _("确定\n\n"), window_width / 2)
             yes_draw.draw()
             return_list.append(yes_draw.return_text)
-            back_draw = draw.CenterButton(_("[返回]"), _("返回\n"), window_width/2)
+            back_draw = draw.CenterButton(_("[返回]"), _("返回\n"), window_width / 2)
             back_draw.draw()
             return_list.append(back_draw.return_text)
             line_feed.draw()
@@ -179,8 +180,8 @@ class Sleep_Panel:
                 self.pl_character_data.behavior.behavior_id = constant.Behavior.SLEEP
                 self.pl_character_data.state = constant.CharacterStatus.STATUS_SLEEP
 
-                self.pl_character_data.action_info.sleep_time = cache.game_time # 记录睡觉时间
-                self.pl_character_data.action_info.wake_time = game_time.get_sub_date(minute=self.sleep_time_min, old_date=cache.game_time) # 记录醒来时间
+                self.pl_character_data.action_info.sleep_time = cache.game_time  # 记录睡觉时间
+                self.pl_character_data.action_info.wake_time = game_time.get_sub_date(minute=self.sleep_time_min, old_date=cache.game_time)  # 记录醒来时间
                 # print(f"debug 玩家睡觉，睡觉时间 = {pl_character_data.action_info.sleep_time},醒来时间 = {pl_character_data.action_info.wake_time}")
                 # cache.wframe_mouse.w_frame_skip_wait_mouse = 1
                 self.assistant_sleep_settle()
@@ -218,15 +219,15 @@ class Sleep_Panel:
         wake_time_hour, wake_time_minute = plan_to_wake_time[0], plan_to_wake_time[1]
         # 12点后则为明天，否则为今天
         if start_time.hour > 12:
-            judge_wake_up_time = game_time.get_sub_date(day = 1, old_date = start_time)
+            judge_wake_up_time = game_time.get_sub_date(day=1, old_date=start_time)
         else:
             judge_wake_up_time = start_time
         # 替换时间和分钟
-        judge_wake_up_time = judge_wake_up_time.replace(hour = wake_time_hour, minute = wake_time_minute)
+        judge_wake_up_time = judge_wake_up_time.replace(hour=wake_time_hour, minute=wake_time_minute)
         # 计算时间差
         self.min_to_moring_service = int((judge_wake_up_time - start_time).seconds / 60)
         # 获得早安服务时间的文本
-        self.morning_service_time_text = _("{0}:{1}").format(str(wake_time_hour).rjust(2,'0'), str(wake_time_minute).rjust(2,'0'))
+        self.morning_service_time_text = _("{0}:{1}").format(str(wake_time_hour).rjust(2, "0"), str(wake_time_minute).rjust(2, "0"))
 
     def sleep_to_morning_service(self):
         """睡到早安服务时间"""
@@ -246,6 +247,7 @@ class Sleep_Panel:
     def assistant_sleep_settle(self):
         """助理的睡眠结算"""
         from Script.Design import character_behavior
+
         # 如果没有助理则直接返回
         if self.pl_character_data.assistant_character_id == 0:
             return
@@ -254,7 +256,9 @@ class Sleep_Panel:
         if handle_premise.handle_action_sleep(self.pl_character_data.assistant_character_id) or not handle_premise.handle_normal_6(self.pl_character_data.assistant_character_id):
             return
         # 如果开启了晚安问候、且还没有进行，则进行晚安问候
-        if handle_premise.handle_assistant_night_salutation_on(self.pl_character_data.assistant_character_id) and handle_premise.handle_night_salutation_flag_0(self.pl_character_data.assistant_character_id):
+        if handle_premise.handle_assistant_night_salutation_on(self.pl_character_data.assistant_character_id) and handle_premise.handle_night_salutation_flag_0(
+            self.pl_character_data.assistant_character_id
+        ):
             character.init_character_behavior_start_time(self.pl_character_data.assistant_character_id, cache.game_time)
             night_salutation_state_machine_id = 708 + assistant_character_data.assistant_services[6]
             constant.handle_state_machine_data[night_salutation_state_machine_id](self.pl_character_data.assistant_character_id)
@@ -270,4 +274,3 @@ class Sleep_Panel:
             else:
                 assistant_character_data.behavior.duration = self.sleep_time_min
             character_behavior.judge_character_status(self.pl_character_data.assistant_character_id)
-

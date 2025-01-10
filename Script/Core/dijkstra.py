@@ -1,8 +1,9 @@
 import heapq
 from typing import Dict, List, Tuple
 
+
 class SortedPathData:
-    """ 最短路径数据 """
+    """最短路径数据"""
 
     def __init__(self):
         self.node_id: str = ""
@@ -24,7 +25,7 @@ def dijkstra(graph: Dict[str, Dict[str, int]], start: str) -> Dict[str, SortedPa
     Return arguments:
     Dict[str, SortedPathData] -- 从起点到各个节点的最短路径数据
     """
-    distances = {vertex: float('infinity') for vertex in graph}
+    distances = {vertex: float("infinity") for vertex in graph}
     previous_nodes = {vertex: None for vertex in graph}
     distances[start] = 0
     priority_queue = [(0, start)]
@@ -66,4 +67,3 @@ def get_path_and_times(previous_nodes: Dict[str, str], graph: Dict[str, Dict[str
             path_times.append(graph[previous_nodes[vertex]][vertex])
         vertex = previous_nodes[vertex]
     return path[::-1], path_times
-

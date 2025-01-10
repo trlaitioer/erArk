@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
 import json
+import queue
 import uuid
 import psutil
 import signal
@@ -46,36 +47,36 @@ game_version = normal_config.config_normal.verson
 title_text = game_name + " " + game_version + " -α测"
 root = Tk()
 # normal_config.config_normal.window_width = root.maxsize()[0]
-#读取屏幕长宽
+# 读取屏幕长宽
 screen_weight = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-#如果设定长宽大于屏幕长宽，则缩小为屏幕长宽
+# 如果设定长宽大于屏幕长宽，则缩小为屏幕长宽
 if normal_config.config_normal.window_width + 30 > screen_weight:
     normal_config.config_normal.window_width = screen_weight - 30
 if normal_config.config_normal.window_hight + 30 > screen_height:
     normal_config.config_normal.window_hight = screen_height - 30
-#字体大小为屏幕宽度除以行数，输入字体大小为普通字体大小-2
+# 字体大小为屏幕宽度除以行数，输入字体大小为普通字体大小-2
 now_font_size = int(normal_config.config_normal.window_width / normal_config.config_normal.text_width) * 2
 normal_config.config_normal.font_size = now_font_size
 normal_config.config_normal.order_font_size = now_font_size - 2
-#读取dpi
+# 读取dpi
 dpi = root.winfo_fpixels("1i")
 root.tk.call("tk", "scaling", 1.0)
 root.title(title_text)
 width = normal_config.config_normal.window_width
-#根窗口左上角x坐标-当前窗口左上角x坐标
+# 根窗口左上角x坐标-当前窗口左上角x坐标
 frm_width = root.winfo_rootx() - root.winfo_x()
 win_width = width + 2 * frm_width
 height = normal_config.config_normal.window_hight
-#同理y坐标
+# 同理y坐标
 titlebar_height = root.winfo_rooty() - root.winfo_y()
 win_height = height + titlebar_height + frm_width
 x = root.winfo_screenwidth() // 2 - win_width // 2
 y = root.winfo_screenheight() // 2 - win_height // 2
 # 从窗口改为最大化
-#root.geometry("{}x{}+{}+{}".format(width, height, x, y))
-root.state('zoomed')
-#隐藏窗口
+# root.geometry("{}x{}+{}+{}".format(width, height, x, y))
+root.state("zoomed")
+# 隐藏窗口
 root.deiconify()
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
@@ -93,10 +94,10 @@ textbox = Text(
     highlightbackground=normal_config.config_normal.background,
     bd=0,
     cursor="",
-    #123分别是，\n的上行间距，自动换行行间距，\n的下行间距
-    spacing1 = 1,
-    spacing2 = 1,
-    spacing3 = 1
+    # 123分别是，\n的上行间距，自动换行行间距，\n的下行间距
+    spacing1=1,
+    spacing2=1,
+    spacing3=1,
 )
 textbox.grid(column=0, row=0, sticky=(N, W, E, S))
 
@@ -191,8 +192,7 @@ def read_queue():
     从队列中获取在前端显示的信息
     """
     while not main_queue.empty():
-        quene_str = main_queue.get()
-        json_data = json.loads(quene_str)
+        json_data = main_queue.get()
 
         if "clear_cmd" in json_data and json_data["clear_cmd"] == "true":
             clear_screen()
@@ -203,7 +203,7 @@ def read_queue():
             if cmd_nums == "all":
                 io_clear_cmd()
             else:
-                io_clear_cmd(tuple(cmd_nums))
+                io_clear_cmd(*cmd_nums)
         if "bgcolor" in json_data:
             set_background(json_data["bgcolor"])
         if "set_style" in json_data:
@@ -219,11 +219,11 @@ def read_queue():
                 temp["italic"],
             )
         if "image" in json_data:
-            textbox.image_create("end",image=era_image.image_data[json_data["image"]["image_name"]])
+            textbox.image_create("end", image=era_image.image_data[json_data["image"]["image_name"]])
 
         for c in json_data["content"]:
             if c["type"] == "text":
-                c["style"][0] = c["style"][0].replace(" ","")
+                c["style"][0] = c["style"][0].replace(" ", "")
                 now_print(c["text"], style=tuple(c["style"]))
             if c["type"] == "cmd":
                 c["normal_style"][0] = c["normal_style"][0].replace(" ", "")
@@ -267,7 +267,7 @@ def set_background(color):
 # ######################################################################
 # 双框架公共函数
 
-main_queue = None
+main_queue: queue.Queue | None = None
 
 
 def bind_return(func):
@@ -280,7 +280,7 @@ def bind_return(func):
     input_event_func = func
 
 
-def bind_queue(q):
+def bind_queue(q: queue.Queue) -> None:
     """
     绑定信息队列
     Keyword arguments:
@@ -457,7 +457,7 @@ def io_print_cmd(cmd_str: str, cmd_number: int, normal_style="standard", on_styl
     print_cmd(cmd_str, style=(cmd_tag_name, normal_style))
 
 
-def io_print_image_cmd(cmd_str: str, cmd_number: int):
+def io_print_image_cmd(cmd_str: str, cmd_number: str):
     """
     打印一个图片按钮
     Keyword arguments:
@@ -479,15 +479,15 @@ def io_print_image_cmd(cmd_str: str, cmd_number: int):
         textbox.configure(cursor="")
         send_input(order)
 
-    index:str = textbox.index("end -1c")
+    index: str = textbox.index("end -1c")
     textbox.image_create(index, image=era_image.image_data[cmd_str])
-    textbox.tag_add(cmd_tag_name,index, "{0} + 1 char".format(index))
+    textbox.tag_add(cmd_tag_name, index, "{0} + 1 char".format(index))
     textbox.tag_bind(cmd_tag_name, "<1>", send_cmd)
     see_end()
 
 
 # 清除命令函数
-def io_clear_cmd(*cmd_numbers: list):
+def io_clear_cmd(*cmd_numbers: str):
     """
     清除命令
     Keyword arguments:

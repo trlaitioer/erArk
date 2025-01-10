@@ -20,13 +20,14 @@ def get_system_setting_zero() -> dict:
     重置系统设置
     """
     system_setting_list = {}
-    default_dict = {1:2, 2:0, 3:1, 4:0, 5:0, 6:2, 7:1, 8:1, 9:2, 10:1, 11:0, 12:1}
+    default_dict = {1: 2, 2: 0, 3: 1, 4: 0, 5: 0, 6: 2, 7: 1, 8: 1, 9: 2, 10: 1, 11: 0, 12: 1}
     for system_setting in game_config.config_system_setting:
         if system_setting in default_dict:
             system_setting_list[system_setting] = default_dict[system_setting]
         else:
             system_setting_list[system_setting] = 0
     return system_setting_list
+
 
 def get_physical_exam_setting_zero() -> dict:
     """
@@ -36,6 +37,7 @@ def get_physical_exam_setting_zero() -> dict:
     for physical_check_setting in game_config.config_physical_exam_setting:
         physical_check_setting_list[physical_check_setting] = 0
     return physical_check_setting_list
+
 
 def get_ability_zero(ability_dict) -> dict:
     """
@@ -47,6 +49,7 @@ def get_ability_zero(ability_dict) -> dict:
             ability_list[ability] = 0
     return ability_list
 
+
 def get_event_zero() -> dict:
     """
     初始化事件结构体
@@ -54,12 +57,14 @@ def get_event_zero() -> dict:
     event_data = game_type.Chara_Event()
     return event_data
 
+
 def get_work_zero() -> dict:
     """
     初始化工作结构体
     """
     work_data = game_type.CHARA_WORK()
     return work_data
+
 
 def get_entertainment_zero() -> dict:
     """
@@ -69,14 +74,16 @@ def get_entertainment_zero() -> dict:
 
     return entertainment_data
 
+
 def get_pregnancy_zero() -> dict:
     """
     初始化受精怀孕情况数据结构体
     """
     pregnancy_data = game_type.PREGNANCY()
-    pregnancy_data.reproduction_period = random.randint(0,6)
+    pregnancy_data.reproduction_period = random.randint(0, 6)
 
     return pregnancy_data
+
 
 def get_relationship_zero(relationship_dict) -> dict:
     """
@@ -110,6 +117,7 @@ def get_talent_zero(talent_dict) -> dict:
             talent_list[talent] = 0
     return talent_list
 
+
 def get_experience_zero(experience_dict) -> dict:
     """
     检查初始经验，将为空的项补为0
@@ -119,6 +127,7 @@ def get_experience_zero(experience_dict) -> dict:
         if experience not in experience_dict:
             experience_list[experience] = 0
     return experience_list
+
 
 def get_juel_zero(juel_dict) -> dict:
     """
@@ -179,6 +188,7 @@ def get_time_zero() -> dict:
     """
     return cache.game_time
 
+
 def get_token_zero(token_dict) -> dict:
     """
     直接将初始信物归为全员0
@@ -202,7 +212,7 @@ def get_dirty_reset(old_dirty_data: game_type.DIRTY) -> game_type.DIRTY:
             dirty_data.body_semen[body_part][1] = 0
             dirty_data.body_semen[body_part][2] = 0
         else:
-            now_list = [body_text,0,0,0]
+            now_list = [body_text, 0, 0, 0]
             dirty_data.body_semen[body_part] = now_list
 
     for clothing_type in game_config.config_clothing_type:
@@ -212,7 +222,7 @@ def get_dirty_reset(old_dirty_data: game_type.DIRTY) -> game_type.DIRTY:
             dirty_data.cloth_semen[clothing_type][1] = 0
             dirty_data.cloth_semen[clothing_type][2] = 0
         else:
-            now_list = [cloth_text,0,0,0]
+            now_list = [cloth_text, 0, 0, 0]
             dirty_data.cloth_semen[clothing_type] = now_list
 
     dirty_data.a_clean = 0
@@ -232,12 +242,12 @@ def get_zero_dirty() -> game_type.DIRTY:
 
     for body_part in game_config.config_body_part:
         body_text = game_config.config_body_part[body_part].name
-        now_list = [body_text,0,0,0]
+        now_list = [body_text, 0, 0, 0]
         dirty_data.body_semen[body_part] = now_list
 
     for clothing_type in game_config.config_clothing_type:
         cloth_text = game_config.config_clothing_type[clothing_type].name
-        now_list = [cloth_text,0,0,0]
+        now_list = [cloth_text, 0, 0, 0]
         dirty_data.cloth_semen[clothing_type] = now_list
         dirty_data.cloth_locker_semen[clothing_type] = now_list
 
@@ -248,6 +258,7 @@ def get_zero_dirty() -> game_type.DIRTY:
         dirty_data.penis_dirty_dict[dirty_key] = False
 
     return dirty_data
+
 
 def get_h_state_reset(old_h_state_data: game_type.BODY_H_STATE) -> game_type.BODY_H_STATE:
     """
@@ -260,14 +271,14 @@ def get_h_state_reset(old_h_state_data: game_type.BODY_H_STATE) -> game_type.BOD
     # 无数据则初始化
     if len(h_state_data.body_item) == 0:
         for body_item in body_item_list:
-            now_list = [body_item,False,None]
+            now_list = [body_item, False, None]
             h_state_data.body_item.append(now_list)
     else:
         for i in range(len(h_state_data.body_item)):
             # 跳过药物
-            if i in {8,9,10,11,12}:
+            if i in {8, 9, 10, 11, 12}:
                 continue
-            h_state_data.body_item[i] = [body_item_list[i],False,None]
+            h_state_data.body_item[i] = [body_item_list[i], False, None]
 
     # 部位绝顶
     for body_part in game_config.config_body_part:
@@ -279,27 +290,27 @@ def get_h_state_reset(old_h_state_data: game_type.BODY_H_STATE) -> game_type.BOD
 
     # 群交字典
     h_state_data.group_sex_body_template_dict = {
-            "A":[
-                {
-                    "mouth": [-1, -1],
-                    "L_hand": [-1, -1],
-                    "R_hand": [-1, -1],
-                    "penis": [-1, -1],
-                    "anal": [-1, -1],
-                },
-                [[-1], -1],
-            ],
-            "B":[
-                {
-                    "mouth": [-1, -1],
-                    "L_hand": [-1, -1],
-                    "R_hand": [-1, -1],
-                    "penis": [-1, -1],
-                    "anal": [-1, -1],
-                },
-                [[-1], -1],
-            ],
-        }
+        "A": [
+            {
+                "mouth": [-1, -1],
+                "L_hand": [-1, -1],
+                "R_hand": [-1, -1],
+                "penis": [-1, -1],
+                "anal": [-1, -1],
+            },
+            [[-1], -1],
+        ],
+        "B": [
+            {
+                "mouth": [-1, -1],
+                "L_hand": [-1, -1],
+                "R_hand": [-1, -1],
+                "penis": [-1, -1],
+                "anal": [-1, -1],
+            },
+            [[-1], -1],
+        ],
+    }
 
     # 相关flag和计数
     h_state_data.insert_position = -1
@@ -370,7 +381,7 @@ def get_cloth_zero() -> game_type.CLOTH:
         coloth_data.cloth_locker_in_shower[clothing_type] = []
         coloth_data.cloth_locker_in_dormitory[clothing_type] = []
 
-    coloth_data.cloth_see= {6:False,9:False}
+    coloth_data.cloth_see = {6: False, 9: False}
 
     return coloth_data
 
@@ -629,31 +640,31 @@ def get_juel(value: int) -> int:
     """
     level = get_status_level(value)
     if level == 0:
-        juel = round(1*value)
+        juel = round(1 * value)
     elif level == 1:
-        juel = round(1*value)
+        juel = round(1 * value)
     elif level == 2:
-        juel = round(0.9*value)
+        juel = round(0.9 * value)
     elif level == 3:
-        juel = round(0.75*value)
+        juel = round(0.75 * value)
     elif level == 4:
-        juel = round(0.6*value)
+        juel = round(0.6 * value)
     elif level == 5:
-        juel = round(0.4*value)
+        juel = round(0.4 * value)
     elif level == 6:
-        juel = round(0.3*value)
+        juel = round(0.3 * value)
     elif level == 7:
-        juel = round(0.2*value)
+        juel = round(0.2 * value)
     elif level == 8:
-        juel = round(0.15*value)
+        juel = round(0.15 * value)
     elif level == 9:
-        juel = round(0.12*value)
+        juel = round(0.12 * value)
     elif level == 10:
-        juel = round(0.1*value)
+        juel = round(0.1 * value)
     return juel
 
 
-def get_pain_adjust(value: int, level_flag = False) -> int:
+def get_pain_adjust(value: int, level_flag=False) -> int:
     """
     按润滑程度修正苦痛值比例
     Keyword arguments:
@@ -711,10 +722,11 @@ def get_angry_level(value: int) -> int:
         return 1
     elif 5 < value and value <= 30:
         return 0
-    elif 30 < value and value <=50:
+    elif 30 < value and value <= 50:
         return -1
     elif value > 50:
         return -3
+
 
 def get_angry_text(value: int) -> str:
     """
@@ -728,7 +740,7 @@ def get_angry_text(value: int) -> str:
         return _("愉快")
     elif 5 < value and value <= 30:
         return _("普通")
-    elif 30 < value and value <=50:
+    elif 30 < value and value <= 50:
         return _("不爽")
     elif value > 50:
         return _("愤怒")
@@ -808,7 +820,7 @@ def get_sleep_level(value: int):
         if value > now_data.sleep_point:
             continue
         else:
-            return now_cid,now_data.name
+            return now_cid, now_data.name
 
 
 def get_food_quality(value: int):
@@ -823,7 +835,7 @@ def get_food_quality(value: int):
     for now_cid in game_config.config_food_quality:
         now_data = game_config.config_food_quality[now_cid]
         if value <= now_data.ability_level:
-            return now_cid,now_data.name
+            return now_cid, now_data.name
         else:
             continue
 
@@ -845,11 +857,11 @@ def get_favorability_level(value: int):
             next_data = game_config.config_favorability_level[next_cid]
             if value >= next_data.Favorability_point:
                 continue
-        return now_cid,now_data.judge_add
+        return now_cid, now_data.judge_add
     # 到达极限值时输出config_favorability_level的最后一个作为返回值
     max_cid = list(game_config.config_favorability_level.keys())[-1]
     max_data = game_config.config_favorability_level[max_cid]
-    return max_cid,max_data.judge_add
+    return max_cid, max_data.judge_add
 
 
 def get_trust_level(value: int):
@@ -869,11 +881,11 @@ def get_trust_level(value: int):
             next_data = game_config.config_trust_level[next_cid]
             if value >= next_data.Trust_point:
                 continue
-        return now_cid,now_data.judge_add
+        return now_cid, now_data.judge_add
     # 到达极限值时输出config_trust_level的最后一个作为返回值
     max_cid = list(game_config.config_trust_level.keys())[-1]
     max_data = game_config.config_trust_level[max_cid]
-    return max_cid,max_data.judge_add
+    return max_cid, max_data.judge_add
 
 
 def get_reputation_level(value: float):
@@ -893,11 +905,11 @@ def get_reputation_level(value: float):
             next_data = game_config.config_reputation_level[next_cid]
             if value >= next_data.threshold:
                 continue
-            return now_cid,now_data.name
+            return now_cid, now_data.name
     # 到达极限值时输出config_reputation_level的最后一个作为返回值
     max_cid = list(game_config.config_reputation_level.keys())[-1]
     max_data = game_config.config_reputation_level[max_cid]
-    return max_cid,max_data.name
+    return max_cid, max_data.name
 
 
 def get_character_fall_level(character_id: int, minus_flag: bool = False) -> int:
@@ -933,7 +945,7 @@ def get_character_fall_level(character_id: int, minus_flag: bool = False) -> int
     return now_level
 
 
-def judge_require(judge_text_list, character_id, hypnosis_replace_trust_flag = False):
+def judge_require(judge_text_list, character_id, hypnosis_replace_trust_flag=False):
     """
     判断角色是否满足文本列表里的全部需求\n
     Keyword arguments:\n
@@ -950,10 +962,10 @@ def judge_require(judge_text_list, character_id, hypnosis_replace_trust_flag = F
     reason = _("需要:")
 
     for judge_text in judge_text_list:
-        judge_type = judge_text.split('|')[0][0]
-        if len(judge_text.split('|')[0]) >= 2:
-            judge_type_id = int(judge_text.split('|')[0][1:])
-        judge_value = int(judge_text.split('|')[1])
+        judge_type = judge_text.split("|")[0][0]
+        if len(judge_text.split("|")[0]) >= 2:
+            judge_type_id = int(judge_text.split("|")[0][1:])
+        judge_value = int(judge_text.split("|")[1])
         if judge_type == "A":
             if character_data.ability[judge_type_id] < judge_value:
                 judge = 0
@@ -988,7 +1000,7 @@ def judge_require(judge_text_list, character_id, hypnosis_replace_trust_flag = F
                 judge = 0
                 reason += _("信赖度>={0}").format(judge_value)
                 if hypnosis_replace_trust_flag:
-                    reason += _("或催眠进度>={0}").format(judge_value/2)
+                    reason += _("或催眠进度>={0}").format(judge_value / 2)
                 reason += "  "
                 break
         elif judge_type == "O":

@@ -64,15 +64,15 @@ class CharacterSetting:
                 chara_setting_data = game_config.config_chara_setting[cid]
                 # 选项名
                 button_text = f" [{chara_setting_data.name}]： "
-                button_draw = draw.CenterButton(button_text, button_text, len(button_text)*2, cmd_func=self.draw_info, args=(cid))
+                button_draw = draw.CenterButton(button_text, button_text, len(button_text) * 2, cmd_func=self.draw_info, args=(cid))
                 button_draw.draw()
                 self.return_list.append(button_draw.return_text)
 
                 # 如果没有该键，则创建一个，并置为0
                 if cid not in character_data.chara_setting:
                     character_data.chara_setting[cid] = 0
-                now_setting_flag = character_data.chara_setting[cid] # 当前设置的值
-                option_len = len(game_config.config_chara_setting_option[cid]) # 选项的长度
+                now_setting_flag = character_data.chara_setting[cid]  # 当前设置的值
+                option_len = len(game_config.config_chara_setting_option[cid])  # 选项的长度
 
                 # 当前选择的选项的文本
                 button_text = f" {game_config.config_chara_setting_option[cid][now_setting_flag]} "
@@ -88,11 +88,11 @@ class CharacterSetting:
                 if "&" not in require_text:
                     require_text_list = [require_text]
                 else:
-                    require_text_list = require_text.split('&')
-                judge, reason = attr_calculation.judge_require(require_text_list,self.character_id)
+                    require_text_list = require_text.split("&")
+                judge, reason = attr_calculation.judge_require(require_text_list, self.character_id)
 
                 if judge:
-                    button_draw = draw.CenterButton(button_text, str(cid) + button_text, len(button_text)*2, cmd_func=self.change_setting, args=(cid, option_len))
+                    button_draw = draw.CenterButton(button_text, str(cid) + button_text, len(button_text) * 2, cmd_func=self.change_setting, args=(cid, option_len))
                     button_draw.draw()
                     self.return_list.append(button_draw.return_text)
                 else:

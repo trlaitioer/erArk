@@ -16,7 +16,8 @@ line_feed.width = 1
 window_width = normal_config.config_normal.text_width
 """ 屏幕宽度 """
 
-def gain_talent(character_id: int, now_gain_type: int, traget_talent_id = 0):
+
+def gain_talent(character_id: int, now_gain_type: int, traget_talent_id=0):
     """
     结算可以获得的素质\n
     Keyword arguments:
@@ -46,7 +47,7 @@ def gain_talent(character_id: int, now_gain_type: int, traget_talent_id = 0):
                 need_list = []
                 need_list.append(gain_talent_data.gain_need)
             else:
-                need_list = gain_talent_data.gain_need.split('&')
+                need_list = gain_talent_data.gain_need.split("&")
             judge, reason = attr_calculation.judge_require(need_list, character_id)
 
         # 如果符合获得条件，则获得该素质
@@ -77,55 +78,61 @@ def gain_talent(character_id: int, now_gain_type: int, traget_talent_id = 0):
     if now_gain_type == 3:
         npc_lost_no_menarche_talent(character_id)
 
+
 def have_hypnosis_talent():
     """
     验证是否有催眠系素质\n
     """
     pl_character_data = cache.character_data[0]
-    for talent_id in [331,332,333,334]:
+    for talent_id in [331, 332, 333, 334]:
         if pl_character_data.talent[talent_id]:
             return talent_id
     return 0
+
 
 def have_hormone_talent():
     """
     验证是否有激素系素质\n
     """
     pl_character_data = cache.character_data[0]
-    for talent_id in [306,305,304]:
+    for talent_id in [306, 305, 304]:
         if pl_character_data.talent[talent_id]:
             return talent_id
     return 0
+
 
 def have_visual_talent():
     """
     验证是否有视觉系素质\n
     """
     pl_character_data = cache.character_data[0]
-    for talent_id in [309,308,307]:
+    for talent_id in [309, 308, 307]:
         if pl_character_data.talent[talent_id]:
             return talent_id
     return 0
+
 
 def have_tactile_talent():
     """
     验证是否有触觉系素质\n
     """
     pl_character_data = cache.character_data[0]
-    for talent_id in [312,311,310]:
+    for talent_id in [312, 311, 310]:
         if pl_character_data.talent[talent_id]:
             return talent_id
     return 0
+
 
 def have_fall_talent(character_id: int):
     """
     验证是否有陷落素质\n
     """
     character_data = cache.character_data[character_id]
-    for talent_id in [201,202,203,204,211,212,213,214]:
+    for talent_id in [201, 202, 203, 204, 211, 212, 213, 214]:
         if character_data.talent[talent_id]:
             return talent_id
     return 0
+
 
 def npc_gain_hypnosis_talent(character_id: int):
     """
@@ -160,6 +167,7 @@ def npc_gain_hypnosis_talent(character_id: int):
             now_draw_succed.draw()
             break
 
+
 def npc_gain_and_lost_cumflation(character_id: int):
     """
     干员获得和失去精液膨腹素质\n
@@ -169,11 +177,11 @@ def npc_gain_and_lost_cumflation(character_id: int):
 
     # 计算腹部精液总量
     abdomen_all_semen = 0
-    for i in [5,7,8,15]:
+    for i in [5, 7, 8, 15]:
         # 如果没有第[i]个，则补上
         while len(character_data.dirty.body_semen) <= i:
             part_name = game_config.config_body_part[i].name
-            character_data.dirty.body_semen.append([part_name,0,0,0])
+            character_data.dirty.body_semen.append([part_name, 0, 0, 0])
         abdomen_all_semen += character_data.dirty.body_semen[i][1]
 
     # 判断是否获得或失去精液膨腹
@@ -191,6 +199,7 @@ def npc_gain_and_lost_cumflation(character_id: int):
         now_draw_succed.text = now_draw_text
         now_draw_succed.draw()
 
+
 def npc_gain_semen_drinking_climax_talent(character_id: int):
     """
     干员获得饮精绝顶素质\n
@@ -205,6 +214,7 @@ def npc_gain_semen_drinking_climax_talent(character_id: int):
         now_draw_succed = draw.WaitDraw()
         now_draw_succed.text = now_draw_text
         now_draw_succed.draw()
+
 
 def npc_b_talent_change_for_lactation_flag(character_id: int):
     """
@@ -224,6 +234,7 @@ def npc_b_talent_change_for_lactation_flag(character_id: int):
         if body_part_talent_update(character_id, [121, 122, 123, 124, 125], False, _("胸部")):
             pass
 
+
 def npc_lost_no_menarche_talent(character_id: int):
     """
     干员失去未初潮素质\n
@@ -238,6 +249,7 @@ def npc_lost_no_menarche_talent(character_id: int):
             now_draw_succed = draw.WaitDraw()
             now_draw_succed.text = now_draw_text
             now_draw_succed.draw()
+
 
 def body_part_talent_update(character_id, talent_ids, increase, body_part):
     """

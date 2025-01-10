@@ -95,6 +95,7 @@ class Check_locker_Panel:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 
+
 class FindDraw:
     """
     显示可点击的NPC名字按钮对象
@@ -106,9 +107,7 @@ class FindDraw:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, npc_id: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, npc_id: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
         self.npc_id = npc_id
         """ 角色id """
@@ -146,9 +145,7 @@ class FindDraw:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = _("{0}{1}的衣柜").format(index_text, self.character_data.name)
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, cmd_func=self.check_cloth
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.check_cloth)
             self.draw_text = button_text
         self.now_draw = name_draw
         """ 绘制的对象 """
@@ -178,7 +175,7 @@ class FindDraw:
                     # 如果角色身上的服装污浊信息为空，则补上
                     else:
                         part_name = game_config.config_clothing_type[clothing_type].name
-                        self.character_data.dirty.cloth_locker_semen.append([part_name,0,0,0])
+                        self.character_data.dirty.cloth_locker_semen.append([part_name, 0, 0, 0])
 
                 if len(cloth_list):
                     for cloth_id in cloth_list:
@@ -203,7 +200,7 @@ class FindDraw:
                 window_width,
                 cmd_func=self.smell,
                 args=(),
-                )
+            )
             line_feed.draw()
             button0_draw.draw()
             return_list.append(button0_draw.return_text)
@@ -216,7 +213,7 @@ class FindDraw:
                     window_width,
                     cmd_func=self.get_pan,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button1_draw.draw()
                 return_list.append(button1_draw.return_text)
@@ -229,7 +226,7 @@ class FindDraw:
                     window_width,
                     cmd_func=self.get_socks,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button2_draw.draw()
                 return_list.append(button2_draw.return_text)
@@ -241,7 +238,7 @@ class FindDraw:
                 window_width,
                 cmd_func=self.shoot_in_cloth,
                 args=(),
-                )
+            )
             line_feed.draw()
             button3_draw.draw()
             return_list.append(button3_draw.return_text)
@@ -288,7 +285,7 @@ class FindDraw:
         self.now_locker[9] = []
         now_draw = draw.WaitDraw()
         now_draw.width = window_width
-        now_draw.text = _("\n获得了{0}的{1}，可在藏品馆里纳入收藏\n").format( self.character_data.name, pan_name)
+        now_draw.text = _("\n获得了{0}的{1}，可在藏品馆里纳入收藏\n").format(self.character_data.name, pan_name)
         now_draw.draw()
 
     def get_socks(self):
@@ -301,7 +298,7 @@ class FindDraw:
         self.now_locker[10] = []
         now_draw = draw.WaitDraw()
         now_draw.width = window_width
-        now_draw.text = _("\n获得了{0}的{1}，可在藏品馆里纳入收藏\n").format( self.character_data.name, socks_name)
+        now_draw.text = _("\n获得了{0}的{1}，可在藏品馆里纳入收藏\n").format(self.character_data.name, socks_name)
         now_draw.draw()
 
     def shoot_in_cloth(self):
@@ -394,14 +391,10 @@ class Ejaculation_NameDraw:
                 button_text = f"{index_text} {now_text}"
                 if target_data.dirty.cloth_locker_semen[self.index][1] != 0:
                     button_text += _(" ({0}ml精液)").format(str(target_data.dirty.cloth_locker_semen[self.index][1]))
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, cmd_func=self.shoot_here
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.shoot_here)
             else:
                 button_text = f"[{now_text}]"
-                name_draw = draw.CenterButton(
-                    button_text, now_text, self.width, cmd_func=self.shoot_here
-                )
+                name_draw = draw.CenterButton(button_text, now_text, self.width, cmd_func=self.shoot_here)
                 self.button_return = now_text
             self.draw_text = button_text
         self.now_draw = name_draw
@@ -415,4 +408,3 @@ class Ejaculation_NameDraw:
         py_cmd.clr_cmd()
         # 调用射精流程
         ejaculation_panel.ejaculation_flow(part_cid=self.index, part_type=self.locker_type, target_character_id=self.npc_id, draw_flag=True)
-

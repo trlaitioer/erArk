@@ -37,7 +37,6 @@ class Manage_Library_Panel:
     def draw(self):
         """绘制对象"""
 
-
         title_text = _("管理图书馆")
         title_draw = draw.TitleLineDraw(title_text, self.width)
         while 1:
@@ -60,7 +59,7 @@ class Manage_Library_Panel:
                 window_width,
                 cmd_func=self.urge_return_book_list,
                 args=(),
-                )
+            )
             line_feed.draw()
             button0_draw.draw()
             return_list.append(button0_draw.return_text)
@@ -73,7 +72,7 @@ class Manage_Library_Panel:
                     window_width,
                     cmd_func=self.get_new_book,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button1_draw.draw()
                 return_list.append(button1_draw.return_text)
@@ -86,7 +85,7 @@ class Manage_Library_Panel:
                     window_width,
                     cmd_func=self.read_recommend,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button2_draw.draw()
                 return_list.append(button2_draw.return_text)
@@ -99,7 +98,7 @@ class Manage_Library_Panel:
                     window_width,
                     cmd_func=self.reading_party,
                     args=(),
-                    )
+                )
                 line_feed.draw()
                 button3_draw.draw()
                 return_list.append(button3_draw.return_text)
@@ -113,7 +112,6 @@ class Manage_Library_Panel:
             if yrn == back_draw.return_text:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
-
 
     def urge_return_book_list(self):
         """催还书的大列表"""
@@ -132,7 +130,7 @@ class Manage_Library_Panel:
                 book_type_data = game_config.config_book_type[book_type_cid]
                 for book_cid in game_config.config_book_type_data[book_type_cid]:
                     book_data = game_config.config_book[book_cid]
-                    if cache.rhodes_island.book_borrow_dict[book_cid] > 0 :
+                    if cache.rhodes_island.book_borrow_dict[book_cid] > 0:
                         book_count += 1
                         book_text = f"  [{str(book_count).rjust(3,'0')}]({book_type_data.son_type_name}){book_data.name}"
                         borrow_npc_id = cache.rhodes_island.book_borrow_dict[book_cid]
@@ -145,7 +143,7 @@ class Manage_Library_Panel:
                             self.width,
                             cmd_func=self.return_book,
                             args=(borrow_npc_id,),
-                            )
+                        )
                         # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                         line_feed.draw()
                         button_draw.draw()
@@ -168,8 +166,7 @@ class Manage_Library_Panel:
             if yrn == back_draw.return_text:
                 break
 
-
-    def return_book(self,chara_id):
+    def return_book(self, chara_id):
         """角色还书"""
 
         character_data = cache.character_data[chara_id]
@@ -180,7 +177,6 @@ class Manage_Library_Panel:
         now_draw.text = _("\n{0}将在空闲时间前往图书馆还书\n").format(character_data.name)
         now_draw.draw()
 
-
     def get_new_book(self):
         """图书进货"""
 
@@ -188,7 +184,6 @@ class Manage_Library_Panel:
         now_draw.width = window_width
         now_draw.text = _("\n暂未实装\n")
         now_draw.draw()
-
 
     def read_recommend(self):
         """阅读推荐"""
@@ -222,7 +217,6 @@ class Manage_Library_Panel:
             if yrn == back_draw.return_text:
                 break
 
-
     def reading_party(self):
         """读书会"""
 
@@ -252,12 +246,11 @@ class Manage_Library_Panel:
                     self.width,
                     cmd_func=self.choice_read_party,
                     args=(i,),
-                    )
+                )
                 # print(f"debug button_draw.text = {button_draw.text},button_draw.normal_style = {button_draw.normal_style}")
                 line_feed.draw()
                 button_draw.draw()
                 return_list.append(button_draw.return_text)
-
 
             line_feed.draw()
             back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)
@@ -269,7 +262,7 @@ class Manage_Library_Panel:
             if yrn == back_draw.return_text:
                 break
 
-    def choice_read_party(self,week_day):
+    def choice_read_party(self, week_day):
         """选择读书会之日"""
 
         party_entertain_id = cache.rhodes_island.party_day_of_week[week_day]
@@ -303,9 +296,7 @@ class SelectRecommendBookButton:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, book_type_id: int, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, book_type_id: int, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.book_type_id: int = book_type_id
@@ -326,7 +317,7 @@ class SelectRecommendBookButton:
         name_draw = draw.LeftDraw()
         if self.book_type_id in cache.rhodes_island.recommend_book_type_set:
             button_text += _(" (已推荐)")
-            name_draw = draw.LeftButton(button_text, self.button_return, self.width,normal_style = "gold_enrod", cmd_func=self.button_0)
+            name_draw = draw.LeftButton(button_text, self.button_return, self.width, normal_style="gold_enrod", cmd_func=self.button_0)
         else:
             name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.button_0)
 
@@ -343,4 +334,3 @@ class SelectRecommendBookButton:
     def draw(self):
         """绘制对象"""
         self.now_draw.draw()
-

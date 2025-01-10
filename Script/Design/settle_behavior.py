@@ -16,7 +16,7 @@ _: FunctionType = get_text._
 """ 翻译api """
 
 
-def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instruct_flag = 1):
+def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instruct_flag=1):
     """
     处理结算角色行为并输出对应文本
     Keyword arguments:
@@ -73,11 +73,12 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
         # 如果触发了子事件的话
         if son_event_id != "":
             from Script.UI.Panel import draw_event_text_panel
+
             # 将子事件id归零
             now_character_data.event.son_event_id = ""
             # 绘制子事件文本
             event_config = game_config.config_event[son_event_id]
-            son_event_draw = draw_event_text_panel.DrawEventTextPanel(son_event_id,character_id, event_config.type)
+            son_event_draw = draw_event_text_panel.DrawEventTextPanel(son_event_id, character_id, event_config.type)
             son_event_draw.draw()
             # 进行子事件结算
             change_data = handle_event_data(son_event_id, character_id, add_time, change_data, now_time)
@@ -89,7 +90,7 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
     # 注释掉了社交关系#
     # change_character_social(character_id, status_data)
     now_judge = False
-    exchange_flag = False # 玩家和NPC输出互换的flag
+    exchange_flag = False  # 玩家和NPC输出互换的flag
     PC_information_flag = 0  # 0初始，1PC输出，2不输出
     # NPC触发且不和玩家在同一地图时则跳过
     if character_id != 0 and now_character_data.position != player_character_data.position:
@@ -149,41 +150,21 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
 
         # 体力/气力/射精/理智的结算输出
         if change_data.hit_point and round(change_data.hit_point, 2) != 0:
-            now_text_list.append(
-                _("\n  体力") + text_handle.number_to_symbol_string(int(change_data.hit_point))
-            )
+            now_text_list.append(_("\n  体力") + text_handle.number_to_symbol_string(int(change_data.hit_point)))
         if change_data.mana_point and round(change_data.mana_point, 2) != 0:
-            now_text_list.append(
-                _("\n  气力") + text_handle.number_to_symbol_string(int(change_data.mana_point))
-            )
+            now_text_list.append(_("\n  气力") + text_handle.number_to_symbol_string(int(change_data.mana_point)))
         if change_data.eja_point and round(change_data.eja_point, 2) != 0:
-            now_text_list.append(
-                _("\n  射精") + text_handle.number_to_symbol_string(int(change_data.eja_point))
-            )
+            now_text_list.append(_("\n  射精") + text_handle.number_to_symbol_string(int(change_data.eja_point)))
         if change_data.sanity_point and round(change_data.sanity_point, 2) != 0:
-            now_text_list.append(
-                _("\n  理智") + text_handle.number_to_symbol_string(int(change_data.sanity_point))
-            )
+            now_text_list.append(_("\n  理智") + text_handle.number_to_symbol_string(int(change_data.sanity_point)))
 
         # 状态的结算输出
         if len(change_data.status_data) and not exchange_flag:
-            now_text_list.extend(
-                [
-                    f"\n  {game_config.config_character_state[i].name}{attr_text.get_value_text(int(change_data.status_data[i]))}"
-                    for i in change_data.status_data
-                ]
-            )
+            now_text_list.extend([f"\n  {game_config.config_character_state[i].name}{attr_text.get_value_text(int(change_data.status_data[i]))}" for i in change_data.status_data])
 
         # 经验的结算输出
         if len(change_data.experience):
-            now_text_list.extend(
-                [
-                    _("\n  ")
-                    + game_config.config_experience[i].name
-                    + text_handle.number_to_symbol_string(change_data.experience[i])
-                    for i in change_data.experience
-                ]
-            )
+            now_text_list.extend([_("\n  ") + game_config.config_experience[i].name + text_handle.number_to_symbol_string(change_data.experience[i]) for i in change_data.experience])
 
         # 非常见结算输出
         # if status_data.money:
@@ -226,18 +207,18 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
                     judge = 1
                 if target_change.favorability:
                     now_text += _("\n  对{character_name}{character_nick_name}好感").format(
-                        character_name=now_character_data.name,
-                        character_nick_name=now_character_data.nick_name
+                        character_name=now_character_data.name, character_nick_name=now_character_data.nick_name
                     ) + text_handle.number_to_symbol_string(int(target_change.favorability))
                     judge = 1
                 if target_change.trust:
-                    now_text += _("\n  对{character_name}{character_nick_name}信赖").format(
-                        character_name=now_character_data.name,
-                        character_nick_name=now_character_data.nick_name
-                    ) + text_handle.number_to_symbol_string(float(format(target_change.trust, '.1f'))) + "%"
+                    now_text += (
+                        _("\n  对{character_name}{character_nick_name}信赖").format(character_name=now_character_data.name, character_nick_name=now_character_data.nick_name)
+                        + text_handle.number_to_symbol_string(float(format(target_change.trust, ".1f")))
+                        + "%"
+                    )
                     judge = 1
                 if target_change.hypnosis_degree:
-                    now_text += _("\n  催眠度") + text_handle.number_to_symbol_string(float(format(target_change.hypnosis_degree, '.1f'))) + "%"
+                    now_text += _("\n  催眠度") + text_handle.number_to_symbol_string(float(format(target_change.hypnosis_degree, ".1f"))) + "%"
                     judge = 1
                 # if target_change.new_social != target_change.old_social:
                 #     now_text += (
@@ -251,25 +232,13 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
                 if len(target_change.status_data):
                     for status_id in target_change.status_data:
                         if target_change.status_data[status_id]:
-                            now_text += (
-                                    "\n  "
-                                    + game_config.config_character_state[status_id].name
-                                    + text_handle.number_to_symbol_string(
-                                int(target_change.status_data[status_id])
-                            )
-                            )
+                            now_text += "\n  " + game_config.config_character_state[status_id].name + text_handle.number_to_symbol_string(int(target_change.status_data[status_id]))
                             judge = 1
                 # 经验的结算输出
                 if len(target_change.experience):
                     for experience_id in target_change.experience:
                         if target_change.experience[experience_id]:
-                            now_text += (
-                                    "\n  "
-                                    + game_config.config_experience[experience_id].name
-                                    + text_handle.number_to_symbol_string(
-                                int(target_change.experience[experience_id])
-                            )
-                            )
+                            now_text += "\n  " + game_config.config_experience[experience_id].name + text_handle.number_to_symbol_string(int(target_change.experience[experience_id]))
                             judge = 1
                 if judge and (now_text != name):
                     now_text_list.append(now_text)
@@ -293,12 +262,12 @@ def handle_settle_behavior(character_id: int, now_time: datetime.datetime, instr
 
 
 def handle_instruct_data(
-        character_id: int,
-        behavior_id: int,
-        now_time: datetime.datetime,
-        add_time: int,
-        change_data: game_type.CharacterStatusChange,
-        ):
+    character_id: int,
+    behavior_id: int,
+    now_time: datetime.datetime,
+    add_time: int,
+    change_data: game_type.CharacterStatusChange,
+):
     """
     处理指令数据
     Keyword arguments:
@@ -319,14 +288,14 @@ def handle_instruct_data(
         # 娱乐和工作类的指令则进行一次设施损坏检测
         if behavior_id in game_config.config_status:
             status_data = game_config.config_status[behavior_id]
-            if _('娱乐') in status_data.tag or _('工作') in status_data.tag:
+            if _("娱乐") in status_data.tag or _("工作") in status_data.tag:
                 constant.settle_behavior_effect_data[1751](character_id, add_time, change_data, now_time)
     # 进行二段结算
     check_second_effect(character_id, change_data)
     # 如果是玩家对NPC的行为，则额外进行对方的二段结算
     if character_id == 0 and now_character_data.target_character_id != 0:
         target_change: game_type.TargetChange = change_data.target_change[now_character_data.target_character_id]
-        check_second_effect(now_character_data.target_character_id, target_change, pl_to_npc = True)
+        check_second_effect(now_character_data.target_character_id, target_change, pl_to_npc=True)
     # 进行无意识结算
     check_unconscious_effect(character_id, add_time, change_data, now_time)
     return change_data
@@ -357,9 +326,7 @@ def handle_event_data(event_id, character_id, add_time, change_data, now_time):
                 handle_instruct.handle_comprehensive_state_effect(effect_all_value_list, character_id, add_time, change_data, now_time)
             # 其他结算判定
             else:
-                constant.settle_behavior_effect_data[int(effect)](
-                    character_id, add_time, change_data, now_time
-                )
+                constant.settle_behavior_effect_data[int(effect)](character_id, add_time, change_data, now_time)
     return change_data
 
 
@@ -433,9 +400,7 @@ def change_character_favorability_for_time(character_id: int, now_time: datetime
             continue
         now_cut_down = get_cut_down_favorability_for_consume_time(int(now_consume_time / 60))
         if now_character in character_data.social_contact_last_cut_down_time:
-            last_cut_down_time: datetime.datetime = character_data.social_contact_last_cut_down_time[
-                now_character
-            ]
+            last_cut_down_time: datetime.datetime = character_data.social_contact_last_cut_down_time[now_character]
             old_consume_time = int((last_cut_down_time - last_add_time).seconds / 60)
             old_cut_down = get_cut_down_favorability_for_consume_time(int(old_consume_time / 60))
             now_cut_down -= old_cut_down
@@ -467,7 +432,6 @@ def change_character_talkcount_for_time(character_id: int, now_time: datetime.da
     if target_data.action_info.talk_count < 0:
         target_data.action_info.talk_count = 0
     # print("target_data.action_info.talk_count :",target_data.action_info.talk_count)
-
 
 
 # def change_character_social(character_id: int, change_data: game_type.CharacterStatusChange):
@@ -538,9 +502,9 @@ def get_favorability_social(favorability: int) -> int:
 
 
 def check_second_effect(
-        character_id: int,
-        change_data: game_type.CharacterStatusChange,
-        pl_to_npc: bool = False,
+    character_id: int,
+    change_data: game_type.CharacterStatusChange,
+    pl_to_npc: bool = False,
 ):
     """
     处理第二结算
@@ -570,7 +534,6 @@ def check_second_effect(
         # 单独遍历结算刻印
         second_behavior_effect(character_data.target_character_id, target_change, mark_list)
 
-
     # NPC自己检测自己
     if character_id != 0:
         # 初见和每日招呼结算
@@ -595,10 +558,10 @@ def check_second_effect(
 
 
 def second_behavior_effect(
-        character_id: int,
-        change_data: game_type.CharacterStatusChange,
-        second_behavior_list: list = None,
-        ):
+    character_id: int,
+    change_data: game_type.CharacterStatusChange,
+    second_behavior_list: list = None,
+):
     """
     触发二段行为的口上与效果
     Keyword arguments:
@@ -609,10 +572,7 @@ def second_behavior_effect(
     character_data: game_type.Character = cache.character_data[character_id]
 
     # 检测是否与玩家处于同一位置#
-    if (
-            character_data.position != cache.character_data[0].position
-            and character_data.behavior.move_src != cache.character_data[0].position
-    ):
+    if character_data.position != cache.character_data[0].position and character_data.behavior.move_src != cache.character_data[0].position:
         talk.must_show_talk_check(character_id)
         must_settle_check(character_id)
         return
@@ -653,10 +613,10 @@ def must_settle_check(character_id: int):
 
 
 def check_unconscious_effect(
-        character_id: int,
-        add_time: int,
-        change_data: game_type.CharacterStatusChange,
-        now_time: datetime.datetime,
+    character_id: int,
+    add_time: int,
+    change_data: game_type.CharacterStatusChange,
+    now_time: datetime.datetime,
 ):
     """
     处理无意识结算
@@ -751,11 +711,7 @@ def insert_position_effect(character_id: int):
     character_data: game_type.Character = cache.character_data[character_id]
     pl_character_data: game_type.Character = cache.character_data[0]
     # 非群交模式，当前有阴茎插入、当前位置为玩家位置
-    if (
-        handle_premise.handle_group_sex_mode_off(character_id) and
-        character_data.h_state.insert_position != -1 and
-        character_data.position == pl_character_data.position
-        ):
+    if handle_premise.handle_group_sex_mode_off(character_id) and character_data.h_state.insert_position != -1 and character_data.position == pl_character_data.position:
         # 身体部位与服装部位通用均为+1200
         position_index = 1201 + character_data.h_state.insert_position
         character_data.second_behavior[position_index] = 1
@@ -832,7 +788,7 @@ def orgasm_judge(character_id: int, change_data: game_type.CharacterStatusChange
                 # 额外高潮次数
                 extra_count = pre_data - 10
                 # 基础阈值为2w，每次高潮则乘以0.9的若干次方
-                now_threshold = 20000 * (0.9 ** extra_count)
+                now_threshold = 20000 * (0.9**extra_count)
                 now_threshold = max(1000, now_threshold)
                 # 如果超过阈值，则进行额外高潮结算
                 extra_add = int(character_data.h_state.extra_orgasm_feel[orgasm] // now_threshold)
@@ -856,7 +812,7 @@ def orgasm_settle(
     normal_orgasm_dict: dict = {},
     extra_orgasm_dict: dict = {},
     un_count_orgasm_dict: dict = {},
-    ):
+):
     """
     处理第二结算中的高潮结算
     Keyword arguments:
@@ -877,7 +833,7 @@ def orgasm_settle(
         if orgasm == 3:
             continue
 
-        pre_data = character_data.h_state.orgasm_level[orgasm] # 记录里的前高潮程度
+        pre_data = character_data.h_state.orgasm_level[orgasm]  # 记录里的前高潮程度
 
         normal_orgasm_data = 0
         if orgasm in normal_orgasm_dict:
@@ -1230,6 +1186,7 @@ def mark_effect(character_id: int, change_data: game_type.CharacterStatusChange)
     now_draw.text = now_draw_text
     now_draw.draw()
 
+
 def item_effect(character_id: int, pl_to_npc: bool = False):
     """
     处理第二结算中的道具结算
@@ -1316,28 +1273,24 @@ def handle_comprehensive_value_effect(character_id: int, effect_all_value_list: 
         "Father": "father",
         "ChangeTargetId": "change_target_id",
     }
-    
+
     # 创建一个字典来映射操作
-    operation_mapping = {
-        "G": lambda x, y: x + y,
-        "L": lambda x, y: x - y,
-        "E": lambda x, y: y
-    }
-    
+    operation_mapping = {"G": lambda x, y: x + y, "L": lambda x, y: x - y, "E": lambda x, y: y}
+
     # 获取属性名和操作
     if "|" in effect_all_value_list[1]:
         attribute = effect_all_value_list[1].split("|")[0]
     else:
         attribute = effect_all_value_list[1][0]
     operation = effect_all_value_list[2]
-    
+
     # 检查属性名和操作是否在映射字典中
     if attribute in attribute_mapping and operation in operation_mapping:
         # 获取属性和操作
         attribute_name = attribute_mapping[attribute]
         operation_func = operation_mapping[operation]
         # print(f"debug attribute_name = {attribute_name}, operation = {operation}")
-    
+
         # 特殊处理
         # 好感
         if attribute_name == "favorability":
@@ -1352,11 +1305,12 @@ def handle_comprehensive_value_effect(character_id: int, effect_all_value_list: 
         # 绝顶
         elif attribute_name == "climax":
             from Script.Settle.default import base_chara_climix_common_settle
+
             if operation == "E":
-                base_chara_climix_common_settle(final_character_id, type_son_id, degree = int(effect_all_value_list[3]))
+                base_chara_climix_common_settle(final_character_id, type_son_id, degree=int(effect_all_value_list[3]))
             elif operation == "G":
                 for i in range(int(effect_all_value_list[3]) + 1):
-                    base_chara_climix_common_settle(final_character_id, type_son_id,  degree = i)
+                    base_chara_climix_common_settle(final_character_id, type_son_id, degree=i)
         # 父子嵌套事件
         elif attribute_name == "father":
             # print(f"debug effect_all_value_list = {effect_all_value_list}")
@@ -1392,4 +1346,3 @@ def handle_comprehensive_value_effect(character_id: int, effect_all_value_list: 
         return 1
 
     return 0
-

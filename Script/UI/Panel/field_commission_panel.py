@@ -17,7 +17,8 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
-def get_commission_demand_and_reward(commission_id: int, send_npc_list = [], demand_or_reward: bool = False, deduction_or_increase: bool = False) -> List:
+
+def get_commission_demand_and_reward(commission_id: int, send_npc_list=[], demand_or_reward: bool = False, deduction_or_increase: bool = False) -> List:
     """
     获取委托需求或奖励\n
     Keyword arguments:\n
@@ -40,9 +41,9 @@ def get_commission_demand_and_reward(commission_id: int, send_npc_list = [], dem
     else:
         text_list = [all_text]
     # 初始化变量
-    satify_flag = True # 是否满足
-    type_text = "" # 类型文本
-    full_text = "" # 全文
+    satify_flag = True  # 是否满足
+    type_text = ""  # 类型文本
+    full_text = ""  # 全文
 
     # 遍历文本列表
     for now_text in text_list:
@@ -325,7 +326,7 @@ def judge_field_commission_finish():
             # 遍历派遣人员
             for character_id in send_npc_list:
                 cache.character_data[character_id].sp_flag.field_commission = 0
-                default.handle_chara_on_line(character_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+                default.handle_chara_on_line(character_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
                 draw_text += f"{cache.character_data[character_id].name} "
             # 载具损坏与回收
             send_vehicle_list = cache.rhodes_island.ongoing_field_commissions[commision_id][2]
@@ -623,7 +624,7 @@ class Field_Commission_Panel:
                 chara_name = chara_data.name
                 info_draw_2_text += f"  {chara_name}"
             info_draw_2_text += _("\n\n派遣载具：")
-            now_capacity = 0 # 当前运载量
+            now_capacity = 0  # 当前运载量
             for vehicle_id in self.send_vehicle_dict:
                 vehicle_name = game_config.config_vehicle[vehicle_id].name
                 info_draw_2_text += f"  {vehicle_name} * {self.send_vehicle_dict[vehicle_id]}"
@@ -741,9 +742,9 @@ class Field_Commission_Panel:
                     button_draw = draw.LeftButton(
                         draw_text,
                         f"\n{character_id}",
-                        self.width / 6 ,
-                        normal_style = draw_style,
-                        cmd_func = self.select_this_npc,
+                        self.width / 6,
+                        normal_style=draw_style,
+                        cmd_func=self.select_this_npc,
                         args=character_id,
                     )
                     button_draw.draw()
@@ -769,7 +770,6 @@ class Field_Commission_Panel:
             yrn = flow_handle.askfor_all(return_list)
             if yrn == back_draw.return_text:
                 break
-
 
     def adjust_send_vehicle(self, commision_capacity_int: int):
         """
@@ -802,7 +802,9 @@ class Field_Commission_Panel:
                 if vehicle_cid in self.send_vehicle_dict:
                     now_choice_count = self.send_vehicle_dict[vehicle_cid]
 
-                draw_text = _("[{0}] {1} 当前选择/可选择：{2}/{3} 速度：{4} 运载量：{5} 特殊效果：{6}\n").format(str(vehicle_cid).rjust(2,'0'), vehicle_data.name, now_choice_count, vehicle_count, vehicle_speed, vehicle_capacity, vehicle_special)
+                draw_text = _("[{0}] {1} 当前选择/可选择：{2}/{3} 速度：{4} 运载量：{5} 特殊效果：{6}\n").format(
+                    str(vehicle_cid).rjust(2, "0"), vehicle_data.name, now_choice_count, vehicle_count, vehicle_speed, vehicle_capacity, vehicle_special
+                )
                 info_draw = draw.NormalDraw()
                 info_draw.text = draw_text
                 info_draw.width = self.width
@@ -832,9 +834,9 @@ class Field_Commission_Panel:
 
                 line_feed.draw()
 
-            now_capacity = 0 # 当前运载量
-            now_speed = 99 # 当前速度
-            now_effect = [] # 当前效果
+            now_capacity = 0  # 当前运载量
+            now_speed = 99  # 当前速度
+            now_effect = []  # 当前效果
 
             # 遍历已选择的载具
             for vehicle_id in self.send_vehicle_dict:
@@ -970,7 +972,7 @@ class Field_Commission_Panel:
         # 遍历派遣人员，设为派遣状态，并离线
         for character_id in self.send_npc_list:
             cache.character_data[character_id].sp_flag.field_commission = commision_id
-            default.handle_chara_off_line(character_id, 1, change_data = game_type.CharacterStatusChange, now_time = cache.game_time)
+            default.handle_chara_off_line(character_id, 1, change_data=game_type.CharacterStatusChange, now_time=cache.game_time)
         # 结算派遣的载具
         now_vehicle_list = []
         for vehicle_id in self.send_vehicle_dict:
@@ -987,7 +989,7 @@ class Field_Commission_Panel:
         if min_speed > 1:
             commision_time_by_min = commision_time * 1440
             # 每点速度则将总时间乘以0.9
-            commision_time_by_min = int(commision_time_by_min * (0.9 ** min_speed))
+            commision_time_by_min = int(commision_time_by_min * (0.9**min_speed))
             new_time_by_speed = game_time.get_sub_date(minute=commision_time_by_min)
             # 重新设置时间
             cache.rhodes_island.ongoing_field_commissions[commision_id][1] = new_time_by_speed

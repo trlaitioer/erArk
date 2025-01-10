@@ -423,7 +423,7 @@ class BODY_H_STATE:
         """
 
         self.group_sex_body_template_dict: dict = {
-            "A":[
+            "A": [
                 {
                     "mouth": [-1, -1],
                     "L_hand": [-1, -1],
@@ -433,7 +433,7 @@ class BODY_H_STATE:
                 },
                 [[-1], -1],
             ],
-            "B":[
+            "B": [
                 {
                     "mouth": [-1, -1],
                     "L_hand": [-1, -1],
@@ -589,6 +589,7 @@ class ACTION_INFO:
 
 class AUTHOR_FLAG:
     """角色作者变量结构体"""
+
     def __init__(self):
         self.chara_int_flag_dict: dict = {}
         """ 角色的int类型flag字典，最大长度为50，默认值为0 """
@@ -684,7 +685,7 @@ class CHARA_ENTERTAINMENT:
     """角色的娱乐信息结构体"""
 
     def __init__(self):
-        self.entertainment_type: list = [0,0,0]
+        self.entertainment_type: list = [0, 0, 0]
         """ 角色娱乐活动的类型 """
         self.borrow_book_id_set: set = set()
         """ 借的书的id """
@@ -936,7 +937,7 @@ class Rhodes_Island:
         # 控制中枢
         self.current_location: List[int] = []
         """ 基地当前所在位置，[0国家id,1城市id] """
-        self.move_target_and_time: List = [0,0,0]
+        self.move_target_and_time: List = [0, 0, 0]
         """ 基地移动目标和时间, [0国家id,1城市id,2抵达时间] """
         self.office_work: int = 0
         """ 需要处理的公务 """
@@ -1006,7 +1007,7 @@ class Rhodes_Island:
         """ 手动选择的每周的体检日列表 """
 
         # 文职区
-        self.recruit_line: Dict[int, Tuple[float, int ,set, float]] = {}
+        self.recruit_line: Dict[int, Tuple[float, int, set, float]] = {}
         """ 当前招募进度 招募线id:[0招募进度, 1招募类型id, 2负责该线的干员id集合, 3招募效率百分比(如2.5)] """
         self.recruited_id: Set = set()
         """ 已招募待确认的干员id """
@@ -1040,7 +1041,7 @@ class Rhodes_Island:
         """
 
         # 制造加工区
-        self.assembly_line: Dict[int, Tuple[int, set, int ,int]] = {}
+        self.assembly_line: Dict[int, Tuple[int, set, int, int]] = {}
         """ 流水线情况 流水线id:[0生产类型id, 1负责该线的干员id集合, 2总效率百分比(如110), 3明日要变成的新生产类型, 4上次收菜的小时] """
 
         # 访客区
@@ -1081,6 +1082,7 @@ class Rhodes_Island:
         """ 科研区设施数量上限 """
         self.soldier_max: int = 0
         """ 战斗时干员数量上限 """
+
 
 class Country:
     """大地图国家数据"""
@@ -1415,6 +1417,7 @@ class Cache:
         """ ai设定 """
         self.country: Country = Country()
         """ 大地图国家数据 """
+
 
 class TargetChange:
     """交互对象角色变化结构体"""

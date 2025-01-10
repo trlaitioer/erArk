@@ -21,6 +21,7 @@ line_feed_draw.text = "\n"
 line = draw.LineDraw("=", width)
 """ 标题线绘制对象 """
 
+
 class New_Round_Handle:
     """
     角色创建页面对象
@@ -55,7 +56,6 @@ class New_Round_Handle:
         """ 所有陷落干员列表 """
         self.farewell_npc_id = 0
         """ 送别干员id """
-
 
     def draw(self):
         """绘制面板"""
@@ -97,7 +97,7 @@ class New_Round_Handle:
                     self.all_fall_chara_list.append(chara_id)
                     now_character_data = cache.character_data[chara_id]
                     talent_name = game_config.config_talent[talent_id].name
-                    point_add = talent_id % 10 # 取个位数字
+                    point_add = talent_id % 10  # 取个位数字
                     point_add *= 2
                     chara_point_all += point_add
                     chara_count += 1
@@ -157,11 +157,11 @@ class New_Round_Handle:
             info_draw.draw()
             # 提高和降低按钮
             add_button_text = _(" [提高] ")
-            add_button = draw.CenterButton(add_button_text, add_button_text + "_0", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1,0))
+            add_button = draw.CenterButton(add_button_text, add_button_text + "_0", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1, 0))
             self.return_list.append(add_button.return_text)
             add_button.draw()
             reduce_button_text = _(" [降低] ")
-            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_0", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1,0))
+            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_0", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1, 0))
             self.return_list.append(reduce_button.return_text)
             reduce_button.draw()
             line_feed_draw.draw()
@@ -193,11 +193,11 @@ class New_Round_Handle:
             info_draw.draw()
             # 提高和降低按钮
             add_button_text = _(" [提高] ")
-            add_button = draw.CenterButton(add_button_text, add_button_text + "_1", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1,1))
+            add_button = draw.CenterButton(add_button_text, add_button_text + "_1", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1, 1))
             self.return_list.append(add_button.return_text)
             add_button.draw()
             reduce_button_text = _(" [降低] ")
-            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_1", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1,1))
+            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_1", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1, 1))
             self.return_list.append(reduce_button.return_text)
             reduce_button.draw()
             line_feed_draw.draw()
@@ -220,11 +220,11 @@ class New_Round_Handle:
             info_draw.draw()
             # 提高和降低按钮
             add_button_text = _(" [提高] ")
-            add_button = draw.CenterButton(add_button_text, add_button_text + "_2", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1,2))
+            add_button = draw.CenterButton(add_button_text, add_button_text + "_2", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1, 2))
             self.return_list.append(add_button.return_text)
             add_button.draw()
             reduce_button_text = _(" [降低] ")
-            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_2", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1,2))
+            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_2", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1, 2))
             self.return_list.append(reduce_button.return_text)
             reduce_button.draw()
             line_feed_draw.draw()
@@ -252,11 +252,11 @@ class New_Round_Handle:
             info_draw.draw()
             # 提高和降低按钮
             add_button_text = _(" [提高] ")
-            add_button = draw.CenterButton(add_button_text, add_button_text + "_3", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1,3))
+            add_button = draw.CenterButton(add_button_text, add_button_text + "_3", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1, 3))
             self.return_list.append(add_button.return_text)
             add_button.draw()
             reduce_button_text = _(" [降低] ")
-            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_3", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1,3))
+            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_3", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1, 3))
             self.return_list.append(reduce_button.return_text)
             reduce_button.draw()
             line_feed_draw.draw()
@@ -276,11 +276,11 @@ class New_Round_Handle:
             info_draw.draw()
             # 提高和降低按钮
             add_button_text = _(" [提高] ")
-            add_button = draw.CenterButton(add_button_text, add_button_text + "_4", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1,4))
+            add_button = draw.CenterButton(add_button_text, add_button_text + "_4", len(add_button_text) * 2, cmd_func=self.value_change_buton, args=(1, 4))
             self.return_list.append(add_button.return_text)
             add_button.draw()
             reduce_button_text = _(" [降低] ")
-            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_4", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1,4))
+            reduce_button = draw.CenterButton(reduce_button_text, reduce_button_text + "_4", len(reduce_button_text) * 2, cmd_func=self.value_change_buton, args=(-1, 4))
             self.return_list.append(reduce_button.return_text)
             reduce_button.draw()
             line_feed_draw.draw()
@@ -420,7 +420,7 @@ class New_Round_Handle:
                 button_len = max(len(button_text), 24)
                 button = draw.LeftButton(button_text, button_text, button_len, cmd_func=self.farewell_npc_change_confirm, args=(chara_id,))
                 if chara_id == self.farewell_npc_id:
-                    button = draw.LeftButton(button_text, button_text, button_len, normal_style = "gold_enrod", cmd_func=self.farewell_npc_change_confirm, args=(chara_id,))
+                    button = draw.LeftButton(button_text, button_text, button_len, normal_style="gold_enrod", cmd_func=self.farewell_npc_change_confirm, args=(chara_id,))
                 return_list.append(button_text)
                 button.draw()
                 chara_count += 1
@@ -461,7 +461,6 @@ class New_Round_Handle:
             line_feed_draw.draw()
             line_feed_draw.draw()
 
-
         line_draw = draw.LineDraw("-", self.width)
         line_draw.draw()
 
@@ -481,11 +480,7 @@ class New_Round_Handle:
         while 1:
 
             return_list = []
-            button_draw = draw.CenterButton(
-                _("[醒来]"),
-                _("醒来\n"),
-                self.width
-            )
+            button_draw = draw.CenterButton(_("[醒来]"), _("醒来\n"), self.width)
             return_list.append(button_draw.return_text)
             button_draw.draw()
             yrn = flow_handle.askfor_all(return_list)
@@ -505,6 +500,7 @@ class New_Round_Handle:
         继承玩家数据
         """
         from Script.Design import character
+
         info_draw = draw.NormalDraw()
         info_draw.width = self.width
         info_draw_text = "\n\n"
@@ -611,7 +607,6 @@ class New_Round_Handle:
         info_draw.text = info_draw_text
         info_draw.draw()
 
-
     def reset_game_data(self):
         """
         重置游戏数据
@@ -619,6 +614,7 @@ class New_Round_Handle:
         from Script.Design import attr_calculation, basement, game_time
         from Script.UI.Flow import creator_character_flow
         from Script.Config import map_config
+
         info_draw = draw.NormalDraw()
         info_draw.width = self.width
         info_draw_text = "\n"
@@ -659,6 +655,7 @@ class New_Round_Handle:
 
         info_draw.text = info_draw_text
         info_draw.draw()
+
 
 class CharacterabiText:
     """

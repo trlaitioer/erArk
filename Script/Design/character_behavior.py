@@ -57,9 +57,9 @@ def init_character_behavior():
             character_behavior(0, cache.game_time, pl_start_time)
         # 如果当前是时停模式，则回退时间，然后结束循环
         if cache.time_stop_mode:
-            game_time.sub_time_now(minute = -pl_duration)
+            game_time.sub_time_now(minute=-pl_duration)
             break
-        field_commission_panel.update_field_commission() # 刷新委托任务
+        field_commission_panel.update_field_commission()  # 刷新委托任务
         id_list = cache.npc_id_got.copy()
         id_list.discard(0)
         # 后结算其他NPC部分
@@ -101,10 +101,10 @@ def character_behavior(character_id: int, now_time: datetime.datetime, pl_start_
 
     # 处理特殊模式
     if character_id != 0:
-        handle_npc_ai.judge_character_tired_sleep(character_id) # 判断疲劳和睡眠
-        handle_npc_ai.judge_character_cant_move(character_id) # 无法自由移动的角色
-        handle_npc_ai.judge_character_follow(character_id) # 跟随模式
-        handle_npc_ai.judge_character_h_obscenity_unconscious(character_id) # H状态、猥亵与无意识
+        handle_npc_ai.judge_character_tired_sleep(character_id)  # 判断疲劳和睡眠
+        handle_npc_ai.judge_character_cant_move(character_id)  # 无法自由移动的角色
+        handle_npc_ai.judge_character_follow(character_id)  # 跟随模式
+        handle_npc_ai.judge_character_h_obscenity_unconscious(character_id)  # H状态、猥亵与无意识
 
     # 处理公共资源
     # update_cafeteria() # 刷新食堂的饭，不需要了，改为NPC在没有饭的时候自动刷新
@@ -140,9 +140,9 @@ def character_behavior(character_id: int, now_time: datetime.datetime, pl_start_
             if time_judge:
                 cache.over_behavior_character.add(character_id)
         #         print(f"debug time_judge")
-        handle_npc_ai.judge_character_tired_sleep(character_id) # 结算疲劳
-        handle_npc_ai.judge_character_h_obscenity_unconscious(character_id) # H状态、猥亵与无意识
-        judge_pl_real_time_data() # 玩家实时数据结算
+        handle_npc_ai.judge_character_tired_sleep(character_id)  # 结算疲劳
+        handle_npc_ai.judge_character_h_obscenity_unconscious(character_id)  # H状态、猥亵与无意识
+        judge_pl_real_time_data()  # 玩家实时数据结算
         # print(f"debug 玩家结算完毕")
 
     # 再处理NPC部分
@@ -172,7 +172,7 @@ def character_behavior(character_id: int, now_time: datetime.datetime, pl_start_
         #     print(f"debug 后：{character_data.name}，time_judge = {time_judge}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}, duration = {character_data.behavior.duration}, end_time = {game_time.get_sub_date(minute=character_data.behavior.duration, old_date=character_data.behavior.start_time)}")
 
     # 自动获得对应素质和能力
-    handle_talent.gain_talent(character_id,now_gain_type = 0)
+    handle_talent.gain_talent(character_id, now_gain_type=0)
 
 
 def judge_character_status(character_id: int) -> int:
@@ -188,10 +188,7 @@ def judge_character_status(character_id: int) -> int:
     scene_data: game_type.Scene = cache.scene_data[scene_path_str]
     start_time = character_data.behavior.start_time
     end_time = game_time.get_sub_date(minute=character_data.behavior.duration, old_date=start_time)
-    if (
-        character_data.target_character_id != character_id
-        and character_data.target_character_id not in scene_data.character_list
-    ):
+    if character_data.target_character_id != character_id and character_data.target_character_id not in scene_data.character_list:
         # 例外：玩家在搬运该角色
         if character_data.target_character_id != character_data.sp_flag.bagging_chara_id:
             # end_time = now_time # 这里本来是游戏实际时间，架构改了之后大概不需要了，姑且先保留着
@@ -200,7 +197,7 @@ def judge_character_status(character_id: int) -> int:
 
     # 跳过指令和指令后置类型的事件触发
     # print(f"debug 跳过指令和指令后置类型的事件触发")
-    start_event_draw = event.handle_event(character_id, event_before_instrust_flag = True)
+    start_event_draw = event.handle_event(character_id, event_before_instrust_flag=True)
     event_type_now = 1
     if start_event_draw != None:
         event_id = start_event_draw.event_id
@@ -240,7 +237,7 @@ def judge_character_status(character_id: int) -> int:
         first_settle_panel.draw()
         if second_settle_panel != None:
             second_settle_panel.draw()
-        #进行一次暂停以便玩家看输出信息
+        # 进行一次暂停以便玩家看输出信息
         if character_id == 0:
             wait_draw = draw.LineFeedWaitDraw()
             wait_draw.text = "\n"
@@ -249,7 +246,8 @@ def judge_character_status(character_id: int) -> int:
 
     return 1
 
-def judge_character_status_time_over(character_id: int, now_time: datetime.datetime, end_now = 0) -> int:
+
+def judge_character_status_time_over(character_id: int, now_time: datetime.datetime, end_now=0) -> int:
     """
     结算角色状态是否本次行动已经结束
     Keyword arguments:
@@ -267,10 +265,7 @@ def judge_character_status_time_over(character_id: int, now_time: datetime.datet
         character_data.behavior.start_time = now_time
     start_time = character_data.behavior.start_time
     end_time = game_time.get_sub_date(minute=character_data.behavior.duration, old_date=start_time)
-    if (
-        character_data.target_character_id != character_id
-        and character_data.target_character_id not in scene_data.character_list
-    ):
+    if character_data.target_character_id != character_id and character_data.target_character_id not in scene_data.character_list:
         # 例外：玩家在搬运该角色
         if character_data.target_character_id != character_data.sp_flag.bagging_chara_id:
             end_time = now_time
@@ -336,7 +331,7 @@ def settle_character_juel(character_id: int) -> int:
         # print("status_id :",status_id)
         # print("game_config.config_character_state[status_id] :",game_config.config_character_state[status_id])
         # print("game_config.config_character_state[status_id].name :",game_config.config_character_state[status_id].name)
-        #去掉性别里不存在的状态
+        # 去掉性别里不存在的状态
         if character_data.sex == 0:
             if status_id in {2, 4, 7, 8}:
                 continue
@@ -344,12 +339,12 @@ def settle_character_juel(character_id: int) -> int:
             if status_id == 3:
                 continue
         status_value = 0
-        #获得状态值并清零
+        # 获得状态值并清零
         if status_id in character_data.status_data:
             status_value = character_data.status_data[status_id]
             cache.character_data[character_id].status_data[status_id] = 0
             # print("status_value :",status_value)
-        #只要状态值不为0就结算为对应珠
+        # 只要状态值不为0就结算为对应珠
         if status_value != 0:
             add_juel = attr_calculation.get_juel(status_value)
             if status_id in [17, 18, 19]:
@@ -367,7 +362,7 @@ def settle_character_juel(character_id: int) -> int:
                 juel_down = min(character_data.juel[20], character_data.juel[i] * 2)
                 character_data.juel[20] -= juel_down
                 character_data.juel[i] -= juel_down // 2
-                draw_text += _(" {0}个{1} ").format(juel_down//2, game_config.config_juel[i].name)
+                draw_text += _(" {0}个{1} ").format(juel_down // 2, game_config.config_juel[i].name)
         draw_text += _("，剩余{0}个反发珠\n").format(character_data.juel[20])
         now_draw = draw.NormalDraw()
         now_draw.text = draw_text
@@ -393,10 +388,10 @@ def character_instruct_record(character_id: int) -> str:
     if character_data.state == constant.CharacterStatus.STATUS_MOVE:
         move_src = character_data.behavior.move_src[-1]
         if move_src == "0":
-            move_src =  character_data.behavior.move_src[-2] + "出口"
+            move_src = character_data.behavior.move_src[-2] + "出口"
         move_target = character_data.behavior.move_target[-1]
         if move_target == "0":
-            move_target =  character_data.behavior.move_target[-2] + "出口"
+            move_target = character_data.behavior.move_target[-2] + "出口"
         if move_target:
             instruct_text += _("从{0}移动至{1}\n").format(move_src, move_target)
     # 其他指令则记录状态
@@ -427,7 +422,7 @@ def judge_pl_real_time_data() -> int:
     if cache.rhodes_island.love_hotel_room_lv > 0:
         if game_time.judge_date_big_or_small(cache.game_time, pl_character_data.action_info.check_out_time) > 0:
             # 输出提示信息
-            room_name = [_("标间"),_("情趣主题房"),_("顶级套房")]
+            room_name = [_("标间"), _("情趣主题房"), _("顶级套房")]
             now_draw = draw.NormalDraw()
             now_draw.text = _("\n您入住的{0}到退房时间了，已自动退房\n").format(room_name[cache.rhodes_island.love_hotel_room_lv - 1])
             now_draw.draw()
@@ -456,7 +451,7 @@ def judge_before_pl_behavior():
     else:
         # 睡眠时间在6h及以上的额外恢复
         if pl_character_data.state == constant.CharacterStatus.STATUS_SLEEP and pl_character_data.behavior.duration >= 360:
-            refresh_temp_semen_max() # 刷新玩家临时精液上限
+            refresh_temp_semen_max()  # 刷新玩家临时精液上限
 
     # 结算上次进行聊天的时间，以重置聊天计数器#
     settle_behavior.change_character_talkcount_for_time(0, pl_character_data.behavior.start_time)
@@ -485,8 +480,8 @@ def update_sleep():
         settle_character_juel(character_id)
         # 玩家结算
         if character_id == 0:
-            sanity_point_grow() # 玩家理智成长
-            character_data.eja_point = 0 # 清零射精槽
+            sanity_point_grow()  # 玩家理智成长
+            character_data.eja_point = 0  # 清零射精槽
             # 如果此时助理在睡眠中，则清零助理晚安问候
             assistant_id = character_data.assistant_character_id
             assistant_character_data: game_type.Character = cache.character_data[assistant_id]
@@ -498,7 +493,7 @@ def update_sleep():
             line_feed.draw()
         else:
             # 清零并随机重置生气程度
-            character_data.angry_point = random.randrange(1,35)
+            character_data.angry_point = random.randrange(1, 35)
             # 清零H被撞破的flag
             character_data.action_info.h_interrupt = 0
             # 重置每天第一次见面
@@ -510,7 +505,7 @@ def update_sleep():
             # 检查并处理受精怀孕部分
             pregnancy.check_all_pregnancy(character_id)
             # 检查是否有可以获得的素质
-            handle_talent.gain_talent(character_id,now_gain_type = 3)
+            handle_talent.gain_talent(character_id, now_gain_type=3)
             # 检查是否有可以升级的能力
             if cache.system_setting[3]:
                 handle_ability.gain_ability(character_id)
@@ -573,17 +568,17 @@ def update_new_day():
                 fall_chara_give_pink_voucher(character_id)
 
     # 非角色部分
-    basement.update_base_resouce_newday() # 更新基地资源
-    navigation_panel.judge_arrive() # 判断是否到达目的地
+    basement.update_base_resouce_newday()  # 更新基地资源
+    navigation_panel.judge_arrive()  # 判断是否到达目的地
     # 每周一次
     if cache.game_time.weekday() == 6:
-        nation_diplomacy_panel.judge_diplomatic_policy() # 结算外交政策
+        nation_diplomacy_panel.judge_diplomatic_policy()  # 结算外交政策
     # 每周一的助理轮换
     if cache.game_time.weekday() == 0 and handle_premise.handle_pl_assistant_change_every_week_on(0):
         assistant_panel.select_random_assistant()
-    cache.today_taiggered_event_record = {} # 清空今日触发事件记录
+    cache.today_taiggered_event_record = {}  # 清空今日触发事件记录
     cache.pre_game_time = cache.game_time
-    cache.daily_intsruce.append('\n\n' + game_time.get_date_until_day() + '\n\n')
+    cache.daily_intsruce.append("\n\n" + game_time.get_date_until_day() + "\n\n")
     # update_save()
 
 
@@ -642,7 +637,7 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
     # 不睡觉时、且不是时停中，结算疲劳值
     if now_character_data.state not in {constant.CharacterStatus.STATUS_SLEEP} and handle_premise.handle_time_stop_off(character_id):
         now_character_data.tired_point += tired_change
-        now_character_data.tired_point = min(now_character_data.tired_point,160)
+        now_character_data.tired_point = min(now_character_data.tired_point, 160)
 
     # 休息时回复体力、气力
     if now_character_data.state == constant.CharacterStatus.STATUS_REST:
@@ -654,9 +649,9 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         facility_effect_adjust = 1 + facility_effect / 100
         final_adjust *= facility_effect_adjust
         # 素质对回复效果的影响
-        if now_character_data.talent[351]: # 回复慢
+        if now_character_data.talent[351]:  # 回复慢
             final_adjust *= 0.7
-        elif now_character_data.talent[352]: # 回复快
+        elif now_character_data.talent[352]:  # 回复快
             final_adjust *= 1.5
         # 回复体力、气力
         hit_point_add_base = now_character_data.hit_point_max * 0.003 + 10
@@ -673,24 +668,24 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         # 减少疲劳值
         tired_change *= 2
         now_character_data.tired_point -= tired_change
-        now_character_data.tired_point = max(now_character_data.tired_point,0) # 最少为0
+        now_character_data.tired_point = max(now_character_data.tired_point, 0)  # 最少为0
         # 熟睡值在到熟睡之前快速增加
-        sleep_level,tem = attr_calculation.get_sleep_level(now_character_data.sleep_point)
+        sleep_level, tem = attr_calculation.get_sleep_level(now_character_data.sleep_point)
         if sleep_level <= 1:
             add_sleep = int(true_add_time * 1.5)
             now_character_data.sleep_point += add_sleep
         # 熟睡值到熟睡后上下波动，加的可能性比减的可能性大一点点
         else:
-            add_sleep = random.randint(int(true_add_time * -0.3),int(true_add_time * 0.6))
+            add_sleep = random.randint(int(true_add_time * -0.3), int(true_add_time * 0.6))
             now_character_data.sleep_point += add_sleep
         # 最高上限100
-        now_character_data.sleep_point = min(now_character_data.sleep_point,100)
+        now_character_data.sleep_point = min(now_character_data.sleep_point, 100)
         # print(f"debug {now_character_data.name}疲劳值-{tired_change}={now_character_data.tired_point}，熟睡值+{add_sleep}={now_character_data.sleep_point}，当前时间={cache.game_time}")
         final_adjust = 1
         # 素质对回复效果的影响
-        if now_character_data.talent[351]: # 回复慢
+        if now_character_data.talent[351]:  # 回复慢
             final_adjust *= 0.7
-        elif now_character_data.talent[352]: # 回复快
+        elif now_character_data.talent[352]:  # 回复快
             final_adjust *= 1.5
         # 回复体力、气力
         hit_point_add_base = now_character_data.hit_point_max * 0.0025 + 3
@@ -709,25 +704,25 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         add_urinate = random.randint(int(true_add_time * 0.8), int(true_add_time * 1.2))
         add_urinate *= cache.system_setting[6] / 2
         now_character_data.urinate_point += int(add_urinate)
-        now_character_data.urinate_point = min(now_character_data.urinate_point,300)
+        now_character_data.urinate_point = min(now_character_data.urinate_point, 300)
 
     # 结算饥饿值
     add_hunger = random.randint(int(true_add_time * 0.8), int(true_add_time * 1.2))
     now_character_data.hunger_point += add_hunger
-    now_character_data.hunger_point = min(now_character_data.hunger_point,240)
+    now_character_data.hunger_point = min(now_character_data.hunger_point, 240)
 
     # 结算有意识、周围有其他人、羞耻没有超限、状态1256正常下，不穿胸衣和内裤时的羞耻值增加
     exposure_adjust = 0
     if (
-        handle_premise.handle_not_wear_bra_or_pan(character_id) and 
-        handle_premise.handle_unconscious_flag_0(character_id) and 
-        handle_premise_place.handle_scene_over_two(character_id) and 
-        handle_premise.handle_self_shy_ge_100000(character_id) and 
-        handle_premise.handle_normal_1(character_id) and 
-        handle_premise.handle_normal_2(character_id) and
-        handle_premise.handle_normal_5(character_id) and
-        handle_premise.handle_normal_6(character_id)
-        ):
+        handle_premise.handle_not_wear_bra_or_pan(character_id)
+        and handle_premise.handle_unconscious_flag_0(character_id)
+        and handle_premise_place.handle_scene_over_two(character_id)
+        and handle_premise.handle_self_shy_ge_100000(character_id)
+        and handle_premise.handle_normal_1(character_id)
+        and handle_premise.handle_normal_2(character_id)
+        and handle_premise.handle_normal_5(character_id)
+        and handle_premise.handle_normal_6(character_id)
+    ):
         if handle_premise.handle_not_wear_bra(character_id):
             exposure_adjust += 1
         if handle_premise.handle_not_wear_pan(character_id):
@@ -736,7 +731,7 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         feel_adjust = attr_calculation.get_ability_adjust(now_character_data.ability[34])
         exposure_add = true_add_time * feel_adjust * exposure_adjust
         now_character_data.status_data[16] += exposure_add
-        now_character_data.status_data[16] = min(now_character_data.status_data[16],100000)
+        now_character_data.status_data[16] = min(now_character_data.status_data[16], 100000)
 
     # print(f"debug character_id = {character_id}，target_character_id = {player_character_data.target_character_id}，now_character_data.hunger_point = {now_character_data.hunger_point}")
 
@@ -745,7 +740,7 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         milk_change = int(true_add_time * 2 / 3)
         add_milk = random.randint(int(milk_change * 0.8), int(milk_change * 1.2))
         now_character_data.pregnancy.milk += add_milk
-        now_character_data.pregnancy.milk = min(now_character_data.pregnancy.milk,now_character_data.pregnancy.milk_max)
+        now_character_data.pregnancy.milk = min(now_character_data.pregnancy.milk, now_character_data.pregnancy.milk_max)
 
     # 结算玩家部分
     if character_id == 0:
@@ -756,16 +751,16 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
             last_time = now_character_data.action_info.last_eaj_add_time
             if (cache.game_time - last_time) > datetime.timedelta(minutes=30):
                 now_character_data.eja_point -= true_add_time * 10
-                now_character_data.eja_point = max(now_character_data.eja_point,0)
+                now_character_data.eja_point = max(now_character_data.eja_point, 0)
 
         # 玩家缓慢恢复精液量
         now_character_data.semen_point += int(true_add_time / 20)
-        now_character_data.semen_point = min(now_character_data.semen_point,now_character_data.semen_point_max)
+        now_character_data.semen_point = min(now_character_data.semen_point, now_character_data.semen_point_max)
 
         # 结算玩家源石技艺的理智值消耗
         # 视觉系
         if now_character_data.pl_ability.visual:
-            down_sp = max(int(true_add_time / 12),1)
+            down_sp = max(int(true_add_time / 12), 1)
             # 倍率计算
             multiple = now_character_data.talent[307] + now_character_data.talent[308] + now_character_data.talent[309]
             down_sp *= max(multiple, 1)
@@ -793,10 +788,11 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
             now_character_data.pl_ability.visual = False
             # 解除目标的催眠
             if target_data.sp_flag.unconscious_h >= 4:
-                default.handle_hypnosis_cancel(0,1,game_type.CharacterStatusChange,datetime.datetime)
+                default.handle_hypnosis_cancel(0, 1, game_type.CharacterStatusChange, datetime.datetime)
             # 时停中则进入时停解除状态
             if handle_premise.handle_time_stop_on(character_id):
                 from Script.Design import handle_instruct
+
                 handle_instruct.chara_handle_instruct_common_settle(constant.CharacterStatus.STATUS_TIME_STOP_OFF)
 
         # 结算对无意识对象的结算
@@ -804,10 +800,7 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
             # 睡奸判定
             if target_data.state == constant.CharacterStatus.STATUS_SLEEP and target_data.sp_flag.unconscious_h == 1:
                 # 如果是等待指令或安眠药中则无事发生
-                if (
-                    now_character_data.state == constant.CharacterStatus.STATUS_WAIT or
-                    now_character_data.h_state.body_item[9][1] == 1
-                ):
+                if now_character_data.state == constant.CharacterStatus.STATUS_WAIT or now_character_data.h_state.body_item[9][1] == 1:
                     # 赋值为2来规避吵醒判定
                     sleep_level = 2
                 # 如果是其他行动则判定是否吵醒
@@ -816,7 +809,7 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
                     down_sleep = int(true_add_time * 3)
                     target_data.sleep_point -= down_sleep
                     # 计算当前熟睡等级
-                    sleep_level,tem = attr_calculation.get_sleep_level(target_data.sleep_point)
+                    sleep_level, tem = attr_calculation.get_sleep_level(target_data.sleep_point)
                 # 熟睡等级小于等于1时判定是否吵醒
                 if sleep_level <= 1:
                     handle_npc_ai.judge_weak_up_in_sleep_h(character_id)
@@ -897,7 +890,7 @@ def change_character_persistent_state(character_id: int):
         for i in range(len(now_character_data.h_state.body_item)):
             if now_character_data.h_state.body_item[i][1]:
                 end_time = now_character_data.h_state.body_item[i][2]
-                if end_time != None and game_time.judge_date_big_or_small(now_time,end_time):
+                if end_time != None and game_time.judge_date_big_or_small(now_time, end_time):
                     now_character_data.h_state.body_item[i][1] = False
                     now_character_data.h_state.body_item[i][2] = None
     # 非H下结算部分药物
@@ -905,7 +898,7 @@ def change_character_persistent_state(character_id: int):
         for i in [8, 9]:
             if now_character_data.h_state.body_item[i][1]:
                 end_time = now_character_data.h_state.body_item[i][2]
-                if end_time != None and game_time.judge_date_big_or_small(now_time,end_time):
+                if end_time != None and game_time.judge_date_big_or_small(now_time, end_time):
                     now_character_data.h_state.body_item[i][1] = False
                     now_character_data.h_state.body_item[i][2] = None
 
@@ -938,7 +931,7 @@ def sanity_point_grow():
         # 成长值为消耗值的1/50，四舍五入取整
         grow_value = round(today_cost / 50)
         character_data.sanity_point_max += grow_value
-        character_data.sanity_point_max = min(character_data.sanity_point_max,9999)
+        character_data.sanity_point_max = min(character_data.sanity_point_max, 9999)
         # 绘制说明信息
         now_draw = draw.WaitDraw()
         now_draw.width = window_width

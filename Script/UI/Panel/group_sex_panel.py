@@ -1,13 +1,7 @@
 from typing import List
 from types import FunctionType
 from Script.UI.Moudle import draw, panel
-from Script.Core import (
-    cache_control,
-    get_text,
-    game_type,
-    constant,
-    flow_handle
-)
+from Script.Core import cache_control, get_text, game_type, constant, flow_handle
 from Script.Config import game_config, normal_config
 from Script.Design import attr_calculation, handle_premise, map_handle
 
@@ -34,10 +28,11 @@ body_part_name_dict = {
     "anal": _("肛门"),
 }
 
+
 def group_sex_settle(
-        character_id: int,
-        target_character_id: int,
-        state_id: int,
+    character_id: int,
+    target_character_id: int,
+    state_id: int,
 ):
     """
     群交结算
@@ -238,10 +233,10 @@ def get_now_template_part_list():
     pl_character_data: game_type.Character = cache.character_data[0]
     A_template_data = pl_character_data.h_state.group_sex_body_template_dict["A"]
 
-    now_template_empty_part_list = [] # 空缺的部位列表
-    now_template_not_empty_part_list = [] # 非空缺的部位列表
-    wait_upon_flag = True # 侍奉是否可选
-    wait_upon_state_id = A_template_data[1][1] # 侍奉的状态id
+    now_template_empty_part_list = []  # 空缺的部位列表
+    now_template_not_empty_part_list = []  # 非空缺的部位列表
+    wait_upon_flag = True  # 侍奉是否可选
+    wait_upon_state_id = A_template_data[1][1]  # 侍奉的状态id
     # 对单
     for body_part in A_template_data[0]:
         state_id = A_template_data[0][body_part][1]
@@ -269,6 +264,7 @@ def get_now_template_part_list():
                 now_template_empty_part_list.append(_("加入侍奉"))
 
     return now_template_empty_part_list, now_template_not_empty_part_list
+
 
 class SeeGroupSexInfoPanel:
     """
@@ -409,9 +405,7 @@ class Edit_Group_Sex_Temple_Panel:
                     target_chara_name = _("未选择角色")
                 else:
                     target_chara_name = cache.character_data[target_chara_id].name
-                target_chara_button = draw.CenterButton(
-                    f"▶{target_chara_name}", body_part_name + target_chara_name, self.width / 4, cmd_func=self.show_target_chara_list, args=("A", body_part)
-                )
+                target_chara_button = draw.CenterButton(f"▶{target_chara_name}", body_part_name + target_chara_name, self.width / 4, cmd_func=self.show_target_chara_list, args=("A", body_part))
                 target_chara_button.draw()
                 return_list.append(target_chara_button.return_text)
                 # 状态名字绘制
@@ -420,9 +414,7 @@ class Edit_Group_Sex_Temple_Panel:
                     state_name = _("未选择指令")
                 else:
                     state_name = game_config.config_status[state_id].name
-                state_name_button = draw.CenterButton(
-                    f"▶{state_name}", body_part_name + state_name, self.width / 5, cmd_func=self.show_status_list, args=("A", body_part)
-                )
+                state_name_button = draw.CenterButton(f"▶{state_name}", body_part_name + state_name, self.width / 5, cmd_func=self.show_status_list, args=("A", body_part))
                 state_name_button.draw()
                 return_list.append(state_name_button.return_text)
                 line_feed.draw()
@@ -455,9 +447,7 @@ class Edit_Group_Sex_Temple_Panel:
                         state_name = _("未选择指令")
                     else:
                         state_name = game_config.config_status[state_id].name
-                    state_name_button = draw.CenterButton(
-                        f"▶{state_name}", body_part_name + state_name, self.width / 5, cmd_func=self.show_status_list, args=("A", _("侍奉"))
-                    )
+                    state_name_button = draw.CenterButton(f"▶{state_name}", body_part_name + state_name, self.width / 5, cmd_func=self.show_status_list, args=("A", _("侍奉")))
                     state_name_button.draw()
                     return_list.append(state_name_button.return_text)
                     line_feed.draw()
@@ -473,15 +463,11 @@ class Edit_Group_Sex_Temple_Panel:
             now_B_text = _("未启用")
             if handle_premise.handle_all_group_sex_temple_run_on(0):
                 now_B_text = _("已启用")
-            B_change_button = draw.LeftButton(
-                f"▶{now_B_text}", _("轮流用副模板"), len(now_B_text) * 4 + 1, cmd_func=self.change_B_temple_flag
-            )
+            B_change_button = draw.LeftButton(f"▶{now_B_text}", _("轮流用副模板"), len(now_B_text) * 4 + 1, cmd_func=self.change_B_temple_flag)
             B_change_button.draw()
             return_list.append(B_change_button.return_text)
             if handle_premise.handle_all_group_sex_temple_run_on(0):
-                change_temple_button = draw.CenterButton(
-                    _("切换模板"), _("切换"), len(now_B_text) * 4 + 1, cmd_func=self.change_temple
-                )
+                change_temple_button = draw.CenterButton(_("切换模板"), _("切换"), len(now_B_text) * 4 + 1, cmd_func=self.change_temple)
                 change_temple_button.draw()
                 return_list.append(change_temple_button.return_text)
 
@@ -496,9 +482,7 @@ class Edit_Group_Sex_Temple_Panel:
             now_lock_text = _("已锁定")
             if self.pl_character_data.h_state.group_sex_lock_flag == False:
                 now_lock_text = _("未锁定")
-            lock_change_button = draw.LeftButton(
-                f"▶{now_lock_text}", _("锁定群交模板"), len(now_lock_text) * 4 + 1, cmd_func=self.change_lock_flag
-            )
+            lock_change_button = draw.LeftButton(f"▶{now_lock_text}", _("锁定群交模板"), len(now_lock_text) * 4 + 1, cmd_func=self.change_lock_flag)
             lock_change_button.draw()
             return_list.append(lock_change_button.return_text)
 
@@ -517,9 +501,7 @@ class Edit_Group_Sex_Temple_Panel:
                 npc_ai_text = _("优先补空位，无空位则自慰")
             elif handle_premise.handle_npc_ai_type_3_in_group_sex(0):
                 npc_ai_text = _("随机抢占替换当前位置，无位则自慰")
-            npc_ai_change_button = draw.LeftButton(
-                f"▶{npc_ai_text}", _("调整干员行动"), len(npc_ai_text) * 4 + 1, cmd_func=self.change_npc_ai
-            )
+            npc_ai_change_button = draw.LeftButton(f"▶{npc_ai_text}", _("调整干员行动"), len(npc_ai_text) * 4 + 1, cmd_func=self.change_npc_ai)
             npc_ai_change_button.draw()
             return_list.append(npc_ai_change_button.return_text)
 
@@ -532,9 +514,7 @@ class Edit_Group_Sex_Temple_Panel:
             info_draw.draw()
 
             invite_other_npc_text = _("邀请")
-            invite_other_npc_button = draw.LeftButton(
-                f"▶{invite_other_npc_text}", _("邀请其他干员"), len(npc_ai_text) * 4 + 1, cmd_func=self.show_invite_npc_panel
-            )
+            invite_other_npc_button = draw.LeftButton(f"▶{invite_other_npc_text}", _("邀请其他干员"), len(npc_ai_text) * 4 + 1, cmd_func=self.show_invite_npc_panel)
             invite_other_npc_button.draw()
             return_list.append(invite_other_npc_button.return_text)
 
@@ -582,7 +562,7 @@ class Edit_Group_Sex_Temple_Panel:
                 name_draw = draw.LeftButton(button_text, character_data.name, self.width / 5, cmd_func=self.set_target_chara, args=(temple_id, body_part, chara_id))
                 # 如果已经选中，则改变绘制颜色
                 if chara_id in selected_chara_id_list:
-                    name_draw = draw.LeftButton(button_text, character_data.name, self.width / 5, normal_style='gold_enrod', cmd_func=self.set_target_chara, args=(temple_id, body_part, chara_id))
+                    name_draw = draw.LeftButton(button_text, character_data.name, self.width / 5, normal_style="gold_enrod", cmd_func=self.set_target_chara, args=(temple_id, body_part, chara_id))
                 name_draw.draw()
                 return_list.append(name_draw.return_text)
                 # 每五个换行一次
@@ -646,6 +626,7 @@ class Edit_Group_Sex_Temple_Panel:
         """绘制可邀请的NPC列表"""
         from Script.Design import character
         from Script.UI.Panel import normal_panel
+
         # 当前地点的角色列表
         scene_path_str = map_handle.get_map_system_path_str_for_list(self.pl_character_data.position)
         scene_data: game_type.Scene = cache.scene_data[scene_path_str]
@@ -664,7 +645,7 @@ class Edit_Group_Sex_Temple_Panel:
                 if chara_id in now_scene_character_list:
                     continue
                 # 判断实行值是否足够，不够的也跳过
-                if character.calculation_instuct_judege(0, chara_id, _("群交"), not_draw_flag = True)[0] == False:
+                if character.calculation_instuct_judege(0, chara_id, _("群交"), not_draw_flag=True)[0] == False:
                     continue
                 # 判断是否被选择过
                 if handle_premise.handle_self_now_go_to_join_group_sex(chara_id):
@@ -737,11 +718,15 @@ class Edit_Group_Sex_Temple_Panel:
 
     def change_temple(self):
         """切换模板"""
-        self.pl_character_data.h_state.group_sex_body_template_dict["A"], self.pl_character_data.h_state.group_sex_body_template_dict["B"] = self.pl_character_data.h_state.group_sex_body_template_dict["B"], self.pl_character_data.h_state.group_sex_body_template_dict["A"]
+        self.pl_character_data.h_state.group_sex_body_template_dict["A"], self.pl_character_data.h_state.group_sex_body_template_dict["B"] = (
+            self.pl_character_data.h_state.group_sex_body_template_dict["B"],
+            self.pl_character_data.h_state.group_sex_body_template_dict["A"],
+        )
 
     def invite_npc(self, character_id: int):
         """邀请NPC"""
         from Script.Design import character
+
         character_data = cache.character_data[character_id]
         if not handle_premise.handle_normal_24567(character_id):
             info_draw_text = _("***{0}状态异常，无法召集***\n").format(character_data.name)

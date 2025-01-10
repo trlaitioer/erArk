@@ -18,9 +18,24 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
-body_item_list = [_("乳头夹"),_("阴蒂夹"),_("V震动棒"),_("A震动棒"),_("搾乳机"),_("采尿器"),_("眼罩"),_("肛门拉珠"),_("持续性利尿剂"),_("安眠药"),_("排卵促进药"),_("事前避孕药"),_("事后避孕药"),_("避孕套")]
+body_item_list = [
+    _("乳头夹"),
+    _("阴蒂夹"),
+    _("V震动棒"),
+    _("A震动棒"),
+    _("搾乳机"),
+    _("采尿器"),
+    _("眼罩"),
+    _("肛门拉珠"),
+    _("持续性利尿剂"),
+    _("安眠药"),
+    _("排卵促进药"),
+    _("事前避孕药"),
+    _("事后避孕药"),
+    _("避孕套"),
+]
 """ H道具列表 """
-bondage_list = ["未捆绑","后高手缚","直立缚","驷马捆绑","直臂缚","双手缚","菱绳缚","龟甲缚","团缚","逆团缚","吊缚","后手吊缚","单足吊缚","后手观音","苏秦背剑","五花大绑"]
+bondage_list = ["未捆绑", "后高手缚", "直立缚", "驷马捆绑", "直臂缚", "双手缚", "菱绳缚", "龟甲缚", "团缚", "逆团缚", "吊缚", "后手吊缚", "单足吊缚", "后手观音", "苏秦背剑", "五花大绑"]
 """ 绳子捆绑列表 """
 
 
@@ -101,7 +116,7 @@ class Dirty_Panel:
                     now_text += "  " + target_data.dirty.body_semen[i][0] + "："
 
                     # 腔内透视判定
-                    if i in {6,7,8,9}:
+                    if i in {6, 7, 8, 9}:
                         if not (character_data.pl_ability.visual and character_data.talent[308]):
                             now_text += _("<未知>（需要腔内透视）\n")
                             continue
@@ -269,14 +284,14 @@ class SeeCharacterBodyPanel:
 
             # 检查脏污数据中是否包含该部位，如果没有则补上
             if len(target_character_data.dirty.body_semen) <= i:
-                target_character_data.dirty.body_semen.append([part_name,0,0,0])
+                target_character_data.dirty.body_semen.append([part_name, 0, 0, 0])
 
             # 最开始先计算腹部整体的精液量累积
-            if i in [5,7,8,15]:
+            if i in [5, 7, 8, 15]:
                 abdomen_all_semen += target_character_data.dirty.body_semen[i][1]
 
             # 然后腔内透视判定
-            if i in {6,7,8,9,15}:
+            if i in {6, 7, 8, 9, 15}:
                 if not (character_data.pl_ability.visual and character_data.talent[308]):
                     continue
 
@@ -284,20 +299,20 @@ class SeeCharacterBodyPanel:
             if i == 6 and target_character_data.status_data[8]:
                 level = attr_calculation.get_status_level(target_character_data.status_data[8])
                 if level <= 2:
-                    now_part_text = game_config.ui_text_data['dirty'][f"爱液1"]
+                    now_part_text = game_config.ui_text_data["dirty"][f"爱液1"]
                 elif level <= 4:
-                    now_part_text = game_config.ui_text_data['dirty'][f"爱液2"]
+                    now_part_text = game_config.ui_text_data["dirty"][f"爱液2"]
                 elif level <= 6:
-                    now_part_text = game_config.ui_text_data['dirty'][f"爱液3"]
+                    now_part_text = game_config.ui_text_data["dirty"][f"爱液3"]
                 else:
-                    now_part_text = game_config.ui_text_data['dirty'][f"爱液4"]
+                    now_part_text = game_config.ui_text_data["dirty"][f"爱液4"]
                 all_part_text_list.append(now_part_text)
 
             # 污浊判定
             if target_character_data.dirty.body_semen[i][2]:
                 semen_level = target_character_data.dirty.body_semen[i][2]
                 dirty_text_cid = f"{_(part_name, revert_translation = True)}精液污浊{str(semen_level)}"
-                dirty_text_context = game_config.ui_text_data['dirty'][dirty_text_cid]
+                dirty_text_context = game_config.ui_text_data["dirty"][dirty_text_cid]
                 now_part_text = f" {part_name}{dirty_text_context}"
                 all_part_text_list.append(now_part_text)
 
@@ -306,7 +321,7 @@ class SeeCharacterBodyPanel:
             now_level = attr_calculation.get_semen_now_level(abdomen_all_semen, 20, 0)
             if now_level >= 2:
                 dirty_text_cid = f"腹部整体精液污浊{str(now_level)}"
-                dirty_text_context = game_config.ui_text_data['dirty'][dirty_text_cid]
+                dirty_text_context = game_config.ui_text_data["dirty"][dirty_text_cid]
                 now_part_text = f" {dirty_text_context}"
                 all_part_text_list.append(now_part_text)
 
@@ -323,7 +338,7 @@ class SeeCharacterBodyPanel:
             reproduction_period = target_character_data.pregnancy.reproduction_period
             now_reproduction_period_type = game_config.config_reproduction_period[reproduction_period].type
             period_cid = f"生理期{now_reproduction_period_type}"
-            reproduction_text = game_config.ui_text_data['h_state'][period_cid]
+            reproduction_text = game_config.ui_text_data["h_state"][period_cid]
             # 受精概率文本
             fertilization_text = _("受精概率{0}%").format(target_character_data.pregnancy.fertilization_rate)
             # 欲望值文本
@@ -336,12 +351,12 @@ class SeeCharacterBodyPanel:
         if target_character_data.h_state.insert_position != -1:
             now_position_index = target_character_data.h_state.insert_position
             position_text_cid = f"阴茎位置{str(now_position_index)}"
-            position_text = game_config.ui_text_data['h_state'][position_text_cid]
+            position_text = game_config.ui_text_data["h_state"][position_text_cid]
             all_part_text_list.append(f" {position_text}")
 
         # 绳子捆绑文本
         if target_character_data.h_state.bondage:
-            bondage_text = game_config.ui_text_data['item'][f'绳子捆绑{str(target_character_data.h_state.bondage)}']
+            bondage_text = game_config.ui_text_data["item"][f"绳子捆绑{str(target_character_data.h_state.bondage)}"]
             all_part_text_list.append(f" {bondage_text}")
 
         # 检查并补全角色的H道具数据
@@ -372,7 +387,7 @@ class SeeCharacterBodyPanel:
 
         # 灌肠文本
         if target_character_data.dirty.a_clean:
-            enemas_text = game_config.ui_text_data['dirty'][f"灌肠{str(target_character_data.dirty.a_clean)}"]
+            enemas_text = game_config.ui_text_data["dirty"][f"灌肠{str(target_character_data.dirty.a_clean)}"]
             all_part_text_list.append(f" <{enemas_text}>")
 
         # 香薰疗愈文本
@@ -408,4 +423,3 @@ class SeeCharacterBodyPanel:
                 line_feed.draw()
             else:
                 label.draw()
-

@@ -54,7 +54,7 @@ class All_Npc_Position_Panel:
         while 1:
             title_draw.draw()
             py_cmd.clr_cmd()
-            npc_list,return_list = [],[]
+            npc_list, return_list = [], []
 
             # 暂时去掉同时跟随干员数量的提示信息
             # info_draw = draw.NormalDraw()
@@ -94,9 +94,7 @@ class All_Npc_Position_Panel:
                 else:
                     draw_text = f"   {select_type_list[select_type_id]}   "
                     now_draw_width = min(len(draw_text) * 2, self.width / 2.5)
-                    now_draw = draw.CenterButton(
-                        draw_text, select_type_list[select_type_id], now_draw_width, cmd_func=self.select_type_change, args=(select_type_id,)
-                    )
+                    now_draw = draw.CenterButton(draw_text, select_type_list[select_type_id], now_draw_width, cmd_func=self.select_type_change, args=(select_type_id,))
                     now_draw.draw()
                     return_list.append(now_draw.return_text)
             line_feed.draw()
@@ -122,9 +120,7 @@ class All_Npc_Position_Panel:
                 else:
                     draw_text = f"  {move_type_text}  "
                     now_draw_width = min(len(draw_text) * 2, self.width / 3)
-                    now_draw = draw.CenterButton(
-                        draw_text, move_type_text, now_draw_width, cmd_func=self.move_type_change, args=(move_type_id,)
-                    )
+                    now_draw = draw.CenterButton(draw_text, move_type_text, now_draw_width, cmd_func=self.move_type_change, args=(move_type_id,))
                     now_draw.draw()
                     return_list.append(now_draw.return_text)
             line_feed.draw()
@@ -168,7 +164,7 @@ class All_Npc_Position_Panel:
             return_list.append(back_draw.return_text)
             yrn = flow_handle.askfor_all(return_list)
             # 选择玩家移动时，也跳出循环
-            if yrn == back_draw.return_text or (yrn in self.handle_panel.return_list and yrn not in {'0', '1'} and self.move_type == 2):
+            if yrn == back_draw.return_text or (yrn in self.handle_panel.return_list and yrn not in {"0", "1"} and self.move_type == 2):
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 
@@ -207,9 +203,7 @@ class MoveSonPanel:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, text_list: list, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, text_list: list, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.chara_id: int = text_list[0]
@@ -231,7 +225,7 @@ class MoveSonPanel:
 
         # 角色属性与信息
         name = character_data.name
-        id = str(character_data.adv).rjust(4,'0')
+        id = str(character_data.adv).rjust(4, "0")
         scene_position = character_data.position.copy()
         if normal_config.config_normal.language != "zh_CN":
             for i in range(len(scene_position)):
@@ -269,9 +263,7 @@ class MoveSonPanel:
             now_style = "standard"
 
         # 输出按钮
-        name_draw = draw.LeftButton(
-            now_draw_text, name, self.width, cmd_func=self.move, args=(self.chara_id,)
-        )
+        name_draw = draw.LeftButton(now_draw_text, name, self.width, cmd_func=self.move, args=(self.chara_id,))
         name_draw.normal_style = now_style
         self.button_return = name_draw.return_text
         self.now_draw = name_draw

@@ -18,6 +18,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 class Diary_Panel:
     """
     用于显示日记界面面板对象
@@ -64,7 +65,7 @@ class Diary_Panel:
             button_draw = draw.LeftButton(
                 draw_text,
                 draw_text,
-                self.width ,
+                self.width,
                 cmd_func=self.insert_text,
             )
             button_draw.draw()
@@ -75,7 +76,7 @@ class Diary_Panel:
             button_draw = draw.LeftButton(
                 draw_text,
                 draw_text,
-                self.width ,
+                self.width,
                 cmd_func=self.clear_text,
             )
             button_draw.draw()
@@ -86,7 +87,7 @@ class Diary_Panel:
             save_button_draw = draw.LeftButton(
                 draw_text,
                 draw_text,
-                self.width ,
+                self.width,
                 cmd_func=self.save_diary,
             )
             save_button_draw.draw()

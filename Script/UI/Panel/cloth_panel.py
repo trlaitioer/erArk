@@ -33,6 +33,7 @@ def cloth_off_after_settle(character_id: int):
             if j in character_data.cloth.cloth_wear[i]:
                 character_data.cloth.cloth_off[i].remove(j)
 
+
 class SeeCharacterClothPanel:
     """
     显示角色服装面板对象
@@ -79,10 +80,7 @@ class SeeCharacterClothPanel:
                     # 以下情况自动显示：
                     # 1.开启透视能力
                     # 2.没穿对应部位外面的衣服
-                    if (
-                            (character_data.pl_ability.visual and character_data.talent[307])
-                            or len(target_character_data.cloth.cloth_wear[clothing_type - 1]) == 0
-                    ):
+                    if (character_data.pl_ability.visual and character_data.talent[307]) or len(target_character_data.cloth.cloth_wear[clothing_type - 1]) == 0:
                         target_character_data.cloth.cloth_see[clothing_type] = True
                     else:
                         target_character_data.cloth.cloth_see[clothing_type] = False
@@ -104,8 +102,8 @@ class SeeCharacterClothPanel:
                     # 如果该部位有精液，则显示精液信息
                     if target_character_data.dirty.cloth_semen[clothing_type][1] != 0:
                         semen_level = target_character_data.dirty.cloth_semen[clothing_type][2]
-                        dirty_text_cid = "{0}精液污浊{1}".format(_(type_name, revert_translation = True), str(semen_level))
-                        dirty_text_context = game_config.ui_text_data['dirty'][dirty_text_cid]
+                        dirty_text_cid = "{0}精液污浊{1}".format(_(type_name, revert_translation=True), str(semen_level))
+                        dirty_text_context = game_config.ui_text_data["dirty"][dirty_text_cid]
                         now_text += f"<semen>({dirty_text_context})</semen>"
             # 当显示到下衣8的时候，换行
             if clothing_type == 8 and len(target_character_data.cloth.cloth_wear[8]) == 0:
@@ -223,7 +221,7 @@ class Undress_Panel:
         self.handle_panel = panel.PageHandlePanel([], SeeUndressButtonList, 10, 1, self.width, 1, 1, 0)
         while 1:
             py_cmd.clr_cmd()
-            button_text_list = [_("脱到只穿内衣      "),_("脱到只穿袜子手套等"),_("脱到全裸          "),_("把内裤收走        ")]
+            button_text_list = [_("脱到只穿内衣      "), _("脱到只穿袜子手套等"), _("脱到全裸          "), _("把内裤收走        ")]
 
             self.handle_panel.text_list = button_text_list
             self.handle_panel.update()
@@ -242,6 +240,7 @@ class Undress_Panel:
                 cache.now_panel_id = constant.Panel.IN_SCENE
                 break
 
+
 class SeeUndressButtonList:
     """
     点击后可选择脱衣服选项的按钮对象
@@ -253,9 +252,7 @@ class SeeUndressButtonList:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, text: str, width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, text: str, width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
 
         self.button_name_text: str = text
@@ -283,13 +280,12 @@ class SeeUndressButtonList:
         # print(f"debug button_id = {button_id}")
         # print(f"debug target_data.cloth = {target_data.cloth}")
 
-
         # 0号指令,脱到只穿内衣
         if self.button_id == 0:
             cloth_count = len(target_data.cloth.cloth_wear[5]) + len(target_data.cloth.cloth_wear[8])
             if cloth_count:
                 button_text += _(" ：会脱掉")
-                for i in {5,8}:
+                for i in {5, 8}:
                     for j in target_data.cloth.cloth_wear[i]:
                         cloth_name = game_config.config_clothing_tem[j].name
                         button_text += f" {cloth_name}"
@@ -302,7 +298,7 @@ class SeeUndressButtonList:
             cloth_count = len(target_data.cloth.cloth_wear[5]) + len(target_data.cloth.cloth_wear[6]) + len(target_data.cloth.cloth_wear[8]) + len(target_data.cloth.cloth_wear[9])
             if cloth_count:
                 button_text += _(" ：会脱掉")
-                for i in {5,6,8,9}:
+                for i in {5, 6, 8, 9}:
                     for j in target_data.cloth.cloth_wear[i]:
                         cloth_name = game_config.config_clothing_tem[j].name
                         button_text += f" {cloth_name}"
@@ -340,9 +336,7 @@ class SeeUndressButtonList:
 
         # 如果按钮不可选则变成文本
         if not text_flag:
-            name_draw = draw.LeftButton(
-                button_text, self.button_return, self.width, cmd_func=self.chose_button
-            )
+            name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.chose_button)
         else:
             name_draw = draw.LeftDraw()
             name_draw.text = button_text
@@ -366,7 +360,7 @@ class SeeUndressButtonList:
         # 0号指令,脱到只穿内衣
         if self.button_id == 0:
 
-            for i in {5,8}:
+            for i in {5, 8}:
                 target_data.cloth.cloth_off[i].extend(target_data.cloth.cloth_wear[i])
             clothing.undress_out_cloth(character_data.target_character_id)
             # character_data.behavior.behavior_id = constant.Behavior.OFFICIAL_WORK
@@ -374,7 +368,7 @@ class SeeUndressButtonList:
 
         # 1号指令,脱到只穿袜子手套等
         elif self.button_id == 1:
-            for i in {5,6,8,9}:
+            for i in {5, 6, 8, 9}:
                 target_data.cloth.cloth_off[i].extend(target_data.cloth.cloth_wear[i])
             clothing.strip_down_till_socks_and_gloves_left(character_data.target_character_id)
             # character_data.behavior.behavior_id = constant.Behavior.OFFICIAL_WORK

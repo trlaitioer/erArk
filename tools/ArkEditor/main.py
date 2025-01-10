@@ -6,9 +6,10 @@ import os
 import csv
 
 import PySide6
-dirname = os.path.dirname(PySide6.__file__) 
-plugin_path = os.path.join(dirname, 'plugins', 'platforms')
-os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+
+dirname = os.path.dirname(PySide6.__file__)
+plugin_path = os.path.join(dirname, "plugins", "platforms")
+os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = plugin_path
 
 from PySide6.QtWidgets import QApplication, QFileDialog, QWidgetAction, QMenu
 from PySide6.QtGui import QActionGroup, QKeySequence, QShortcut
@@ -66,7 +67,7 @@ def load_event_data():
             now_event.__dict__ = now_data[k]
             delete_premise_list = []
             for premise in now_event.premise:
-                if "CVP"in premise:
+                if "CVP" in premise:
                     cvp_str = function.read_CVP(premise)
                     cache_control.premise_data[premise] = cvp_str
                 elif premise not in cache_control.premise_data:
@@ -88,7 +89,7 @@ def load_event_data():
             cache_control.now_event_data[k] = now_event
         cache_control.now_edit_type_flag = 1
         data_list.update()
-        main_window.add_grid_event_layout(data_list,item_premise_list,item_effect_list,item_text_edit)
+        main_window.add_grid_event_layout(data_list, item_premise_list, item_effect_list, item_text_edit)
         main_window.completed_layout()
 
 
@@ -111,7 +112,8 @@ def create_chara_data():
     cache_control.now_file_path = "999_模板人物属性文件.csv"
     load_chara_data_to_cache()
 
-def load_chara_data(path = ""):
+
+def load_chara_data(path=""):
     """载入属性文件"""
     if path != "":
         csv_file = QFileDialog.getOpenFileName(menu_bar, "选择文件", ".", "*.csv")
@@ -121,6 +123,7 @@ def load_chara_data(path = ""):
     if file_path:
         cache_control.now_file_path = file_path
         load_chara_data_to_cache()
+
 
 def load_chara_data_to_cache():
     """将属性数据传输到缓存中"""
@@ -141,11 +144,11 @@ def load_chara_data_to_cache():
             now_type = row["type"]
             # print(f"debug now_key = {now_key}, now_type = {now_type}")
             # 基础数值变换
-            if now_type == 'int':
+            if now_type == "int":
                 now_value = int(row["value"])
-            elif now_type == 'str':
+            elif now_type == "str":
                 now_value = str(row["value"])
-            elif now_type == 'bool':
+            elif now_type == "bool":
                 now_value = int(row["value"])
             # 基础属性赋予
             if now_key == "AdvNpc":
@@ -189,7 +192,7 @@ def load_chara_data_to_cache():
                     sub_key = int(now_key.lstrip("C|"))
                 else:
                     sub_key = int(now_key.lstrip("C|").split("-")[0])
-                now_chara_data.Cloth.setdefault(sub_key,[])
+                now_chara_data.Cloth.setdefault(sub_key, [])
                 now_chara_data.Cloth[sub_key].append(now_value)
             # print(f"debug now_key = {now_key}, sub_key = {sub_key}, now_value = {now_value}")
     cache_control.now_chara_data = now_chara_data
@@ -232,7 +235,7 @@ def load_talk_data_to_cache():
                     now_type_data[k] = row[k]
                 i += 1
                 continue
-            elif i in {2,3}:
+            elif i in {2, 3}:
                 i += 1
                 continue
             for k in now_type_data:
@@ -258,7 +261,7 @@ def load_talk_data_to_cache():
         now_talk.__dict__ = value
 
         # 类型名转化
-        if 'context' in value:
+        if "context" in value:
             now_talk.text = now_talk.context
         else:
             now_talk.text = ""
@@ -267,12 +270,12 @@ def load_talk_data_to_cache():
 
         # 前提转化
         delete_premise_list = []
-        premise_list = now_talk.premise.split('&')
+        premise_list = now_talk.premise.split("&")
         now_talk.premise = {}
         for premise in premise_list:
             now_talk.premise[premise] = 1
         for premise in now_talk.premise:
-            if "CVP"in premise:
+            if "CVP" in premise:
                 cvp_str = function.read_CVP(premise)
                 cache_control.premise_data[premise] = cvp_str
             elif premise not in cache_control.premise_data:
@@ -283,10 +286,11 @@ def load_talk_data_to_cache():
     cache_control.now_edit_type_flag = 0
     data_list.update()
 
-    main_window.add_grid_talk_layout(data_list,item_premise_list,item_text_edit)
+    main_window.add_grid_talk_layout(data_list, item_premise_list, item_text_edit)
     main_window.completed_layout()
 
     update_status_menu()
+
 
 def create_talk_data():
     """新建口上文件"""
@@ -315,7 +319,7 @@ def update_status_menu():
     status_group = QActionGroup(data_list.status_menu)
     for status_type in cache_control.status_type_data:
         # 如果是事件编辑模式，则跳过二段结算
-        if cache_control.now_edit_type_flag == 1 and "二段结算"in status_type:
+        if cache_control.now_edit_type_flag == 1 and "二段结算" in status_type:
             continue
         status_menu = QMenu(status_type, data_list.status_menu)
         for cid in cache_control.status_type_data[status_type]:
@@ -342,7 +346,7 @@ def change_status_menu(action: QWidgetAction):
     cache_control.now_status = cid
     update_status_menu()
     # 如果有选中的条目，则更新该条目的状态
-    if cache_control.now_select_id != '':
+    if cache_control.now_select_id != "":
         status_cid = cache_control.now_status
         # 更新状态id
         if cache_control.now_edit_type_flag == 1:
@@ -448,7 +452,6 @@ update_status_menu()
 #     data_list.status_menu.addMenu(status_menu)
 
 
-
 # 仅在事件编辑模式下更新指令类型菜单
 if cache_control.now_edit_type_flag == 1:
     type_list = {"跳过指令", "指令前置", "指令后置"}
@@ -482,7 +485,7 @@ main_window.add_tool_widget(menu_bar)
 main_window.completed_layout()
 # QShortcut(QKeySequence(main_window.tr("Ctrl+O")),main_window,load_event_data)
 # QShortcut(QKeySequence(main_window.tr("Ctrl+N")),main_window,create_event_data)
-QShortcut(QKeySequence(main_window.tr("Ctrl+S")),main_window,function.save_data)
-QShortcut(QKeySequence(main_window.tr("Ctrl+Q")),main_window,exit_editor)
+QShortcut(QKeySequence(main_window.tr("Ctrl+S")), main_window, function.save_data)
+QShortcut(QKeySequence(main_window.tr("Ctrl+Q")), main_window, exit_editor)
 main_window.show()
 app.exec()

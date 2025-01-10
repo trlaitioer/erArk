@@ -15,6 +15,7 @@ line_feed.width = 1
 window_width: int = normal_config.config_normal.text_width
 """ 窗体宽度 """
 
+
 def update_basement_vehicle_data():
     """
     更新基地载具数据
@@ -234,7 +235,7 @@ class Manage_Vehicle_Panel:
                 )
                 buy_vehicle_draw.draw()
                 return_list.append(buy_vehicle_draw.return_text)
-            
+
             # 基础型载具，如果有空闲载具，绘制出售按钮
             if vehicle_acquiring == _("基础") and cache.rhodes_island.vehicles[vehicle_id][0] - cache.rhodes_island.vehicles[vehicle_id][1] > 0:
                 sell_vehicle_draw = draw.CenterButton(

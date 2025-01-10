@@ -130,6 +130,7 @@ def input_load_save(save_id: str):
     save_id -- 存档id
     """
     from Script.Design import basement, cooking
+
     # 创建一个新的类实例，这个实例会包含所有的默认键值
     new_cache = game_type.Cache()
     new_cache.rhodes_island = basement.get_base_zero()
@@ -202,7 +203,7 @@ def input_load_save(save_id: str):
 
     # 更新罗德岛的资源
     for all_cid in game_config.config_resouce:
-    # 不存在的资源数量设为0
+        # 不存在的资源数量设为0
         if all_cid not in loaded_dict["rhodes_island"].materials_resouce:
             loaded_dict["rhodes_island"].materials_resouce[all_cid] = 0
             update_count += 1
@@ -270,7 +271,7 @@ def update_dict_with_default(loaded_dict, default_dict):
     for key, value in default_dict.items():
         # print("存档修复: key", key, "value", value)
         # 跳过Python的内置方法
-        if key.startswith('__') and key.endswith('__'):
+        if key.startswith("__") and key.endswith("__"):
             continue
         # 如果 key 不在 loaded_dict 中，将其添加到 loaded_dict 中
         if key not in loaded_dict:
@@ -283,7 +284,7 @@ def update_dict_with_default(loaded_dict, default_dict):
             # now_draw.draw()
         elif isinstance(value, game_type.Cache):
             update_count += update_dict_with_default(loaded_dict[key].__dict__, value.__dict__)
-        elif hasattr(value, '__dict__'):  # 检查 value 是否是一个类的实例
+        elif hasattr(value, "__dict__"):  # 检查 value 是否是一个类的实例
             update_count += update_dict_with_default(loaded_dict[key].__dict__, value.__dict__)
         # 如果key的类型不同，且value不为None，类型也不为int或float时，将其设为默认值
         elif type(loaded_dict[key]) != type(default_dict[key]) and value != None and type(value) != int and type(value) != float:
@@ -295,6 +296,7 @@ def update_dict_with_default(loaded_dict, default_dict):
             # now_draw.draw()
     return update_count
 
+
 def recursive_update(target, source):
     """
     递归更新字典
@@ -303,8 +305,8 @@ def recursive_update(target, source):
     source -- 数据来源的源字典
     """
     for key, value in source.__dict__.items():
-        if isinstance(value, object) and hasattr(value, '__dict__'):
-            if key in target.__dict__ and isinstance(target.__dict__[key], object) and hasattr(target.__dict__[key], '__dict__'):
+        if isinstance(value, object) and hasattr(value, "__dict__"):
+            if key in target.__dict__ and isinstance(target.__dict__[key], object) and hasattr(target.__dict__[key], "__dict__"):
                 recursive_update(target.__dict__[key], value)
             else:
                 target.__dict__[key] = value
@@ -494,13 +496,14 @@ def update_chara_cloth(value, tem_character):
         for now_type in value.cloth.cloth_wear:
             now_type_cloth_data = value.cloth.cloth_wear[now_type]
             for now_cloth_id in now_type_cloth_data:
-                    # 查找该编号的服装数据是否存在，如果不存在，则重置该角色的服装数据
-                    if (
-                        # now_cloth_id >= 10001 and
-                        now_cloth_id not in game_config.config_clothing_tem
-                    ):
-                        reset_cloth_flag = True
-                        break
+                # 查找该编号的服装数据是否存在，如果不存在，则重置该角色的服装数据
+                if (
+                    # now_cloth_id >= 10001 and
+                    now_cloth_id
+                    not in game_config.config_clothing_tem
+                ):
+                    reset_cloth_flag = True
+                    break
             if reset_cloth_flag:
                 break
     # 进行服装数据的重置
@@ -530,8 +533,7 @@ def update_new_character(loaded_dict):
     """
     update_count = 0
     # 遍历角色预设，如果该角色在预设中但不在角色属性中，将其添加到需要增加的角色属性中
-    add_new_character_list = [now_npc_data for now_npc_data in loaded_dict["npc_tem_data"] 
-                              if not any(char_data.adv == now_npc_data.AdvNpc for char_data in loaded_dict["character_data"].values())]
+    add_new_character_list = [now_npc_data for now_npc_data in loaded_dict["npc_tem_data"] if not any(char_data.adv == now_npc_data.AdvNpc for char_data in loaded_dict["character_data"].values())]
 
     # 新增该角色
     len_old_character = len(loaded_dict["character_data"])
@@ -569,7 +571,7 @@ def update_map(loaded_dict):
             loaded_dict["scene_data"][key].scene_tag = value.scene_tag
             update_count += 1
             change_map_flag = True
-        if not hasattr(loaded_dict["scene_data"][key], 'room_area') or value.room_area != loaded_dict["scene_data"][key].room_area:
+        if not hasattr(loaded_dict["scene_data"][key], "room_area") or value.room_area != loaded_dict["scene_data"][key].room_area:
             loaded_dict["scene_data"][key].room_area = value.room_area
             update_count += 1
             change_map_flag = True
@@ -577,11 +579,11 @@ def update_map(loaded_dict):
     if change_map_flag:
         loaded_dict["map_data"] = cache.map_data
         # 在2024.7月的版本中将人气快餐开封菜改为了约翰老妈汉堡店
-        if '贸易\人气快餐开封菜' in loaded_dict["scene_data"]:
+        if "贸易\人气快餐开封菜" in loaded_dict["scene_data"]:
             # print("发现存档存在人气快餐开封菜")
             for key, value in loaded_dict["character_data"].items():
-                if value.position[-1] == '人气快餐开封菜':
-                    value.position[-1] = '约翰老妈汉堡店'
+                if value.position[-1] == "人气快餐开封菜":
+                    value.position[-1] = "约翰老妈汉堡店"
                     # print(f"已将{value.name}的位置从人气开封菜改为约翰老妈汉堡店")
         for key, value in loaded_dict["scene_data"].copy().items():
             # print(f"debug 地图数据: key = {key}, value = {value.scene_tag}")
@@ -592,7 +594,6 @@ def update_map(loaded_dict):
         draw_text = _("\n游戏地图已更新\n")
         now_draw.text = draw_text
         now_draw.draw()
-
 
     return update_count
 

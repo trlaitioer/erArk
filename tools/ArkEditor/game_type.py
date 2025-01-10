@@ -14,6 +14,7 @@ class Talk:
         self.premise: dict = {}
         """ 口上的前提集合 """
 
+
 class Event:
     """事件对象"""
 
@@ -37,6 +38,7 @@ class Event:
         """ 事件的结算器集合 """
         self.effect: dict = {}
         """ 事件的结算集合 """
+
 
 class Chara_Data:
     """角色属性对象"""
@@ -69,7 +71,7 @@ class Chara_Data:
         """ 人物介绍_1 """
         self.TextColor: str = ""
         """ 字体颜色 """
-        self.Ability: dict= {}
+        self.Ability: dict = {}
         """ 能力 """
         self.Experience: dict = {}
         """ 经验 """

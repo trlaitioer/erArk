@@ -440,7 +440,7 @@ def judge_scene_is_full(scene_path_str: str) -> bool:
     scene_path -- 场景路径
     """
     scene_data = cache.scene_data[scene_path_str]
-    if not hasattr(scene_data, 'room_area'):
+    if not hasattr(scene_data, "room_area"):
         return False
     if scene_data.room_area == 0:
         max_character = 10
@@ -453,6 +453,7 @@ def judge_scene_is_full(scene_path_str: str) -> bool:
     if len(scene_data.character_list) >= max_character:
         return True
     return False
+
 
 def sort_scene_character_id(scene_path_str: str):
     """
@@ -468,9 +469,7 @@ def sort_scene_character_id(scene_path_str: str):
         key=lambda x: (x[1], -int(x[0])),
         reverse=True,
     )
-    new_scene_character_intimate_data = value_handle.two_bit_array_to_dict(
-        new_scene_character_intimate_data
-    )
+    new_scene_character_intimate_data = value_handle.two_bit_array_to_dict(new_scene_character_intimate_data)
     cache.scene_data[scene_path_str].character_list = set(new_scene_character_intimate_data)
 
 
@@ -496,9 +495,7 @@ def init_scene_edge_path_data():
                 map_path = get_common_map_for_scene_path(now_position, target_scene)
                 now_map_scene_id = get_map_scene_id_for_scene_path(map_path, now_position)
                 target_map_scene_id = get_map_scene_id_for_scene_path(map_path, target_scene)
-                tem_1, tem_2, now_move_target, now_move_time = identical_map_move(
-                    now_position, map_path, now_map_scene_id, target_map_scene_id
-                )
+                tem_1, tem_2, now_move_target, now_move_time = identical_map_move(now_position, map_path, now_map_scene_id, target_map_scene_id)
             else:
                 tem_1, tem_2, now_move_target, now_move_time = difference_map_move(now_position, target_scene)
             scene_path_edge[now_position_str][target_scene_str] = [now_move_target, now_move_time]
@@ -579,7 +576,7 @@ def identical_map_move(
     return move_end, move_path, now_target_position, now_need_time
 
 
-def judge_scene_accessible(target_scene_str : str, character_id : int, draw_flag = True) -> int :
+def judge_scene_accessible(target_scene_str: str, character_id: int, draw_flag=True) -> int:
     """
     判断目标地点是否可以进入
     Keyword arguments:
@@ -617,7 +614,7 @@ def judge_scene_accessible(target_scene_str : str, character_id : int, draw_flag
                 # 如果是需要设施等级解锁的话
                 elif facility_effect_cid:
                     zone_data = game_config.config_facility_effect[facility_effect_cid]
-                    zone_name,zone_lv = zone_data.name,str(zone_data.level)
+                    zone_name, zone_lv = zone_data.name, str(zone_data.level)
                     info_text += _("\n  ●目标移动房间——{0}，当前尚未解锁，解锁需要将{1}升到{2}级\n").format(now_scene_data.scene_name, zone_name, zone_lv)
                 # 也可能需要NPC才能解锁
                 if facility_npc_cid:

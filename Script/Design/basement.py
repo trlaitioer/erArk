@@ -61,24 +61,25 @@ def get_base_zero() -> dict:
     base_data.last_visitor_time = cache.game_time
 
     # 初始化流水线
-    base_data.assembly_line[0] = [1,set(),0,0,0]
+    base_data.assembly_line[0] = [1, set(), 0, 0, 0]
 
     # 初始化招募
-    base_data.recruit_line[0] = [0,0,set(),0]
+    base_data.recruit_line[0] = [0, 0, set(), 0]
 
     # 初始化邀请
-    base_data.invite_visitor = [0,0,0]
+    base_data.invite_visitor = [0, 0, 0]
 
     # 初始化药田
-    base_data.herb_garden_line[0] = [0,set(),0,0,0]
+    base_data.herb_garden_line[0] = [0, set(), 0, 0, 0]
     # 初始化温室
-    base_data.green_house_line[0] = [0,set(),0,0,0]
+    base_data.green_house_line[0] = [0, set(), 0, 0, 0]
 
     # 初始化公务工作
     base_data.office_work += 200
     base_data.effectiveness = 100
 
     return base_data
+
 
 def get_base_updata():
     """
@@ -111,7 +112,7 @@ def get_base_updata():
             elif game_config.config_facility_open[open_cid].zone_cid // 10 == facility_cid // 10 and facility_cid % 10 >= game_config.config_facility_open[open_cid].zone_cid % 10:
                 cache.rhodes_island.facility_open[open_cid] = True
 
-    # print(f"debug power_use = {base_data.power_use}")
+        # print(f"debug power_use = {base_data.power_use}")
 
         # 初始化供电量
         if facility_name == _("动力区"):
@@ -128,7 +129,7 @@ def get_base_updata():
         # 初始化患者人数上限，并刷新当天患者人数
         elif facility_name == _("医疗部"):
             cache.rhodes_island.patient_max = game_config.config_facility_effect[facility_cid].effect
-            cache.rhodes_island.patient_now = random.randint(int(cache.rhodes_island.patient_max / 2),cache.rhodes_island.patient_max)
+            cache.rhodes_island.patient_now = random.randint(int(cache.rhodes_island.patient_max // 2), cache.rhodes_island.patient_max)
         # 初始化科研区设施数量上限
         elif facility_name == _("科研部"):
             cache.rhodes_island.research_zone_max = game_config.config_facility_effect[facility_cid].effect
@@ -138,13 +139,13 @@ def get_base_updata():
         # 初始化招募条
         elif facility_name == _("文职部"):
             if 0 not in cache.rhodes_island.recruit_line:
-                cache.rhodes_island.recruit_line[0] = [0,0,set(),0]
+                cache.rhodes_island.recruit_line[0] = [0, 0, set(), 0]
             if level >= 3 and 1 not in cache.rhodes_island.recruit_line:
-                cache.rhodes_island.recruit_line[1] = [0,0,set(),0]
+                cache.rhodes_island.recruit_line[1] = [0, 0, set(), 0]
             if level >= 4 and 2 not in cache.rhodes_island.recruit_line:
-                cache.rhodes_island.recruit_line[2] = [0,0,set(),0]
+                cache.rhodes_island.recruit_line[2] = [0, 0, set(), 0]
             if level >= 5 and 3 not in cache.rhodes_island.recruit_line:
-                cache.rhodes_island.recruit_line[3] = [0,0,set(),0]
+                cache.rhodes_island.recruit_line[3] = [0, 0, set(), 0]
             # 计算当前总效率
             for recruit_line_id in cache.rhodes_island.recruit_line:
                 # 遍历输出干员的能力效率加成
@@ -161,15 +162,15 @@ def get_base_updata():
         elif facility_name == _("制造加工区"):
             # 初始化流水线
             if 0 not in cache.rhodes_island.assembly_line:
-                cache.rhodes_island.assembly_line[0] = [0,set(),0,0,0]
+                cache.rhodes_island.assembly_line[0] = [0, set(), 0, 0, 0]
             if level >= 2 and 1 not in cache.rhodes_island.assembly_line:
-                cache.rhodes_island.assembly_line[1] = [0,set(),0,0,0]
+                cache.rhodes_island.assembly_line[1] = [0, set(), 0, 0, 0]
             if level >= 3 and 2 not in cache.rhodes_island.assembly_line:
-                cache.rhodes_island.assembly_line[2] = [0,set(),0,0,0]
+                cache.rhodes_island.assembly_line[2] = [0, set(), 0, 0, 0]
             if level >= 4 and 3 not in cache.rhodes_island.assembly_line:
-                cache.rhodes_island.assembly_line[3] = [0,set(),0,0,0]
+                cache.rhodes_island.assembly_line[3] = [0, set(), 0, 0, 0]
             if level >= 5 and 4 not in cache.rhodes_island.assembly_line:
-                cache.rhodes_island.assembly_line[4] = [0,set(),0,0,0]
+                cache.rhodes_island.assembly_line[4] = [0, set(), 0, 0, 0]
             # 计算当前总效率
             for assembly_line_id in cache.rhodes_island.assembly_line:
                 cache.rhodes_island.assembly_line[assembly_line_id][2] = 100 + facility_effect
@@ -187,7 +188,7 @@ def get_base_updata():
                 if _("客房") not in game_config.config_facility_open[room_id].name:
                     continue
                 # 跳过未开放的客房
-                cache.rhodes_island.facility_open.setdefault(room_id,False)
+                cache.rhodes_island.facility_open.setdefault(room_id, False)
                 if not cache.rhodes_island.facility_open[room_id]:
                     continue
                 room_count += 1
@@ -196,7 +197,7 @@ def get_base_updata():
             # 药田
             # 初始化流水线
             if 0 not in cache.rhodes_island.herb_garden_line:
-                cache.rhodes_island.herb_garden_line[0] = [0,set(),0,0,0]
+                cache.rhodes_island.herb_garden_line[0] = [0, set(), 0, 0, 0]
             # 计算当前总效率
             for agriculture_line_id in cache.rhodes_island.herb_garden_line:
                 cache.rhodes_island.herb_garden_line[agriculture_line_id][2] = 100 + facility_effect
@@ -209,7 +210,7 @@ def get_base_updata():
             # 温室
             # 初始化流水线
             if 0 not in cache.rhodes_island.green_house_line:
-                cache.rhodes_island.green_house_line[0] = [0,set(),0,0,0]
+                cache.rhodes_island.green_house_line[0] = [0, set(), 0, 0, 0]
             # 计算当前总效率
             for agriculture_line_id in cache.rhodes_island.green_house_line:
                 cache.rhodes_island.green_house_line[agriculture_line_id][2] = 100 + facility_effect
@@ -263,6 +264,7 @@ def update_base_resouce_newday():
     physical_check_and_manage.settle_health_check()
     # 刷新食堂食物
     cooking.init_food_shop_data(new_day_flag=True)
+
 
 def update_work_people():
     """
@@ -461,17 +463,17 @@ def settle_office_work():
         effectiveness_change -= max_damage_down
     cache.rhodes_island.effectiveness = 100 + effectiveness_change
     # 效率不会小于50，也不会大于200
-    cache.rhodes_island.effectiveness = min(cache.rhodes_island.effectiveness,200)
-    cache.rhodes_island.effectiveness = max(cache.rhodes_island.effectiveness,50)
+    cache.rhodes_island.effectiveness = min(cache.rhodes_island.effectiveness, 200)
+    cache.rhodes_island.effectiveness = max(cache.rhodes_island.effectiveness, 50)
     # 保留一位小数
-    cache.rhodes_island.effectiveness = round(cache.rhodes_island.effectiveness,1)
+    cache.rhodes_island.effectiveness = round(cache.rhodes_island.effectiveness, 1)
     # 取0.3~0.7的随机数，作为新增的工作量
-    add_work = random.randint(30,70) / 100 * all_work
+    add_work = random.randint(30, 70) / 100 * all_work
     # 把新增的工作量加入当前剩余工作量
     cache.rhodes_island.office_work += add_work
     # 工作量不会小于0，也不会大于总工作量
-    cache.rhodes_island.office_work = min(cache.rhodes_island.office_work,all_work)
-    cache.rhodes_island.office_work = max(cache.rhodes_island.office_work,0)
+    cache.rhodes_island.office_work = min(cache.rhodes_island.office_work, all_work)
+    cache.rhodes_island.office_work = max(cache.rhodes_island.office_work, 0)
     # 输出提示信息
     now_draw_text = _("\n今日剩余待处理公务量为{0}，").format(now_work)
     if max_damage_down < 5:
@@ -495,7 +497,7 @@ def settle_income():
     # 计算设施损坏
     damage_down = 0
     for facility_str in cache.rhodes_island.facility_damage_data:
-        if '医疗' in facility_str:
+        if "医疗" in facility_str:
             damage_down = cache.rhodes_island.facility_damage_data[facility_str] * 2
     # 计算总调整值
     adjust = (cache.rhodes_island.effectiveness - damage_down) / 100
@@ -505,7 +507,7 @@ def settle_income():
     cache.rhodes_island.materials_resouce[1] += today_all_income
 
     # 刷新新病人数量，已治愈病人数量和治疗收入归零
-    cache.rhodes_island.patient_now = random.randint(cache.rhodes_island.patient_max / 2,cache.rhodes_island.patient_max)
+    cache.rhodes_island.patient_now = random.randint(cache.rhodes_island.patient_max // 2, cache.rhodes_island.patient_max)
     cache.rhodes_island.patient_cured = 0
     cache.rhodes_island.cure_income = 0
     cache.rhodes_island.all_income = 0
@@ -567,12 +569,12 @@ def draw_todo():
     # 流水线生产是否正常
     un_normal, now_text = manage_assembly_line_panel.settle_assembly_line(draw_flag=False)
     if un_normal:
-        draw_text += now_text[1:] + ' '
+        draw_text += now_text[1:] + " "
 
     # 农业生产是否正常
     un_normal, now_text = agriculture_production_panel.settle_agriculture_line(draw_flag=False)
     if un_normal:
-        draw_text += now_text[1:] + ' '
+        draw_text += now_text[1:] + " "
 
     # 检查今日是否有访客离开
     departing_visitors = invite_visitor_panel.get_today_departing_visitors()
@@ -583,6 +585,6 @@ def draw_todo():
     if draw_text:
         now_draw = draw.WaitDraw()
         now_draw.width = window_width
-        now_draw.text = '\n' + draw_text
+        now_draw.text = "\n" + draw_text
         now_draw.style = "gold_enrod"
         now_draw.draw()

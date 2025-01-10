@@ -12,14 +12,15 @@ config_data = {}
 config_def_str = ""
 msgData = set()
 class_data = set()
-character_dir = os.path.join("data","character")
+character_dir = os.path.join("data", "character")
 character_data = {}
 ui_text_dir = os.path.join("data", "ui_text")
 ui_text_data = {}
-po_csv_path = os.path.join("data","po","zh_CN","LC_MESSAGES", "erArk_csv.po")
-po_talk_path = os.path.join("data","po","zh_CN","LC_MESSAGES", "erArk_talk.po")
+po_csv_path = os.path.join("data", "po", "zh_CN", "LC_MESSAGES", "erArk_csv.po")
+po_talk_path = os.path.join("data", "po", "zh_CN", "LC_MESSAGES", "erArk_talk.po")
 config_po, talk_po = "", ""
 built = []
+
 
 def build_csv_config(file_path: str, file_name: str, talk: bool, target: bool):
     with open(file_path, encoding="utf-8") as now_file:
@@ -80,7 +81,7 @@ def build_csv_config(file_path: str, file_name: str, talk: bool, target: bool):
                 if now_type == "int":
                     row[k] = int(row[k])
                 elif now_type == "str":
-                    row[k] = str(row[k]).replace('"','\\"') # 转义引号防止造成po文件混乱
+                    row[k] = str(row[k]).replace('"', '\\"')  # 转义引号防止造成po文件混乱
                 elif now_type == "bool":
                     row[k] = int(row[k])
                 elif now_type == "float":
@@ -123,7 +124,7 @@ def build_config_def(class_name: str, value_type: dict, docstring: dict, class_t
 
 
 def build_config_po(message: str, file_path: str, now_index: int, talk: bool = False):
-    global config_po, talk_po,built
+    global config_po, talk_po, built
     if not message in built:
         if talk:
             talk_po += f"#: .\{file_path}:{now_index}\n"
@@ -163,9 +164,9 @@ def build_scene_config(data_path):
             build_scene_config(now_path)
 
 
-def build_character_config(file_path:str,file_name:str):
-    global config_po,built
-    with open(file_path,encoding="utf-8") as now_file:
+def build_character_config(file_path: str, file_name: str):
+    global config_po, built
+    with open(file_path, encoding="utf-8") as now_file:
         now_read = csv.DictReader(now_file)
         file_id = file_name.split(".")[0]
         now_data = {}
@@ -178,24 +179,25 @@ def build_character_config(file_path:str,file_name:str):
                 i += 1
                 continue
             i += 1
-            if row["type"] == 'int':
+            if row["type"] == "int":
                 now_data[row["key"]] = int(row["value"])
-            elif row["type"] == 'str':
+            elif row["type"] == "str":
                 now_data[row["key"]] = str(row["value"])
-            elif row["type"] == 'dict':
+            elif row["type"] == "dict":
                 now_data[row["key"]] = ast.literal_eval(row["value"])
             else:
                 now_data[row["key"]] = row["value"]
-            if row["get_text"] and row["type"] == 'str' and not row["value"] in built:
+            if row["get_text"] and row["type"] == "str" and not row["value"] in built:
                 config_po += f"#: .\{file_path}:{now_index}\n"
                 config_po += "msgid" + " " + '"' + row["value"] + '"' + "\n"
                 config_po += 'msgstr ""\n\n'
                 built.append(row["value"])
         character_data[file_id] = now_data
 
-def build_ui_text(file_path:str,file_name:str):
-    global config_po,built
-    with open(file_path,encoding="utf-8") as now_file:
+
+def build_ui_text(file_path: str, file_name: str):
+    global config_po, built
+    with open(file_path, encoding="utf-8") as now_file:
         now_read = csv.DictReader(now_file)
         file_id = file_name.split(".")[0]
         now_data = {}
@@ -215,12 +217,13 @@ def build_ui_text(file_path:str,file_name:str):
                 built.append(row["context"])
         ui_text_data[file_id] = now_data
 
+
 def build_po_text(po):
     po = "\n"
-    po += '# SOME DESCRIPTIVE TITLE.\n'
-    po += '# Copyright (C) YEAR Free Software Foundation, Inc.\n'
-    po += '# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n'
-    po += '#\n'
+    po += "# SOME DESCRIPTIVE TITLE.\n"
+    po += "# Copyright (C) YEAR Free Software Foundation, Inc.\n"
+    po += "# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n"
+    po += "#\n"
     po += 'msgid ""\n'
     po += 'msgstr ""\n'
     po += '"Project-Id-Version: PACKAGE VERSION\\n"\n'
@@ -234,6 +237,7 @@ def build_po_text(po):
     po += '"Content-Type: text/plain; charset=UTF-8\\n"\n'
     po += '"Content-Transfer-Encoding: 8bit\\n"\n\n'
     return po
+
 
 print("开始加载游戏数据\n")
 
@@ -273,13 +277,13 @@ for i in target_file_list:
 
 character_file_list = os.listdir(character_dir)
 for i in character_file_list:
-    now_path = os.path.join(character_dir,i)
-    build_character_config(now_path,i)
+    now_path = os.path.join(character_dir, i)
+    build_character_config(now_path, i)
 
 ui_text_file_list = os.listdir(ui_text_dir)
 for i in ui_text_file_list:
-    now_path = os.path.join(ui_text_dir,i)
-    build_ui_text(now_path,i)
+    now_path = os.path.join(ui_text_dir, i)
+    build_ui_text(now_path, i)
 
 event_list = []
 for root, dirs, files in os.walk(event_dir):
@@ -309,9 +313,9 @@ map_path = os.path.join("data", "map")
 build_scene_config(map_path)
 
 # print("处理到Character.json了")
-data_path = os.path.join("data","Character.json")
-with open(data_path,"w",encoding="utf-8") as character_data_file:
-    json.dump(character_data,character_data_file,ensure_ascii=0)
+data_path = os.path.join("data", "Character.json")
+with open(data_path, "w", encoding="utf-8") as character_data_file:
+    json.dump(character_data, character_data_file, ensure_ascii=0)
 
 # config_path = os.path.join("Script", "Config", "config_def.py")
 # config_def_str += "\n"

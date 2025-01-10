@@ -206,6 +206,7 @@ class ItemNameDraw:
     def use_consumables(self):
         """使用消耗品"""
         from Script.Design import character
+
         pl_character_data = cache.character_data[0]
         item_data = game_config.config_item[self.item_id]
         item_tag = item_data.tag
@@ -255,11 +256,15 @@ class ItemNameDraw:
         # 理智恢复剂
         if self.item_id <= 3:
             pl_character_data.sanity_point = min(pl_character_data.sanity_point + sanity_point_add, pl_character_data.sanity_point_max)
-            now_draw.text = _("\n{0}使用了{1}，理智值增加{2}，现在为{3}/{4}\n\n").format(pl_character_data.name, item_data.name, sanity_point_add, pl_character_data.sanity_point, pl_character_data.sanity_point_max)
+            now_draw.text = _("\n{0}使用了{1}，理智值增加{2}，现在为{3}/{4}\n\n").format(
+                pl_character_data.name, item_data.name, sanity_point_add, pl_character_data.sanity_point, pl_character_data.sanity_point_max
+            )
         # 精力恢复剂
         elif self.item_id == 11:
             pl_character_data.semen_point = min(pl_character_data.semen_point + sanity_point_add, pl_character_data.semen_point_max)
-            now_draw.text = _("\n{0}使用了{1}，精液量增加了{2}，现在为{3}/{4}\n\n").format(pl_character_data.name, item_data.name, sanity_point_add, pl_character_data.semen_point, pl_character_data.semen_point_max)
+            now_draw.text = _("\n{0}使用了{1}，精液量增加了{2}，现在为{3}/{4}\n\n").format(
+                pl_character_data.name, item_data.name, sanity_point_add, pl_character_data.semen_point, pl_character_data.semen_point_max
+            )
         # 阴茎增大
         elif self.item_id == 16:
             pl_character_data.pl_ability.jj_size += 1

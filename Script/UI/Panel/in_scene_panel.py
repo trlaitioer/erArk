@@ -25,6 +25,7 @@ line_feed = draw.NormalDraw()
 line_feed.text = "\n"
 line_feed.width = 1
 
+
 def judge_single_instruct_filter(instruct_id: int, now_premise_data: dict, now_type: int, use_type_filter_flag: bool = True):
     """
     判断单个指令是否通过过滤\n
@@ -55,7 +56,7 @@ def judge_single_instruct_filter(instruct_id: int, now_premise_data: dict, now_t
         if instruct_id in constant.instruct_premise_data:
             for premise in constant.instruct_premise_data[instruct_id]:
                 # 忽略子类时（即非主界面），NPC逆推模式下则忽略NPC逆推的相关前提
-                if use_type_filter_flag == False and handle_premise.handle_t_npc_active_h(0) and premise == 't_npc_not_active_h':
+                if use_type_filter_flag == False and handle_premise.handle_t_npc_active_h(0) and premise == "t_npc_not_active_h":
                     continue
                 if premise in now_premise_data:
                     if now_premise_data[premise]:
@@ -76,6 +77,7 @@ def judge_single_instruct_filter(instruct_id: int, now_premise_data: dict, now_t
         filter_judge = True
 
     return filter_judge, now_premise_data
+
 
 class InScenePanel:
     """
@@ -122,7 +124,7 @@ class InScenePanel:
                 null_button_text=pl_character_data.target_character_id,
             )
             character_set = scene_data.character_list.copy()
-            character_set.remove(0) # 移除玩家自己
+            character_set.remove(0)  # 移除玩家自己
             if cache.is_collection:
                 character_list = [i for i in character_set if i in pl_character_data.collection_character]
             else:
@@ -197,12 +199,8 @@ class InScenePanel:
             #         now_draw_character_list.append(page_draw.character_id)
             # ↓角色信息面板↓#
             character_info_draw_list = []
-            character_head_draw = see_character_info_panel.CharacterInfoHead(
-                pl_character_data.cid, self.width
-            )
-            target_head_draw = see_character_info_panel.CharacterInfoHead(
-                pl_character_data.target_character_id, self.width
-            )
+            character_head_draw = see_character_info_panel.CharacterInfoHead(pl_character_data.cid, self.width)
+            target_head_draw = see_character_info_panel.CharacterInfoHead(pl_character_data.target_character_id, self.width)
             character_head_draw_list = [y for x in character_head_draw.draw_list for y in x]
             target_head_draw_list = [y for x in target_head_draw.draw_list for y in x]
             for value_tuple in character_head_draw_list:
@@ -270,12 +268,8 @@ class InScenePanel:
             # ↓以下为状态栏的内容↓#
             character_status_draw_list = []
             if pl_character_data.target_character_id and cache.scene_panel_show[0]:
-                character_status_draw = see_character_info_panel.SeeCharacterStatusPanel(
-                    pl_character_data.cid, self.width / 2, 7, 0, 0
-                )
-                target_status_draw = see_character_info_panel.SeeCharacterStatusPanel(
-                    pl_character_data.target_character_id, self.width, 7, 0, 0
-                )
+                character_status_draw = see_character_info_panel.SeeCharacterStatusPanel(pl_character_data.cid, self.width / 2, 7, 0, 0)
+                target_status_draw = see_character_info_panel.SeeCharacterStatusPanel(pl_character_data.target_character_id, self.width, 7, 0, 0)
                 now_line = len(character_status_draw.draw_list)
                 if len(target_status_draw.draw_list) > now_line:
                     now_line = len(target_status_draw.draw_list)
@@ -327,23 +321,17 @@ class InScenePanel:
 
             # ↓以下为服装栏的内容↓#
             if cache.scene_panel_show[1] and pl_character_data.target_character_id:
-                character_cloth_draw = cloth_panel.SeeCharacterClothPanel(
-                    pl_character_data.cid, self.width, 20, 0, 0
-                )
+                character_cloth_draw = cloth_panel.SeeCharacterClothPanel(pl_character_data.cid, self.width, 20, 0, 0)
                 character_cloth_draw.draw()
 
             # ↓以下为身体栏的内容↓#
             if cache.scene_panel_show[2] and pl_character_data.target_character_id:
-                character_body_draw = dirty_panel.SeeCharacterBodyPanel(
-                    pl_character_data.cid, self.width, 9, 0, 0
-                )
+                character_body_draw = dirty_panel.SeeCharacterBodyPanel(pl_character_data.cid, self.width, 9, 0, 0)
                 character_body_draw.draw()
 
             # ↓以下为群交栏的内容↓#
             if cache.group_sex_mode:
-                character_group_sex_draw = group_sex_panel.SeeGroupSexInfoPanel(
-                    pl_character_data.cid, self.width, 9, 0, 0
-                )
+                character_group_sex_draw = group_sex_panel.SeeGroupSexInfoPanel(pl_character_data.cid, self.width, 9, 0, 0)
                 character_group_sex_draw.draw()
 
             # 以下为图片面板#
@@ -368,20 +356,20 @@ class InScenePanel:
                 line_feed.draw()
             # 以下为指令面板#
             mid_draw = time.time()
-            logging.debug(f'————————')
-            logging.debug(f'截止到指令面板绘制前总时间为{mid_draw - start_draw}')
+            logging.debug(f"————————")
+            logging.debug(f"截止到指令面板绘制前总时间为{mid_draw - start_draw}")
             see_instruct_panel = SeeInstructPanel(self.width)
             see_instruct_panel.draw()
             ask_list.extend(see_instruct_panel.return_list)
-            logging.debug(f'————————')
-            logging.debug(f'指令外，ask_list = {ask_list}')
+            logging.debug(f"————————")
+            logging.debug(f"指令外，ask_list = {ask_list}")
             flow_handle.askfor_all(ask_list)
             mid_3_draw = time.time()
-            logging.debug(f'————————')
-            logging.debug(f'指令外，中间时间3号，截至flow_handle总时间为 {mid_3_draw - mid_draw}')
+            logging.debug(f"————————")
+            logging.debug(f"指令外，中间时间3号，截至flow_handle总时间为 {mid_3_draw - mid_draw}")
             py_cmd.clr_cmd()
             end_draw = time.time()
-            logging.debug(f'指令部分绘制总时间为{end_draw - mid_draw}')
+            logging.debug(f"指令部分绘制总时间为{end_draw - mid_draw}")
 
     def draw_show_and_hide_button(self, index, hide_text, show_text):
         """绘制显示与隐藏按钮"""
@@ -410,7 +398,6 @@ class InScenePanel:
             cache.scene_panel_show[index] = False
         else:
             cache.scene_panel_show[index] = True
-
 
 
 class SeeInstructPanel:
@@ -471,9 +458,7 @@ class SeeInstructPanel:
             now_instruct_type_list = cache.instruct_type_filter
             now_instruct_config = game_config.config_instruct_type
         # 排版修正用的宽度
-        fix_width = int(
-            (self.width - int(self.width / instruct_type_len) * instruct_type_len) / 2
-        )
+        fix_width = int((self.width - int(self.width / instruct_type_len) * instruct_type_len) / 2)
         fix_draw.width = fix_width
         fix_draw.text = " " * fix_width
         fix_draw.draw()
@@ -502,7 +487,7 @@ class SeeInstructPanel:
                     f"[{now_config.name}]",
                     now_config.name,
                     self.width / (instruct_type_len - 1),
-                    normal_style = "deep_gray",
+                    normal_style="deep_gray",
                     cmd_func=self.change_filter,
                     args=(now_type,),
                 )
@@ -570,6 +555,7 @@ class SeeInstructPanel:
                 self.return_list.append(now_draw.return_text)
         # 角色自定义特殊指令检测与绘制
         from Script.UI.Panel import event_option_panel
+
         len_son_event_list, son_event_list = event_option_panel.get_target_chara_diy_instruct(0)
         if len_son_event_list:
             count = 0
@@ -699,7 +685,7 @@ class CharacterImageListDraw:
     def draw(self):
         """绘制列表"""
         head_width = len(self.character_list) * 16
-        head_width = min(head_width,160) # 最多修正十个人
+        head_width = min(head_width, 160)  # 最多修正十个人
         center_fix = text_handle.align("*" * head_width, "center", 1, 1)
         fix_draw = draw.NormalDraw()
         fix_draw.width = self.width
@@ -741,7 +727,7 @@ class CharacterImageListDraw:
             if cache.npc_image_index >= len(self.character_list):
                 cache.npc_image_index = len(self.character_list) - 1
             start_index = cache.npc_image_index
-            npc_darw_list = self.character_list[start_index:min((10 + start_index), len(self.character_list))]
+            npc_darw_list = self.character_list[start_index : min((10 + start_index), len(self.character_list))]
             # print(f"debug npc_darw_list = {npc_darw_list}")
 
         # 绘制非交互对象

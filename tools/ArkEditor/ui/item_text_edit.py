@@ -7,6 +7,7 @@ font = QFont()
 font.setPointSize(cache_control.now_font_size)
 font.setFamily(cache_control.now_font_name)
 
+
 class ItemTextEdit(QWidget):
     """文本编辑框主体"""
 
@@ -25,13 +26,13 @@ class ItemTextEdit(QWidget):
         self.save_button.clicked.connect(self.save)
         # 加入文本触发者名字按钮
         self.insert_name_button = QPushButton("插入文本触发者名字")
-        self.insert_name_button.clicked.connect(lambda: self.insert_text('{Name}'))
+        self.insert_name_button.clicked.connect(lambda: self.insert_text("{Name}"))
         # 加入文本触发者的交互对象名字按钮
         self.insert_target_name_button = QPushButton("插入文本触发者的交互对象名字")
-        self.insert_target_name_button.clicked.connect(lambda: self.insert_text('{TargetName}'))
+        self.insert_target_name_button.clicked.connect(lambda: self.insert_text("{TargetName}"))
         # 加入玩家名字按钮
         self.insert_player_name_button = QPushButton("插入玩家名字")
-        self.insert_player_name_button.clicked.connect(lambda: self.insert_text('{PlayerName}'))
+        self.insert_player_name_button.clicked.connect(lambda: self.insert_text("{PlayerName}"))
         # 加入一行文本提示
         self.max_length = 0
         self.info_label = QLabel()
@@ -62,32 +63,32 @@ class ItemTextEdit(QWidget):
     def create_right_click_menu(self):
         """创建右键菜单"""
         menu_items = [
-            {"text": "插入文本触发者名字", "slot": lambda: self.insert_text('{Name}')},
-            {"text": "插入文本触发者的交互对象名字", "slot": lambda: self.insert_text('{TargetName}')},
-            {"text": "插入玩家对触发者的称呼", "slot": lambda: self.insert_text('{NickName}')},
-            {"text": "插入触发者对玩家的称呼", "slot": lambda: self.insert_text('{NickNameToPl}')},
-            {"text": "插入玩家对交互对象的称呼", "slot": lambda: self.insert_text('{TargetNickName}')},
-            {"text": "插入交互对象对玩家的称呼", "slot": lambda: self.insert_text('{TargetNickNameToPl}')},
-            {"text": "插入玩家名字", "slot": lambda: self.insert_text('{PlayerName}')},
-            {"text": "插入触发者与交互对象中非玩家的那个对玩家的称呼", "slot": lambda: self.insert_text('{PlayerNickName}')},
-            {"text": "插入当前行为中食物名字", "slot": lambda: self.insert_text('{FoodName}')},
-            {"text": "插入食物制作时间", "slot": lambda: self.insert_text('{MakeFoodTime}')},
-            {"text": "插入当前背包里所有食物名字", "slot": lambda: self.insert_text('{AllFoodName}')},
-            {"text": "插入当前书籍名字", "slot": lambda: self.insert_text('{BookName}')},
-            {"text": "插入当前行为榨出母乳的毫升数", "slot": lambda: self.insert_text('{MilkMl}')},
-            {"text": "插入H行为被打断时的闯入者的名字", "slot": lambda: self.insert_text('{HInterruptCharaName}')},
-            {"text": "插入当前场景名字", "slot": lambda: self.insert_text('{SceneName}')},
-            {"text": "插入当前场景中随机一名角色名字", "slot": lambda: self.insert_text('{SceneOneCharaName}')},
-            {"text": "插入移动目标场景名字", "slot": lambda: self.insert_text('{TargetSceneName}')},
-            {"text": "插入移动目标场景中随机一名角色名字", "slot": lambda: self.insert_text('{TargetOneCharaName}')},
-            {"text": "插入移动出发场景名字", "slot": lambda: self.insert_text('{SrcSceneName}')},
-            {"text": "插入移动出发场景中随机一名角色名字", "slot": lambda: self.insert_text('{SrcOneCharaName}')},
-            {"text": "插入玩家的交互对象的胸衣名字", "slot": lambda: self.insert_text('{TagetBraName}')},
-            {"text": "插入玩家的交互对象的裙子名字", "slot": lambda: self.insert_text('{TagetSkiName}')},
-            {"text": "插入玩家的交互对象的内裤名字", "slot": lambda: self.insert_text('{TagetPanName}')},
-            {"text": "插入玩家的交互对象的袜子名字", "slot": lambda: self.insert_text('{TagetSocName}')},
-            {"text": "插入自己穿着的内裤名字", "slot": lambda: self.insert_text('{PanName}')},
-            {"text": "插入自己穿着的袜子名字", "slot": lambda: self.insert_text('{SocName}')},
+            {"text": "插入文本触发者名字", "slot": lambda: self.insert_text("{Name}")},
+            {"text": "插入文本触发者的交互对象名字", "slot": lambda: self.insert_text("{TargetName}")},
+            {"text": "插入玩家对触发者的称呼", "slot": lambda: self.insert_text("{NickName}")},
+            {"text": "插入触发者对玩家的称呼", "slot": lambda: self.insert_text("{NickNameToPl}")},
+            {"text": "插入玩家对交互对象的称呼", "slot": lambda: self.insert_text("{TargetNickName}")},
+            {"text": "插入交互对象对玩家的称呼", "slot": lambda: self.insert_text("{TargetNickNameToPl}")},
+            {"text": "插入玩家名字", "slot": lambda: self.insert_text("{PlayerName}")},
+            {"text": "插入触发者与交互对象中非玩家的那个对玩家的称呼", "slot": lambda: self.insert_text("{PlayerNickName}")},
+            {"text": "插入当前行为中食物名字", "slot": lambda: self.insert_text("{FoodName}")},
+            {"text": "插入食物制作时间", "slot": lambda: self.insert_text("{MakeFoodTime}")},
+            {"text": "插入当前背包里所有食物名字", "slot": lambda: self.insert_text("{AllFoodName}")},
+            {"text": "插入当前书籍名字", "slot": lambda: self.insert_text("{BookName}")},
+            {"text": "插入当前行为榨出母乳的毫升数", "slot": lambda: self.insert_text("{MilkMl}")},
+            {"text": "插入H行为被打断时的闯入者的名字", "slot": lambda: self.insert_text("{HInterruptCharaName}")},
+            {"text": "插入当前场景名字", "slot": lambda: self.insert_text("{SceneName}")},
+            {"text": "插入当前场景中随机一名角色名字", "slot": lambda: self.insert_text("{SceneOneCharaName}")},
+            {"text": "插入移动目标场景名字", "slot": lambda: self.insert_text("{TargetSceneName}")},
+            {"text": "插入移动目标场景中随机一名角色名字", "slot": lambda: self.insert_text("{TargetOneCharaName}")},
+            {"text": "插入移动出发场景名字", "slot": lambda: self.insert_text("{SrcSceneName}")},
+            {"text": "插入移动出发场景中随机一名角色名字", "slot": lambda: self.insert_text("{SrcOneCharaName}")},
+            {"text": "插入玩家的交互对象的胸衣名字", "slot": lambda: self.insert_text("{TagetBraName}")},
+            {"text": "插入玩家的交互对象的裙子名字", "slot": lambda: self.insert_text("{TagetSkiName}")},
+            {"text": "插入玩家的交互对象的内裤名字", "slot": lambda: self.insert_text("{TagetPanName}")},
+            {"text": "插入玩家的交互对象的袜子名字", "slot": lambda: self.insert_text("{TagetSocName}")},
+            {"text": "插入自己穿着的内裤名字", "slot": lambda: self.insert_text("{PanName}")},
+            {"text": "插入自己穿着的袜子名字", "slot": lambda: self.insert_text("{SocName}")},
         ]
         for item in menu_items:
             action = QAction(item["text"], self)
@@ -132,7 +133,7 @@ class ItemTextEdit(QWidget):
         elif cache_control.now_edit_type_flag == 0 and cache_control.now_select_id in cache_control.now_talk_data:
             cache_control.now_talk_data[cache_control.now_select_id].text = now_text
         # 检测英文双引号，直接删除，防止csv文件解析出错
-        now_text = now_text.replace("\"", "")
+        now_text = now_text.replace('"', "")
 
     def show_right_click_menu(self, pos):
         """显示右键菜单"""

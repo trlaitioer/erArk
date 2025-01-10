@@ -50,7 +50,7 @@ def run(open_func: object):
     main_frame.run()
 
 
-def put_queue(message: str):
+def put_queue(message: object):
     """
     向输出队列中推送信息
     Keyword arguments:
@@ -81,6 +81,13 @@ def new_json():
     return flow_json
 
 
+def normalize_style_type(style: tuple | str) -> list:
+    if isinstance(style, str):
+        return [style]
+    else:
+        return list(style)
+
+
 def text_json(string: str, style: tuple or str):
     """
     定义一个文本json
@@ -91,10 +98,7 @@ def text_json(string: str, style: tuple or str):
     re = {}
     re["type"] = "text"
     re["text"] = string
-    if isinstance(style, tuple):
-        re["style"] = style
-    if isinstance(style, str):
-        re["style"] = (style,)
+    re["style"] = normalize_style_type(style)
     return re
 
 
@@ -116,14 +120,8 @@ def cmd_json(
     re["type"] = "cmd"
     re["text"] = cmd_str
     re["num"] = cmd_num
-    if isinstance(normal_style, tuple):
-        re["normal_style"] = normal_style
-    if isinstance(normal_style, str):
-        re["normal_style"] = (normal_style,)
-    if isinstance(on_style, tuple):
-        re["on_style"] = on_style
-    if isinstance(on_style, str):
-        re["on_style"] = (on_style,)
+    re["normal_style"] = normalize_style_type(normal_style)
+    re["on_style"] = normalize_style_type(on_style)
     return re
 
 
@@ -174,7 +172,7 @@ def era_print(string: str, style="standard"):
     """
     json_str = new_json()
     json_str["content"].append(text_json(string, style))
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def image_print(image_name: str):
@@ -187,7 +185,7 @@ def image_print(image_name: str):
     json_str = new_json()
     image_json = {"image_name": image_name}
     json_str["image"] = image_json
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def clear_screen():
@@ -196,7 +194,7 @@ def clear_screen():
     """
     json_str = new_json()
     json_str["clear_cmd"] = "true"
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def frame_style_def(
@@ -232,7 +230,7 @@ def frame_style_def(
         underline,
         italic,
     )
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def set_background(color: str):
@@ -243,7 +241,7 @@ def set_background(color: str):
     """
     json_str = new_json()
     json_str["bgcolor"] = color
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def clear_order():
@@ -252,7 +250,7 @@ def clear_order():
     """
     json_str = new_json()
     json_str["clearorder_cmd"] = "true"
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def io_print_cmd(cmd_str: str, cmd_number: int, normal_style="standard", on_style="onbutton"):
@@ -266,7 +264,7 @@ def io_print_cmd(cmd_str: str, cmd_number: int, normal_style="standard", on_styl
     """
     json_str = new_json()
     json_str["content"].append(cmd_json(cmd_str, cmd_number, normal_style, on_style))
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def io_print_image_cmd(cmd_str: str, cmd_number: int):
@@ -282,7 +280,7 @@ def io_print_image_cmd(cmd_str: str, cmd_number: int):
     data["text"] = cmd_str
     data["num"] = cmd_number
     json_str["content"].append(data)
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def io_clear_cmd(*cmd_numbers: int):
@@ -296,7 +294,7 @@ def io_clear_cmd(*cmd_numbers: int):
         json_str["clearcmd_cmd"] = cmd_numbers
     else:
         json_str["clearcmd_cmd"] = "all"
-    put_queue(json.dumps(json_str, ensure_ascii=False))
+    put_queue(json_str)
 
 
 def style_def():

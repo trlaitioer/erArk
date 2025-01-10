@@ -145,9 +145,7 @@ class FoodShopPanel:
         """
         self.now_panel = food_type
         food_name_list = list(cooking.get_food_list_from_food_shop(self.now_panel).items())
-        self.handle_panel = panel.PageHandlePanel(
-            food_name_list, SeeFoodListByFoodNameDraw, 10, 5, self.width, 1, 1, 0
-        )
+        self.handle_panel = panel.PageHandlePanel(food_name_list, SeeFoodListByFoodNameDraw, 10, 5, self.width, 1, 1, 0)
 
 
 class SeeFoodListByFoodNameDraw:
@@ -161,9 +159,7 @@ class SeeFoodListByFoodNameDraw:
     button_id -- 数字按钮id
     """
 
-    def __init__(
-        self, text: Tuple[str, str], width: int, is_button: bool, num_button: bool, button_id: int
-    ):
+    def __init__(self, text: Tuple[str, str], width: int, is_button: bool, num_button: bool, button_id: int):
         """初始化绘制对象"""
         self.text = text[1]
         """ 食物名字 """
@@ -209,9 +205,9 @@ class SeeFoodListByFoodNameDraw:
         # 如果食物超过了十个，则只显示十个
         if len(self.now_food_list) > 10:
             self.now_food_list = self.now_food_list[:10]
-            food_num = '(10+)'
+            food_num = "(10+)"
         else:
-            food_num = f'({len(self.now_food_list)})'
+            food_num = f"({len(self.now_food_list)})"
 
         # 遍历食物列表
         maker_flag = False
@@ -254,14 +250,10 @@ class SeeFoodListByFoodNameDraw:
             if num_button:
                 index_text = text_handle.id_index(button_id)
                 button_text = f"{index_text}{self.text}{food_num}{make_text}{quality_text}"
-                name_draw = draw.LeftButton(
-                    button_text, self.button_return, self.width, cmd_func=self.see_food_shop_food_list
-                )
+                name_draw = draw.LeftButton(button_text, self.button_return, self.width, cmd_func=self.see_food_shop_food_list)
             else:
                 button_text = f"[{self.text}]"
-                name_draw = draw.CenterButton(
-                    button_text, self.text, self.width, cmd_func=self.see_food_shop_food_list
-                )
+                name_draw = draw.CenterButton(button_text, self.text, self.width, cmd_func=self.see_food_shop_food_list)
                 self.button_return = text
             self.draw_text = button_text
         else:
